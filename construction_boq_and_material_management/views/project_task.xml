@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<template id="remove_sheet" inherit_id="web.assets_backend">
+			<xpath expr="." positon="inside">
+				<link rel="stylesheet"
+					href='/construction_boq_and_material_management/static/src/css/remove_sheet.css' />
+			</xpath>
+		</template>
+
+		<!-- Inherit Form view -->
+		<record id="skit_view_task_form" model="ir.ui.view">
+			<field name="name">project.task.form</field>
+			<field name="model">project.task</field>
+			<field name="inherit_id"
+				ref="construction_project_management_base.view_task_form" />
+			<field name="arch" type="xml">
+				<!-- Exteneded sheet -->
+				<form position="attributes">
+					<attribute name="class">extend_sheet</attribute>
+				</form>
+				<!-- Exteneded sheet -->
+				<field name="tag_ids" position="after">
+					<field name="material_consumption_progress" widget="progressbar" />
+					<field name="material_withdrawal_progress" widget="progressbar" />
+				</field>
+				<field name="uom_id" position="replace">
+					<div>
+						<field name="uom_id" class="oe_inline" placeholder="Unit of Measure"
+							attrs="{'required': [('qty', '!=', 0)]}" />
+					</div>
+				</field>
+				<field name="task_budget" position="after">
+					<field name="boq_id"/>
+				</field>
+				<page name="material_status" position="inside">
+					<group name="material_consumption" string="Material Consumption">
+						<field name="material_consumption" nolabel="1" widget="one2many_list">
+							<tree string="Material Consumption">
+								<field name="product_id"></field>
+								<field name="estimated_qty"></field>
+								<field name="tot_stock_received"></field>
+								<field name="uom_id"></field>
+								<field name="used_qty"></field>
+								<button name="action_used_qty" string="Used Qty" type="object"
+									icon="fa-sign-in text-success" attrs="{'invisible': [('available_stock', '&lt;=', 0)]}" />
+								<field name="available_stock"></field>
+								<field name="consumption_progress" widget="progressbar"></field>
+								<field name="wastage_percent" widget="progressbar"></field>
+								<button name="action_waste_percent" string="Waste Percent"
+									type="object" icon="fa-sign-in text-success" />
+								<field name="scrap_percent" widget="progressbar"></field>
+								<button name="action_scrap_percent" string="Scrap Percent"
+									type="object" icon="fa-sign-in text-success" />
+								<field name="withdrawal_progress" invisible="1" widget="progressbar"></field>
+							</tree>
+						</field>
+					</group>
+					<group name="waste_management" string="Waste Management">
+						<field name="waste_management" nolabel="1" widget="one2many_list">
+							<tree string="Waste Management">
+								<field name="product_id"></field>
+								<field name="new_product_id"></field>
+								<field name="uom_id"></field>
+								<field name="qty"></field>
+								<field name="wastage_percent"></field>
+								<field name="date_recorded"></field>
+								<field name="material_waste"></field>
+								<field name="waste_location_id"></field>
+								<field name="description"></field>
+								<!-- <field name="cutted_portion"></field>
+								<field name="cutted_qty"></field> -->
+							</tree>
+						</field>
+					</group>
+					<group name="scrap_products" string="Scrap Products">
+						<field name="scrap_products" nolabel="1" widget="one2many_list">
+							<tree string="Scrap Products">
+								<field name="product_id"></field>
+								<field name="uom_id"></field>
+								<field name="qty"></field>
+								<field name="scrap_percent"></field>
+								<field name="scrap_reason"></field>
+								<field name="date_recorded"></field>
+							</tree>
+						</field>
+					</group>
+				</page>
+			</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,437 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* enterprise_theme
+# 
+# Translators:
+# Martin Trigaux, 2020
+# Marc Tormo i Bochaca <mtbochaca@gmail.com>, 2020
+# Quim - eccit <quim@eccit.com>, 2020
+# Sandra Franch <sandra.franch@upc.edu>, 2020
+# Manel Fernandez Ramirez <manelfera@outlook.com>, 2020
+# M Palau <mpalau@tda.ad>, 2020
+# Arnau Ros, 2020
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-27 09:33+0000\n"
+"PO-Revision-Date: 2019-08-26 09:38+0000\n"
+"Last-Translator: Arnau Ros, 2020\n"
+"Language-Team: Catalan (https://www.transifex.com/odoo/teams/41243/ca/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: ca\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "(Enterprise Edition)"
+msgstr "(Edició d'Empresa)"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid ") with the instructions to follow"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid ""
+"- Contact your sales representative to help you to unlink your previous "
+"database"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "- Login to your Odoo.com dashboard then unlink your previous database:"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "1 month"
+msgstr "1 mes"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base_mobile.xml:0
+#, python-format
+msgid "Action"
+msgstr "Acció"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base_mobile.xml:0
+#, python-format
+msgid "All"
+msgstr "Tots"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Alt"
+msgstr "Alt"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Applications"
+msgstr "Aplicacions"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base_mobile.xml:0
+#, python-format
+msgid "COMPANIES"
+msgstr "Companyies"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/js/views/view_dialogs.js:0
+#, python-format
+msgid "Clear"
+msgstr "Netejar"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Click here to send an email"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base_mobile.xml:0
+#, python-format
+msgid "Close menu"
+msgstr "Tancar menú"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Control"
+msgstr "Control"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Database expiration:"
+msgstr "Caducitat de la base de dades:"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Error reason:"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base_mobile.xml:0
+#, python-format
+msgid "Filters"
+msgstr "Filtres"
+
+#. module: enterprise_theme
+#: model:ir.model,name:enterprise_theme.model_ir_http
+msgid "HTTP Routing"
+msgstr "Enrutament HTTP"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Log in as an administrator to correct the issue."
+msgstr "Inicia sessió com un administrador per corregir el problema."
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Logo"
+msgstr "Logo"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base_mobile.xml:0
+#, python-format
+msgid "Menu"
+msgstr "Menú"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "No result"
+msgstr "Sense resultats"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Odoo"
+msgstr "Odoo"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Odoo Help"
+msgstr "Ajuda d'Odoo"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Odoo Support"
+msgstr "Suport d'Odoo"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Paste code here"
+msgstr "Enganxa el codi aquí"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/js/views/relational_fields.js:0
+#, python-format
+msgid "Quick search: %s"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Refresh subscription status"
+msgstr "Actualitza l'estat de la subscripció "
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Register"
+msgstr "Registre"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Register your subscription"
+msgstr "Registra la teva subscripció"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/js/views/view_dialogs.js:0
+#, python-format
+msgid "Remove"
+msgstr "Eliminar"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Renew your subscription"
+msgstr "Renova la teva subscripció"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Search"
+msgstr "Cercar"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Search..."
+msgstr "Cercar..."
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base_mobile.xml:0
+#, python-format
+msgid "See result"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Sending the instructions by email ..."
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid ""
+"Something went wrong while registering your database. You can try again or "
+"contact"
+msgstr ""
+"Alguna cosa ha anat malament mentre et registraves a la base de dades. Pot "
+"intentar-ho de nou o contactar. "
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Subscription Code:"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid ""
+"Thank you, your registration was successful! Your database is valid until"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid ""
+"The instructions to unlink your subscription from the previous database(s) "
+"have been sent"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "This database has expired."
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "This database will expire in"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "This demo database will expire in"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "To unlink it you can either:"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Toggle home menu"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Toggle menu"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Unable to send the instructions by email, please contact the"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Upgrade your subscription"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid ""
+"You have more users or more apps installed than your subscription allows."
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid ""
+"You will be able to register your database once you have installed your "
+"first app."
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Your subscription code"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Your subscription is already linked to a database."
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "Your subscription was updated and is valid until"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "buy a subscription"
+msgstr ""
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "days"
+msgstr "dies"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "or"
+msgstr "o"
+
+#. module: enterprise_theme
+#. openerp-web
+#: code:addons/enterprise_theme/static/src/xml/base.xml:0
+#, python-format
+msgid "to the subscription owner (email:"
+msgstr ""

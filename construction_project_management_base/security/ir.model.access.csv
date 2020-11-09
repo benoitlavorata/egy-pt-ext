@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_phase_user,project_phase_user,model_project_phase,base.group_user,1,1,1,1
+access_project_projection_accomplishment_user,project_projection_accomplishment_user,model_project_projection_accomplishment,base.group_user,1,1,1,1
+access_project_phase_template_user,project_phase_template_user,model_project_phase_template,base.group_user,1,1,1,1

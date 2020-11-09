@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="purchase_order_line_view_grid" model="ir.ui.view">
+            <field name="name">purchase.order.line.form</field>
+            <field name="model">purchase.order.line</field>
+            <field name="arch" type="xml">
+                <grid string="Purchase Order" edit="false" create="false" delete="false">
+                    <field name="product_id" type="row" section="1"/>
+                    <field name="date" type="col">
+                        <range name="year" string="Year" span="year" step="month"/>
+                        <range name="month" string="Month" span="month" step="day"/>
+                        <range name="week" string="Week" span="week" step="day"/>
+                    </field>
+                    <field name="price_total" type="measure"/>
+                </grid>
+            </field>
+        </record>
+
+        <record id="project_po_log_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="domain">[('task_id', 'not in', [False]), ('project_id', 'child_of', active_id), ('state', 'in',
+                ['done', 'purchase'])]
+            </field>
+            <field name="view_mode">grid,tree,form,pivot,graph</field>
+            <field name="context">{'search_default_confirm_po': 1}</field>
+            <field name="view_id" ref="purchase_order_line_menu.purchase_order_line_tree"/>
+        </record>
+
+        <record id="project_phase_po_log_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="domain">[('task_id', 'not in', [False]), ('phase_id', '=', active_id), ('state', 'in', ['done',
+                'purchase'])]
+            </field>
+            <field name="view_mode">grid,tree,form,pivot,graph</field>
+            <field name="context">{'search_default_confirm_po': 1}</field>
+            <field name="view_id" ref="purchase_order_line_menu.purchase_order_line_tree"/>
+        </record>
+
+        <record id="project_task_po_log_action" model="ir.actions.act_window">
+            <field name="name">Purchase Order Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order.line</field>
+            <field name="domain">[('task_id', 'not in', [False]), ('task_id', '=', active_id), ('state', 'in', ['done',
+                'purchase'])]
+            </field>
+            <field name="view_mode">grid,tree,form,pivot,graph</field>
+            <field name="context">{'search_default_confirm_po': 1}</field>
+            <field name="view_id" ref="purchase_order_line_menu.purchase_order_line_tree"/>
+        </record>
+
+        <!-- Inherit Form view -->
+        <record id="edit_project" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <button name="set_halt" position="before">
+                    <button class="oe_stat_button" type="action"
+                            name="%(project_po_log_action)d" context="{'analytic_account_id': analytic_account_id}"
+                            icon="fa-shopping-cart" string="PO Lines Logs">
+                    </button>
+                </button>
+                <field name="user_id" position="replace"/>
+                <field name="subtask_project_id" position="replace"/>
+                <field name="privacy_visibility" position="replace"/>
+                <field name="partner_id" position="replace"/>
+                <group name="misc" position="before">
+                    <group>
+                        <group>
+                            <field name="user_id" string="Project Manager" attrs="{'readonly':[('active','=',False)]}"/>
+                            <field name="subtask_project_id" groups="project.group_subtask_project"/>
+                            <field name="privacy_visibility" widget="radio" groups="project.group_project_manager"/>
+                            <field name="partner_id" string="Customer"/>
+                        </group>
+                        <group string="PO Balance Check" attrs="{'invisible': [('project_type', '!=', 'project')]}">
+                            <field name="monitor_boq_item_qty_and_price" groups="project.group_project_manager"/>
+                            <field name="monitor_boq_category_budget" groups="project.group_project_manager"/>
+                            <field name="monitor_budget_task_level" groups="project.group_project_manager"/>
+                        </group>
+                    </group>
+                </group>
+            </field>
+        </record>
+
+        <!-- Inherit Form view -->
+        <record id="project_phase_view_form" model="ir.ui.view">
+            <field name="name">project.phase.form</field>
+            <field name="model">project.phase</field>
+            <field name="inherit_id" ref="construction_project_management_base.project_phase_view_form"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="action"
+                            name="%(project_phase_po_log_action)d" icon="fa-shopping-cart" string="PO Lines Logs">
+                    </button>
+                </div>
+            </field>
+        </record>
+
+        <record id="view_task_form" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <div name="button_box" position="inside">
+                    <button class="oe_stat_button" type="action"
+                            name="%(project_task_po_log_action)d" icon="fa-shopping-cart" string="PO Lines Logs">
+                    </button>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

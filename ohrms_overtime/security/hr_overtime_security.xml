@@ -1,0 +1,29 @@
+<odoo>
+
+     <record id="group_hr_project_officer" model="res.groups">
+        <field name="name">Project officer</field>
+        <field name="category_id" ref="base.module_category_human_resources_attendances"/>
+    </record>
+
+    <record id="hr_project_officer_overtime" model="ir.rule">
+        <field name="name">Project officer overtime</field>
+        <field name="model_id" ref="model_hr_employee_overtime"/>
+        <field name="domain_force">['|', ('create_uid', '=', user.id), ('project_id.user_id','=',user.employee_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ohrms_overtime.group_hr_project_officer'))]"/>
+    </record>
+
+    <record id="hr_project_officer_overtime_req" model="ir.rule">
+        <field name="name">Project officer overtime request</field>
+        <field name="model_id" ref="model_hr_overtime"/>
+        <field name="domain_force">['|', ('create_uid', '=', user.id), ('project_id.user_id','=',user.employee_id.id)]</field>
+        <field name="groups" eval="[(4,ref('ohrms_overtime.group_hr_project_officer'))]"/>
+    </record>
+
+    <record id="hr_project_officer_attendance" model="ir.rule">
+        <field name="name">Project officer attendance</field>
+        <field name="model_id" ref="model_hr_employees_attendance"/>
+        <field name="domain_force">[('create_uid', '=', user.id)]</field>
+        <field name="groups" eval="[(4,ref('ohrms_overtime.group_hr_project_officer'))]"/>
+    </record>
+
+</odoo>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+    	<menuitem id="project_report" action="project_report_open_wizard" name="Project" parent="project.menu_project_report" sequence="20"/>
+       
+    </data>
+</odoo>

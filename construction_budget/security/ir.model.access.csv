@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_overhead_budget_user,project_overhead_budget_user,model_project_overhead_budget,base.group_user,1,1,1,1
+access_boq_overhead_category_user,boq_overhead_category_user,model_boq_overhead_category,base.group_user,1,1,1,1
+access_project_labor_budget_user,project_labor_budget_user,model_project_labor_budget,base.group_user,1,1,1,1
+access_project_budget_adjustment_log_user,project_budget_adjustment_log_user,model_project_budget_adjustment_log,base.group_user,1,1,1,1

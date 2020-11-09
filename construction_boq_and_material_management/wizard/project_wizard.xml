@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="project_used_quantity_form" model="ir.ui.view">
+			<field name="name">project.used.quantity.form</field>
+			<field name="model">project.used.quantity</field>
+			<field name="arch" type="xml">
+				<form string="Used Quantity">
+					<group>
+						<field name="product_id" nolabel="1"></field>
+						<field name="material_id" invisible="1"></field>
+					</group>
+					<group colspan="2">
+						<field name="quantity"></field>
+					</group>
+					<footer>
+                        <button string='Done' name="update_used_qty" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="project_waste_process_form" model="ir.ui.view">
+			<field name="name">wizard.waste.process.form</field>
+			<field name="model">wizard.waste.process</field>
+			<field name="arch" type="xml">
+				<form string="Waste Process">
+					<p>This product will be entered as a new product.</p>
+					<group>
+						<field name="product_id"></field>
+						<field name="new_product_id"></field>
+						<field name="material_waste"></field>
+						<field name="quantity"></field>
+					</group>
+						<div>
+							<label for="cutted_portion" string="Cutted Portion" attrs="{'invisible': [('material_waste', '=', 'whole')]}" class="oe_inline"/>
+							<field name="cutted_portion" attrs="{'invisible': [('material_waste', '=', 'whole')]}" class="oe_inline oe_input_margin"></field> <span attrs="{'invisible': [('material_waste', '=', 'whole')]}" class="oe_inline"> of </span>
+							<field name="cutted_qty" attrs="{'invisible': [('material_waste', '=', 'whole')]}" class="oe_inline"></field>
+							<field name="uom_id" attrs="{'invisible': [('material_waste', '=', 'whole')]}" class="oe_inline"></field>
+							<label for="waste_percent" string="Waste Percentage" attrs="{'invisible': [('material_waste', '=', 'whole')]}" class="oe_inline"/>
+							<field name="waste_percent" widget="progressbar" attrs="{'invisible': [('material_waste', '=', 'whole')]}" class="oe_inline"></field>
+						</div>
+					<group>
+						<field name="waste_location_id"></field>
+						<field name="description" placeholder="Describe the product characteristics."></field>
+					</group>
+					<footer>
+                        <button string='Done' name="update_waste_process" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="project_scrap_move_form" model="ir.ui.view">
+			<field name="name">wizard.scrap.move.form</field>
+			<field name="model">wizard.scrap.move</field>
+			<field name="arch" type="xml">
+				<form string="Scrap Move">
+					<group>
+						<field name="product_id"></field>
+						<field name="quantity"></field>
+						<field name="uom_id"></field>
+						<!-- <field name="scrap_percent" widget="progressbar"></field> -->
+						<field name="scrap_location_id"></field>
+						<field name="description"></field>
+					</group>
+					<footer>
+                        <button string='Done' name="update_scrap_move" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+				</form>
+			</field>
+		</record>
+	</data>
+</odoo>

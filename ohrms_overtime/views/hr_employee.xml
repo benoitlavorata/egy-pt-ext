@@ -1,0 +1,35 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="hr_employee_view_custom">
+            <field name="name">hr.employee.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='identification_id']" position="replace">
+                     <field name="identification_id"   groups="hr.group_hr_user" required="1"/>
+
+                </xpath>
+                 <xpath expr="//field[@name='department_id']" position="after">
+                     <field name="project_id"/>
+                     <field name="overtime_limit" string="Month Overtime Limited"/>
+
+                </xpath>
+            </field>
+        </record>
+
+          <record model="ir.ui.view" id="hr_employee_view_custom_tree">
+            <field name="name">hr.employee.view</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='parent_id']" position="after">
+                     <field name="identification_id"/>
+                    <field name="project_id"/>
+
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</odoo>

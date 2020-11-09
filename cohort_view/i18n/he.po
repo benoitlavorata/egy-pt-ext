@@ -1,0 +1,166 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cohort_view
+# 
+# Translators:
+# Martin Trigaux, 2019
+# Fishfur A Banter <fishfurbanter@gmail.com>, 2019
+# Yihya Hugirat <hugirat@gmail.com>, 2019
+# שהאב חוסיין <shhab89@gmail.com>, 2019
+# דודי מלכה <Dudimalka6@gmail.com>, 2019
+# hed shefetr <hed@laylinetech.com>, 2019
+# ZVI BLONDER <ZVIBLONDER@gmail.com>, 2020
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server saas~12.5+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-26 08:05+0000\n"
+"PO-Revision-Date: 2019-08-26 09:38+0000\n"
+"Last-Translator: ZVI BLONDER <ZVIBLONDER@gmail.com>, 2020\n"
+"Language-Team: Hebrew (https://www.transifex.com/odoo/teams/41243/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: he\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
+
+#. module: cohort_view
+#: code:addons/cohort_view/controllers/main.py:0
+#, python-format
+msgid "%s - By %s"
+msgstr "%s - לפי %s"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#, python-format
+msgid "- By"
+msgstr "- לפי"
+
+#. module: cohort_view
+#: model:ir.model,name:cohort_view.model_ir_actions_act_window_view
+msgid "Action Window View"
+msgstr "תצוגת חלון פעולה"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/controllers/main.py:0
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#, python-format
+msgid "Average"
+msgstr "ממוצע"
+
+#. module: cohort_view
+#: model:ir.model,name:cohort_view.model_base
+msgid "Base"
+msgstr "בסיס"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#: model:ir.model.fields.selection,name:cohort_view.selection__ir_actions_act_window_view__view_mode__cohort
+#: model:ir.model.fields.selection,name:cohort_view.selection__ir_ui_view__type__cohort
+#, python-format
+msgid "Cohort"
+msgstr "Cohort"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#, python-format
+msgid "Cohort view has not defined \"date_start\" attribute."
+msgstr "לתצוגת Cohort אין תכונת  \"date_start\" מוגדרת."
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#, python-format
+msgid "Cohort view has not defined \"date_stop\" attribute."
+msgstr "לתצוגת Cohort אין תכונת \"date_stop\" מוגדרת."
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_controller.js:0
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#, python-format
+msgid "Count"
+msgstr "כמות"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#, python-format
+msgid "Day"
+msgstr "יום"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#, python-format
+msgid "Download in Excel file"
+msgstr "הורד בקובץ אקסל"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#, python-format
+msgid "Measures"
+msgstr "מדדים"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#, python-format
+msgid "Month"
+msgstr "חודש"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#, python-format
+msgid "No data available."
+msgstr "אין נתונים זמינים."
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/xml/cohort_view.xml:0
+#, python-format
+msgid "Period:"
+msgstr "תקופה:"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#, python-format
+msgid "Untitled"
+msgstr "ללא כותרת"
+
+#. module: cohort_view
+#: model:ir.model,name:cohort_view.model_ir_ui_view
+msgid "View"
+msgstr "תצוגה"
+
+#. module: cohort_view
+#: model:ir.model.fields,field_description:cohort_view.field_ir_actions_act_window_view__view_mode
+#: model:ir.model.fields,field_description:cohort_view.field_ir_ui_view__type
+msgid "View Type"
+msgstr "סוג תצוגה"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#, python-format
+msgid "Week"
+msgstr "שבוע"
+
+#. module: cohort_view
+#. openerp-web
+#: code:addons/cohort_view/static/src/js/cohort_view.js:0
+#, python-format
+msgid "Year"
+msgstr "שנה"

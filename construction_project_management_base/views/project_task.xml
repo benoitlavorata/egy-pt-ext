@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form view -->
+        <record id="task_kanban_view_form" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="phase_id"/>
+                </field>
+                <div class="o_kanban_record_headings" position="replace">
+                    <div class="o_kanban_record_headings">
+                        <strong class="o_kanban_record_title">
+                            <field name="name"/>
+                        </strong>
+                        <br/>
+                        <small class="o_kanban_record_subtitle text-muted">
+                            <field name="project_id" invisible="context.get('default_project_id', False)"/>(<field
+                                name="phase_id" invisible="context.get('default_project_id', False)"/>)
+                            <t t-if="record.date_deadline.raw_value and record.date_deadline.raw_value lt (new Date())"
+                               t-set="red">oe_kanban_text_red
+                            </t>
+                            <span t-attf-class="#{red || ''}">
+                                <i>
+                                    <field name="date_deadline"/>
+                                </i>
+                            </span>
+                            <t t-if="record.email_from.raw_value">
+                                <span>
+                                    <field name="email_from"/>
+                                </span>
+                            </t>
+                        </small>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <!-- Inherit Form view -->
+        <record id="view_task_form" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="phase_id" domain="[('project_id', '=', project_id)]"/>
+                </field>
+                <field name="date_deadline" position="before">
+                    <field name="task_weight"/>
+                </field>
+                <field name="description" position="before">
+                    <div>
+                        <label for="qty" string="Quantity :" class="oe_inline"/>
+                        <field name="qty" class="oe_inline"/>
+                        <field name="uom_id" class="oe_inline" placeholder="Unit of Measure"/>
+                    </div>
+                </field>
+                <page name="extra_info" position="before">
+                    <page name="boq_budget" string="BOQ Budget and Expenses">
+                        <group>
+                            <group>
+                                <field name="task_budget"/>
+                            </group>
+                            <group/>
+                        </group>
+                        <group name="budget_summary" string="Budget Summary">
+                            <table class="table table-striped table-hover" colspan="2">
+                                <tr class="info">
+                                    <td>
+                                        <strong class="text-center">Particulars</strong>
+                                    </td>
+                                    <td>
+                                        <strong class="text-center">Budget</strong>
+                                    </td>
+                                    <td>
+                                        <strong class="text-center">Expenses</strong>
+                                    </td>
+                                    <td>
+                                        <strong class="text-center">Balance</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="info">
+                                        <strong class="text-center">
+                                            <em>
+                                                Materials
+                                            </em>
+                                        </strong>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="material_budget" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="material_expense" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="material_balance" nolabel="1"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="info">
+                                        <strong class="text-center">
+                                            <em>
+                                                Subcontract/Outsource Services
+                                            </em>
+                                        </strong>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="service_budget" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="service_expense" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="service_balance" nolabel="1"/>
+                                    </td>
+                                </tr>
+                                <tr invisible="1">
+                                    <td class="info">
+                                        <strong class="text-center">
+                                            <em>
+                                                Labor
+                                            </em>
+                                        </strong>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="labor_budget" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="labor_expense" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="labor_balance" nolabel="1"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="info">
+                                        <strong class="text-center">
+                                            <em>
+                                                Equipment
+                                            </em>
+                                        </strong>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="equipment_budget" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="equipment_expense" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="equipment_balance" nolabel="1"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="info">
+                                        <strong class="text-center">
+                                            <em>
+                                                Overheads
+                                            </em>
+                                        </strong>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="overhead_budget" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="overhead_expense" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="overhead_balance" nolabel="1"/>
+                                    </td>
+                                </tr>
+                                <tr class="info">
+                                    <td>
+                                        <strong class="text-center">
+                                            <em>
+                                                Total
+                                            </em>
+                                        </strong>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="total_budget" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="total_expense" nolabel="1"/>
+                                    </td>
+                                    <td class="active text-right">
+                                        <field name="total_balance" nolabel="1"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </group>
+                    </page>
+                    <page name="material_status" string="Material Status">
+                        <group>
+                            <field name="project_stock_location_id" invisible="1"/>
+                            <field name="stock_location_name" invisible="1"/>
+                            <field name="stock_location_id"
+                                   context="{'default_name': stock_location_name, 'location_id': project_stock_location_id}"/>
+                            <!-- <field name="picking_type_id" domain="[('code', '=', 'internal')]" context="{'default_name': stock_location_name, 'default_code': 'internal', 'default_default_location_dest_id': stock_location_id, 'default_default_location_scr_id': project_stock_location_id}"/> -->
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</odoo>

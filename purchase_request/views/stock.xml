@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<odoo>
+
+  <!-- Inherit Form view -->
+  <record id="view_picking_form" model="ir.ui.view">
+    <field name="name">stock.picking.form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="arch" type="xml">
+      <button name="action_picking_move_tree" position="before">
+        <button name="create_purchase_request" attrs="{'invisible': ['|','|', ('picking_type', 'not in', ['internal']),('purchase_request_id', 'not in', [False]), ('state', 'not in', ['waiting', 'confirmed', 'assigned'])]}"
+          string="Create Purchase Request" type="object" class="oe_stat_button" icon="fa-clipboard-list" groups="base.group_user"/>
+      </button>
+      <field name="origin" position="after">
+        <field name="purchase_request_id" readonly="1"/>
+        <field name="picking_type" invisible="1"/>
+      </field>
+    </field>
+  </record>
+
+</odoo>

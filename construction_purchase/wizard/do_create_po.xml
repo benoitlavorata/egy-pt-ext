@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <record id="do_purchase_order_view_form" model="ir.ui.view">
+      <field name="name">do.purchase.order.form</field>
+      <field name="model">do.purchase.order</field>
+      <field name="arch" type="xml">
+        <form string="Create PO">
+          <group>
+            <group>
+              <field name="action"/>
+              <field name="project_related" invisible="1"/>
+              <field name="purchase_request_id" invisible="1"/>
+              <field name="analytic_account_id" invisible="1"/>
+            </group>
+            <group>
+              <field name="purchase_id" options="{'no_quick_create': True, 'no_create_edit' : True}"
+                attrs="{'invisible': [('action', 'in', [False, 'New'])], 'required': [('action', 'not in', [False, 'New'])]}"/>
+              <field name="partner_id" options="{'no_quick_create': True, 'no_create_edit' : True}"
+                attrs="{'invisible': [('action', 'in', [False, 'Merge'])], 'required': [('action', 'not in', [False, 'Merge'])]}"/>
+              <field name="date_planned" attrs="{'invisible': [('action', 'in', [False, 'Merge'])], 'required': [('action', 'not in', [False, 'Merge'])]}"/>
+            </group>
+          </group>
+          <footer>
+              <button string="Process" name="create_purchase" type="object" default_focus="1" class="btn-primary"/>
+              <button string="Cancel" class="btn-default" special="cancel"/>
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="action_do_purchase_order" model="ir.actions.act_window">
+        <field name="name">Create/Merge RFQ</field>
+        <field name="res_model">do.purchase.order</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="do_purchase_order_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+  </data>
+</odoo>

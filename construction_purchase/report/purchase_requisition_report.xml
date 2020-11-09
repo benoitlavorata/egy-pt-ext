@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <report
+    id="purchase_requesition_report"
+    model="sprogroup.purchase.request"
+    string="Purchase Requisition"
+    report_type="qweb-pdf"
+    name="construction_purchase.report_purchase_requesition"
+    file="construction_purchase.report_purchase_requesition"
+    attachment_use="True"
+    menu="False"
+        />
+
+
+    <template id="report_purchase_requesition">
+      <t t-call="web.html_container">
+        <t t-foreach="docs" t-as="doc">
+          <t t-call="construction_purchase.report_purchase_requesition_document" t-lang="doc.requested_by.lang"/>
+        </t>
+      </t>
+    </template>
+
+    <template id="report_purchase_requesition_document">
+      <t t-set="doc" t-value="doc.with_context(lang=doc.requested_by.lang)" />
+      <t t-call="web.external_layout">
+        <div class="page">
+          <div class="oe_structure"/>
+          <h2>Purchase Requisition #<span t-field="doc.name"/></h2>
+          <div id="informations" class="row mt32 mb32">
+            <div class="col-3 bm-2">
+              <strong>PR Duration:</strong>
+              <p class="m-0"><span t-field="doc.date_start"/>-<span t-field="doc.end_start"/></p>
+            </div>
+            <div t-if="doc.project_id" class="col-3 bm-2">
+              <strong>Project:</strong>
+              <p t-field="doc.project_id.name" class="m-0"/>
+            </div>
+            <div t-if="doc.phase_id" class="col-3 bm-2">
+              <strong>Phase:</strong>
+              <p t-field="doc.phase_id.name" class="m-0"/>
+            </div>
+            <div t-if="doc.task_id" class="col-3 bm-2">
+              <strong>Task:</strong>
+              <p t-field="doc.task_id.name" class="m-0"/>
+            </div>
+          </div>
+          <strong>RE:</strong>
+          <p t-field="doc.description" class="m-0"/>
+          <table class="table table-sm o_main_table">
+            <thead>
+              <tr>
+                <th><strong>Item Code</strong></th>
+                <th><strong>Particulars</strong></th>
+                <th><strong>Purpose</strong></th>
+                <th class="text-center"><strong>Date Req.</strong></th>
+                <th class="text-right"><strong>Requested</strong></th>
+                <th class="text-right"><strong>Available</strong></th>
+                <th class="text-right"><strong>For PO</strong></th>
+                <th class="text-right"><strong>Units</strong></th>
+                <th class="text-center"><strong>Cost Code</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr t-foreach="doc.line_ids" t-as="line">
+                <td>
+                  <span t-field="line.product_id.default_code"/>
+                </td>
+                <td>
+                  <span t-field="line.product_id.name"/>
+                </td>
+                <td>
+                  <span t-field="line.specifications"/>
+                </td>
+                <td class="text-center">
+                  <span t-field="line.date_required"/>
+                </td>
+                <td class="text-right">
+                  <span t-field="line.request_product_qty"/>
+                </td>
+                <td class="text-right">
+                  <span t-field="line.product_id.qty_available"/>
+                </td>
+                <td class="text-right">
+                  <span t-field="line.product_qty"/>
+                </td>
+                <td class="text-center">
+                  <span t-field="line.product_uom_id.name"/>
+                </td>
+                <td class="text-center">
+                  <span t-field="line.product_id.property_account_expense_id.code"/>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br/>
+          <span>-------Nothing Follows------</span>
+          <br/>
+          <br/>
+          <div id="other_informations" class="row mt32 mb32">
+            <div class="col-3 bm-2">
+              <strong  t-if="doc.requested_by"><span t-field="doc.requested_by.name"/></strong>
+              <p class="m-0">Requested By</p>
+            </div>
+            <div class="col-3 bm-2">
+              <strong>___________________</strong>
+              <p class="m-0">Noted By</p>
+            </div>
+            <div class="col-3 bm-2">
+              <strong  t-if="doc.assigned_to"><span t-field="doc.assigned_to.name"/></strong>
+              <p class="m-0">Approved By</p>
+            </div>
+          </div>
+          <div class="oe_structure"/>
+        </div>
+      </t>
+    </template>
+
+  </data>
+</odoo>

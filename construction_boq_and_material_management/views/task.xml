@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<record id="project_material_consumption_view" model="ir.ui.view">
+			<field name="name">project.material.consumption.tree</field>
+			<field name="model">project.material.consumption</field>
+			<field name="arch" type="xml">
+				<tree string="Material Consumption">
+					<field name="product_id"></field>
+					<field name="estimated_qty"></field>
+					<field name="tot_stock_received"></field>
+					<field name="uom_id"></field>
+					<field name="available_stock"></field>
+					<field name="consumption_progress" widget="progressbar"></field>
+					<field name="wastage_percent" widget="progressbar"></field>
+					<field name="scrap_percent" widget="progressbar"></field>
+					<field name="withdrawal_progress" invisible="1" widget="progressbar"></field>
+				</tree>
+			</field>
+		</record>
+
+		<record id="project_material_consumption_form" model="ir.ui.view">
+			<field name="name">project.material.consumption.form</field>
+			<field name="model">project.material.consumption</field>
+			<field name="arch" type="xml">
+				<form string="Material Consumption">
+					<group>
+						<field name="product_id"></field>
+						<field name="estimated_qty"></field>
+						<field name="tot_stock_received"></field>
+						<field name="uom_id"></field>
+						<field name="used_qty"></field>
+						<field name="available_stock"></field>
+						<field name="consumption_progress" widget="progressbar"></field>
+						<field name="withdrawal_progress" invisible="1" widget="progressbar"></field>
+						<field name="wastage_percent" widget="progressbar"></field>
+						<field name="scrap_percent" widget="progressbar"></field>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="project_waste_management_view" model="ir.ui.view">
+			<field name="name">project.waste.management.tree</field>
+			<field name="model">project.waste.management</field>
+			<field name="arch" type="xml">
+				<tree string="Waste Management">
+					<field name="product_id"></field>
+					<field name="new_product_id"></field>
+					<field name="uom_id"></field>
+					<field name="qty"></field>
+					<field name="wastage_percent"></field>
+					<field name="date_recorded"></field>
+					<field name="material_waste"></field>
+					<field name="waste_location_id"></field>
+					<field name="description"></field>
+					<field name="cutted_portion"></field>
+					<field name="cutted_qty"></field>
+				</tree>
+			</field>
+		</record>
+
+		<record id="project_waste_management_form" model="ir.ui.view">
+			<field name="name">project.waste.management.form</field>
+			<field name="model">project.waste.management</field>
+			<field name="arch" type="xml">
+				<form string="Material Consumption">
+					<group>
+						<field name="product_id"></field>
+						<field name="new_product_id"></field>
+						<field name="uom_id"></field>
+						<field name="qty"></field>
+						<field name="wastage_percent"></field>
+						<field name="date_recorded"></field>
+						<field name="material_waste"></field>
+						<field name="waste_location_id"></field>
+						<field name="description"></field>
+						<field name="cutted_portion"></field>
+						<field name="cutted_qty"></field>
+					</group>
+				</form>
+			</field>
+		</record>
+
+		<record id="project_scrap_products_view" model="ir.ui.view">
+			<field name="name">project.scrap.products.tree</field>
+			<field name="model">project.scrap.products</field>
+			<field name="arch" type="xml">
+				<tree string="Scrap Products">
+					<field name="product_id"></field>
+					<field name="uom_id"></field>
+					<field name="qty"></field>
+					<!-- <field name="scrap_percent"></field> -->
+					<field name="scrap_reason"></field>
+					<field name="date_recorded"></field>
+					<field name="scrap_location_id"></field>
+				</tree>
+			</field>
+		</record>
+
+		<record id="project_scrap_products_form" model="ir.ui.view">
+			<field name="name">project.scrap.products.form</field>
+			<field name="model">project.scrap.products</field>
+			<field name="arch" type="xml">
+				<form string="Scrap Products">
+					<group>
+						<field name="product_id"></field>
+						<field name="uom_id"></field>
+						<field name="qty"></field>
+						<!-- <field name="scrap_percent"></field> -->
+						<field name="scrap_reason"></field>
+						<field name="date_recorded"></field>
+						<field name="scrap_location_id"></field>
+					</group>
+				</form>
+			</field>
+		</record>
+	</data>
+</odoo>

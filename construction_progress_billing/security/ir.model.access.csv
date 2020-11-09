@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_progress_billing_user,project_progress_billing_user,model_project_progress_billing,base.group_user,1,1,1,1
+access_project_accomplishment_billing_user,project_accomplishment_billing_user,model_project_accomplishment_billing,base.group_user,1,1,1,1

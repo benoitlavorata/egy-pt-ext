@@ -1,0 +1,590 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sgeede_internal_transfer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-14 14:09+0000\n"
+"PO-Revision-Date: 2020-10-14 14:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_needaction
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_move__analytic_account_id
+#, python-format
+msgid "Analytic Account"
+msgstr "مركز التكلفة"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid "Apply"
+msgstr "موافق"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_attachment_count
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_attachment_count
+msgid "Attachment Count"
+msgstr "المرفقات"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__backorder_id
+#, python-format
+msgid "Backorder"
+msgstr "الاذن المقابل"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer__state__cancel
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer_line__state__cancel
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+#, python-format
+msgid "Cancel"
+msgstr "إلغاء"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_res_company
+msgid "Companies"
+msgstr "الشركات"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_res_config_settings
+msgid "Config Settings"
+msgstr "ضبط الإعدادات"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__create_uid
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__create_uid
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__create_uid
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__create_uid
+msgid "Created by"
+msgstr "انشيء بواسطة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__create_date
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__create_date
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__create_date
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__create_date
+msgid "Created on"
+msgstr "انشيء في"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__date
+#, python-format
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__dest_location_id
+#, python-format
+msgid "Destination Location"
+msgstr "الوجهة"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__dest_warehouse_id
+#, python-format
+msgid "Destination Warehouse"
+msgstr "الوجهة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__display_name
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__display_name
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__display_name
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__display_name
+msgid "Display Name"
+msgstr "الاسم"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer__state__done
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer_line__state__done
+#, python-format
+msgid "Done"
+msgstr "المنتهية"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer__state__draft
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer_line__state__draft
+#, python-format
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid "Enter Transfer Details"
+msgstr "تفاصيل التحويل"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_follower_ids
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_follower_ids
+msgid "Followers"
+msgstr "المتابعون"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_channel_ids
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_channel_ids
+msgid "Followers (Channels)"
+msgstr "القنوات المتابعة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_partner_ids
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "المتابعون"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__id
+msgid "ID"
+msgstr "كود"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__message_needaction
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__message_unread
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__message_needaction
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__message_unread
+msgid "If checked, new messages require your attention."
+msgstr "رسالة جديدة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__message_has_error
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__message_has_sms_error
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__message_has_error
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "رسائل خطأ"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.view_res_config_settings_form
+msgid "Internal Transfer"
+msgstr "صرف داخلي"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid "Inventory Details"
+msgstr "تفاصيل المخزون"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_is_follower
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_is_follower
+msgid "Is Follower"
+msgstr "متابع"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__item_ids
+#, python-format
+msgid "Items"
+msgstr "الاصناف"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer____last_update
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items____last_update
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line____last_update
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer____last_update
+msgid "Last Modified on"
+msgstr "اخر تعديل في"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__write_uid
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__write_uid
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__write_uid
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__write_uid
+msgid "Last Updated by"
+msgstr "اخر تعديل بواسطة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__write_date
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__write_date
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__write_date
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__write_date
+msgid "Last Updated on"
+msgstr "اخر تعديل في"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_main_attachment_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "المرفق الرئيسي"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_has_error
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_has_error
+msgid "Message Delivery error"
+msgstr "خطأ في توصيل الرسالة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_ids
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_ids
+msgid "Messages"
+msgstr "الرسائل"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__balance_after
+#, python-format
+msgid "New Balance"
+msgstr "الرصيد"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_needaction_counter
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_needaction_counter
+msgid "Number of Actions"
+msgstr "عدد الاحداث"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_has_error_counter
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_has_error_counter
+msgid "Number of errors"
+msgstr "عدد الاخطأ"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__message_needaction_counter
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr "رسائل تحتاج للتفاعل"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__message_has_error_counter
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "عدد رسائل خطا في التوصيل"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__message_unread_counter
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__message_unread_counter
+msgid "Number of unread messages"
+msgstr "الرسائل غير المقروءة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_warehouse__user_ids
+msgid "Owner user"
+msgstr "المالك"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid "Packages To Move"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.sgeede_stock_warehouse_inherit_form_view
+msgid "Permission to Send and Receive Products"
+msgstr "صلاحية ارسال و استقبال الاصناف"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__picking_ids
+#, python-format
+msgid "Picking"
+msgstr "التعبئة"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+msgid "Pickings"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid ""
+"Please setup your stock transit location in Setting - Internal Transfer "
+"Configuration"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__product_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__product_id
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+#, python-format
+msgid "Product"
+msgstr "منتج"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid "Products To Move"
+msgstr "منتجات للحركة"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__product_qty
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__product_qty
+#, python-format
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+msgid "Receive"
+msgstr "استقبال"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__name
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__name
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+#, python-format
+msgid "Reference"
+msgstr "رقم الإشارة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_has_sms_error
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "خطأ تسليم الرسالة"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer__state__send
+#: model:ir.model.fields.selection,name:sgeede_internal_transfer.selection__stock_internal_transfer_line__state__send
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+#, python-format
+msgid "Send"
+msgstr "إرسال"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+msgid "Set to Draft"
+msgstr "تحويل لمسودة"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid ""
+"Setting a product and a source package means that the product will be taken "
+"out of the package."
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__source_location_id
+#, python-format
+msgid "Source Location"
+msgstr "مكان المورد"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__source_warehouse_id
+#, python-format
+msgid "Source Warehouse"
+msgstr "مخزن المورد"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__state
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__state
+#, python-format
+msgid "Status"
+msgstr "الحالة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.actions.act_window,name:sgeede_internal_transfer.action_stock_internal_transfer
+#: model:ir.ui.menu,name:sgeede_internal_transfer.menu_stock_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_form
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.stock_internal_transfer_tree
+msgid "Stock Internal Transfer"
+msgstr "تحويل مخزني داخلي"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__line_ids
+#, python-format
+msgid "Stock Internal Transfer Line"
+msgstr "بند تحويل مخزني"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_stock_move
+msgid "Stock Move"
+msgstr "حركة المخزون"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid ""
+"The source package will be moved entirely. If you specify a destination "
+"package, the source package will be put in the destination package."
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: model:ir.model,name:sgeede_internal_transfer.model_stock_picking
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__transfer_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__transfer_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_picking__transfer_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_wizard_stock_internal_transfer__transfer_id
+#, python-format
+msgid "Transfer"
+msgstr "الشحنة"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid "Transfer Details"
+msgstr "تفاصيل الشحنة"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/res_company.py:0
+#: code:addons/sgeede_internal_transfer/models/res_config.py:0
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_res_company__transit_location_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_res_config_settings__transit_location_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__transit_location_id
+#, python-format
+msgid "Transit Location"
+msgstr "وجهة النقل"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid "Unable to find destination location in Stock Picking"
+msgstr "لايمكن تحديد الوجهة"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid "Unable to find source location in Stock Picking"
+msgstr "لايمكن تحديد مكان التوريد"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_items__product_uom_id
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__product_uom_id
+#, python-format
+msgid "Unit of Measure"
+msgstr "الوحدة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_unread
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_unread
+msgid "Unread Messages"
+msgstr "رسائل غير مقروءة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__message_unread_counter
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr "عدد الرسائل الغير مقروءة"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_stock_warehouse
+msgid "Warehouse"
+msgstr "المخزن"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer__website_message_ids
+#: model:ir.model.fields,field_description:sgeede_internal_transfer.field_stock_internal_transfer_line__website_message_ids
+msgid "Website Messages"
+msgstr "رسائل الموقع الالكتروني"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer__website_message_ids
+#: model:ir.model.fields,help:sgeede_internal_transfer.field_stock_internal_transfer_line__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid "You are not authorized to send or receive product !"
+msgstr "لا تملك صلاحية ارسال و استقبال الاصناف"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid "You are not authorized to send or receive products !"
+msgstr "لا تملك صلاحية ارسال و استقبال الاصناف"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid "You have exceed the available product quantity"
+msgstr "لايمكن تخطي الكمية المتاحة"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/wizard/wizard_stock_internal_transfer.py:0
+#, python-format
+msgid "You have exceed the available product quantity."
+msgstr "لايمكن تخطي الكمية المتاحة"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid "Cancel"
+msgstr "لاغي"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#, python-format
+msgid "cancel"
+msgstr "لاغي"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#, python-format
+msgid "done"
+msgstr "تم"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#, python-format
+msgid "draft"
+msgstr "مسودة"
+
+#. module: sgeede_internal_transfer
+#: model_terms:ir.ui.view,arch_db:sgeede_internal_transfer.wizard_stock_internal_transfer_view
+msgid "or"
+msgstr "أو"
+
+#. module: sgeede_internal_transfer
+#: code:addons/sgeede_internal_transfer/models/stock_internal_transfer.py:0
+#, python-format
+msgid "send"
+msgstr "ارسال"
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_stock_internal_transfer
+msgid "stock.internal.transfer"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_stock_internal_transfer_items
+msgid "stock.internal.transfer.items"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_stock_internal_transfer_line
+msgid "stock.internal.transfer.line"
+msgstr ""
+
+#. module: sgeede_internal_transfer
+#: model:ir.model,name:sgeede_internal_transfer.model_wizard_stock_internal_transfer
+msgid "wizard.stock.internal.transfer"
+msgstr ""

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_contractor_task_user,project_contractor_task_user,model_project_contractor_task,base.group_user,1,1,1,1
+access_project_contractor_user,project_contractor_user,model_project_contractor,base.group_user,1,1,1,1
+access_project_contractor_bill_task_user,project_contractor_bill_task_user,model_project_contractor_bill_task,base.group_user,1,1,1,1
+access_project_contractor_bill_user,project_contractor_bill_user,model_project_contractor_bill,base.group_user,1,1,1,1

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_visual_inspection,project.visual.inspection,model_project_visual_inspection,base.group_user,1,1,1,1
+access_project_document_attach,project.document.attach,model_project_document_attach,base.group_user,1,1,1,1

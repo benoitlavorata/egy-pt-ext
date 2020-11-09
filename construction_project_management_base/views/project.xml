@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="project.menu_projects" name="Dashboard" parent="project.menu_main_pm" sequence="1"/>
+
+        <record id="open_view_project" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="domain">[('project_type','=','project')]</field>
+            <field name="context">{'default_project_type':'project'}</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="project.view_project_kanban"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="target">main</field>
+        </record>
+
+        <menuitem id="menu_projects_project" action="open_view_project"
+                  name="Projects" parent="project.menu_projects" sequence="2"/>
+
+        <record id="open_view_project_phase_link" model="ir.actions.act_window">
+            <field name="name">Phase</field>
+            <field name="res_model">project.phase</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('project_id','=', active_id)]</field>
+            <field name="context">{'default_project_id': active_id}</field>
+        </record>
+
+        <record id="action_open_child_project" model="ir.actions.act_window">
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="domain">[
+                ('project_type','=','project'),
+                ('parent_id','=',active_id)]
+            </field>
+            <field name="context">{
+                'default_project_type': 'project',
+                'default_parent_id': active_id}
+            </field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_id" ref="project.view_project_kanban"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="target">main</field>
+        </record>
+
+        <!-- Inherit Form view -->
+        <record id="project_form_view" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="%(project_portfolio_report_action_form)d" string="Print Report"
+                            attrs="{'invisible': [('project_type', 'not in', ['porfolio'])]}" class="oe_highlight"
+                            type="action" icon="fa-floppy-0"/>
+                    <button name="set_inprogress" string="Start Project" class="oe_highlight" states="draft,halted"
+                            type="object"/>
+                    <button name="set_finished" string="Project Done" class="oe_highlight" states="inprogress"
+                            type="object"/>
+                    <button name="set_close" string="Close and Turnover" class="oe_highlight" states="finished"
+                            type="object"/>
+                    <button name="reset_to_draft" string="Reset to Draft" states="canceled" type="object"/>
+                    <button name="set_cancel" string="Cancel" states="halted" type="object"/>
+                    <button name="set_halt" string="Halt" states="inprogress" type="object"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,inprogress,closed"
+                           statusbar_colors="{'KEY_IS_STATE':'VALUE_IS_COLOR'}"/>
+                </header>
+                <button name="%(project.act_project_project_2_project_task_all)d" position="before">
+                    <button class="oe_stat_button" name="%(action_open_child_project)d"
+                            attrs="{'invisible': [('project_type', 'not in', ['porfolio'])]}"
+                            context="{'default_parent_id': active_id, 'default_project_type': 'project', 'default_partner_id': partner_id}"
+                            type="action" icon="fa-puzzle-piece">
+                        <field string="Projects" name="project_count" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" type="action"
+                            name="%(open_view_project_phase_link)d" icon="fa-tasks"
+                            context="{'default_project_id': active_id, 'default_user_id': user_id}"
+                            attrs="{'invisible': [('project_type', 'in', ['porfolio'])]}">
+                        <field string="Phases" name="phase_count" widget="statinfo"/>
+                    </button>
+                </button>
+                <button name="%(project.act_project_project_2_project_task_all)d" position="attributes">
+                    <attribute name="attrs">{'invisible': [('project_type','not in',['project'])]}</attribute>
+                </button>
+                <div class="oe_title" position="before">
+                    <field name="image" widget="image" class="oe_avatar"/>
+                </div>
+                <label for="label_tasks" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </label>
+                <field name="label_tasks" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="analytic_account_id"/>
+                </xpath>
+                <field name="name" position="after">
+                    <field name="project_type" readonly="1" force_save="1"/>
+                    <field name="boq_setting" readonly="1" groups="base.group_no_one"
+                           help="Project + Phase + Task + BOQ:  Whereas, the project and budget is breakdown into phases, and Phases are breakdown into several task. And each task is paired with the BOQ/BOM budget. Each task will have a unique warehouse location and stock picking identity to be able to track the movement of material on each BOQ/BOM.\n
+            Project + Phase + BOQ + Task:  Whereas, the project and budget is breakdown into phases, and Phases are breakdown into several tasks (Budget breakdown will up to phase level only). And each Phase is paired with the BOQ/BOM budget. Each Phase will have a unique warehouse location and stock picking identity to be able to track the movement of material on each BOQ/BOM."/>
+                </field>
+                <page name="settings" position="before">
+                    <page name="accomplishment_timeline" string="Project Status">
+                        <group>
+                            <field name="stock_location_id" domain="[('usage', 'in', ['internal'])]"
+                                   context="{'default_name': name, 'default_usage': 'internal'}"/>
+                            <field name="picking_type_id" domain="[('code', '=', 'internal')]"
+                                   context="{'default_name': name, 'default_code': 'internal', 'default_default_location_dest_id': stock_location_id, 'default_default_location_scr_id': stock_location_id}"/>
+                        </group>
+                        <group>
+                            <group string="Projection Dates">
+                                <field name="projected_finished_date" string="Finished Date"
+                                       attrs="{'required': [('end_date', 'not in', [False])]}"/>
+                                <field name="projected_end_date" string="Closed and Turned Over"/>
+                                <field name="extention_date" string="Requested Extension Date"/>
+                            </group>
+                            <group string="Actual Dates">
+                                <field name="start_date"/>
+                                <field name="finished_date" attrs="{'required': [('end_date', 'not in', [False])]}"/>
+                                <field name="end_date" string="Closed and Turned Over"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group name="budget_and_actual_expense" string="Budget and Actual Expense">
+                                <table class="table table-striped table-hover" colspan="2">
+                                    <tr class="info">
+                                        <td>
+                                            <strong class="text-center">Particulars</strong>
+                                        </td>
+                                        <td>
+                                            <strong class="text-center">Budget</strong>
+                                        </td>
+                                        <td>
+                                            <strong class="text-center">Expenses</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info">
+                                            <strong class="text-center">
+                                                <em>
+                                                    Materials
+                                                </em>
+                                            </strong>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="material_budget" nolabel="1"/>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="material_expense" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info">
+                                            <strong class="text-center">
+                                                <em>
+                                                    Subcontract/Outsource Services
+                                                </em>
+                                            </strong>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="service_budget" nolabel="1"/>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="service_expense" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info">
+                                            <strong class="text-center">
+                                                <em>
+                                                    Human Resource/Labor
+                                                </em>
+                                            </strong>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="labor_budget" nolabel="1"/>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="labor_expense" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info">
+                                            <strong class="text-center">
+                                                <em>
+                                                    Equipment
+                                                </em>
+                                            </strong>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="equipment_budget" nolabel="1"/>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="equipment_expense" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="info">
+                                            <strong class="text-center">
+                                                <em>
+                                                    Overheads
+                                                </em>
+                                            </strong>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="overhead_budget" nolabel="1"/>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="overhead_expense" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="info">
+                                        <td>
+                                            <strong class="text-center">
+                                                <em>
+                                                    Total
+                                                </em>
+                                            </strong>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="total_budget" class="oe_right" nolabel="1"/>
+                                        </td>
+                                        <td class="active text-right">
+                                            <field name="total_expense" nolabel="1"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </group>
+                            <group name="accomplishment" string=".">
+                                <div class="oe_button_box" colspan="2">
+                                    <label for="survey_frequent" string="Review Cycle :" class="oe_inline"/>
+                                    <field name="survey_frequent" class="oe_inline"/>
+                                    <button name="%(set_projection_action_form)d" string="Set Projection Timeline"
+                                            type="action" icon="fa-calendar-check"
+                                            context="{'default_survey_frequent': survey_frequent}"
+                                            class="oe_link oe_inline" states="draft"
+                                            groups="project.group_project_manager"/>
+                                    <button name="%(set_projection_action_form)d" string="Extend Projection Timeline"
+                                            type="action" icon="fa-calendar-check"
+                                            context="{'default_survey_frequent': survey_frequent, 'default_extend_projection': True}"
+                                            class="oe_link oe_inline" states="inprogress,halted"
+                                            groups="project.group_project_manager"/>
+                                    <!-- <button name="lock_projection" class="oe_link" string="LOCK" type="action" icon="fa-expeditedssl" groups="project.group_project_manager"/> -->
+                                </div>
+                                <separator string="Projected and Actual Accomplishment" colspan="2"/>
+                                <field name="projection_set" invisible="1"/>
+                                <field name="projection_accomplishment_ids" nolabel="1" colspan="2">
+                                    <tree string="Projected and Actual Accomplishment" editable="top" create="false"
+                                          delete="false">
+                                        <field name="date"/>
+                                        <field name="projected"/>
+                                        <field name="actual"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+                <div class="oe_chatter" position="replace">
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </div>
+            </field>
+        </record>
+
+        <record id="view_project_kanban" model="ir.ui.view">
+            <field name="name">project.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="phase_count"/>
+                    <field name="project_count"/>
+                    <field name="user_id"/>
+                    <field name="project_type"/>
+                </field>
+                <div class="o_project_kanban_boxes" position="inside">
+                    <t t-if="record.project_type.raw_value == 'project'">
+                        <a class="o_project_kanban_box" name="%(open_view_project_phase_link)d" type="action">
+                            <div>
+                                <span class="o_value">
+                                    <t t-esc="record.phase_count.raw_value"/>
+                                </span>
+                                <span class="o_label">
+                                    <string>Phases</string>
+                                </span>
+                            </div>
+                        </a>
+                    </t>
+                    <t t-if="record.project_type.raw_value != 'project'">
+                        <a class="o_project_kanban_box" name="%(action_open_child_project)d" type="action">
+                            <div>
+                                <span class="o_value">
+                                    <t t-esc="record.project_count.raw_value"/>
+                                </span>
+                                <span class="o_label">
+                                    <string>Projects</string>
+                                </span>
+                            </div>
+                        </a>
+                    </t>
+                </div>
+            </field>
+        </record>
+
+    </data>
+</odoo>

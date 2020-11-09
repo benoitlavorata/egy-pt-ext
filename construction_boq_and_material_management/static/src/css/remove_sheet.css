@@ -1,0 +1,8 @@
+.extend_sheet .o_form_sheet_bg .o_form_sheet{
+	min-width: 50% !important;
+  	max-width: 95% !important;
+}
+
+.oe_input_margin{
+	margin-left: 7%;
+}

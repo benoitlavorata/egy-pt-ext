@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <record id="purchase_order_line_tree" model="ir.ui.view">
+      <field name="name">purchase.order.line.tree</field>
+      <field name="model">purchase.order.line</field>
+      <field name="inherit_id" ref="purchase_order_line_menu.purchase_order_line_tree"/>
+      <field name="arch" type="xml">
+        <field name="product_qty" position="after">
+          <field name="qty_received"/>
+          <field name="qty_invoiced"/>
+          <field name="invoices"/>
+        </field>
+      </field>
+    </record>
+
+    <!-- Inherit Form view -->
+    <record id="purchase_order_form" model="ir.ui.view">
+      <field name="name">purchase.order.form</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form"/>
+      <field name="arch" type="xml">
+        <field name="origin" position="after">
+          <field name="project_related"/>
+          <field name="sent_date"/>
+          <field name="received_date"/>
+        </field>
+        <field name="origin" position="after">
+          <field name="purchase_request_merge_ids" widget="many2many_tags" readonly="1"/>
+        </field>
+        <xpath expr="//field[@name='order_line']/tree/field[@name='account_analytic_id']"
+          position="after">
+          <field name="project_id" invisible="1"/>
+          <field name="phase_id" attrs="{'column_invisible': [('parent.project_related', 'in', [False])]}"/>
+          <field name="task_id"
+            attrs="{'column_invisible': [('parent.project_related', 'in', [False])], 'required': ['|', ('phase_id', 'not in', [False]), ('project_boq_category', 'in', ['meterial', 'subcon', 'equipment'])]}"/>
+          <field name="project_boq_category" attrs="{'column_invisible': [('parent.project_related', 'in', [False])], 'required': [('phase_id', 'not in', [False])]}"/>
+          <field name="annotation" attrs="{'column_invisible': [('parent.project_related', 'in', [False])]}"/>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="purchase_order_line_search" model="ir.ui.view">
+      <field name="name">purchase.order.line.search</field>
+      <field name="model">purchase.order.line</field>
+      <field name="inherit_id" ref="purchase.purchase_order_line_search"/>
+      <field name="arch" type="xml">
+        <field name="product_id" position="after">
+          <field name="account_analytic_id"/>
+          <field name="project_id"/>
+          <field name="phase_id"/>
+          <field name="task_id"/>
+          <field name="project_boq_category"/>
+          <field name="annotation"/>
+          <field name="state"/>
+          <filter name="Project_Related" string="Project Related" domain="[('task_id', 'not in', [False])]"/>
+          <filter name="With_Annotations" string="With Annotations" domain="[('annotation', 'not in', [False])]"/>
+          <!-- <filter name="PO" string="Confirmed PO" damain="[('state', 'in', ['purchase','done', 'confirmed'])]"/> -->
+        </field>
+        <group position="inside">
+          <filter name="groupby_cost_center" string="Cost Center" domain="[('account_analytic_id', 'not in', [False])]" context="{'group_by' : 'account_analytic_id'}" />
+          <filter name="groupby_project" string="Project" domain="[('account_analytic_id', 'not in', [False]), ('task_id', 'not in', [False])]" context="{'group_by' : 'account_analytic_id'}" />
+          <filter name="groupby_phase" string="Project's Phase" domain="[('account_analytic_id', 'not in', [False]), ('task_id', 'not in', [False])]" context="{'group_by' : 'phase_id'}" />
+          <filter name="groupby_task" string="Project's Task" domain="[('account_analytic_id', 'not in', [False]), ('task_id', 'not in', [False])]" context="{'group_by' : 'task_id'}" />
+          <filter name="groupby_project_boq_category" string="Project's BOQ Category" domain="[('account_analytic_id', 'not in', [False]), ('task_id', 'not in', [False])]" context="{'group_by' : 'project_boq_category'}" />
+        </group>
+      </field>
+    </record>
+
+    <record id="view_purchase_request_search" model="ir.ui.view">
+      <field name="name">sprogroup.purchase.request.list.select</field>
+      <field name="model">sprogroup.purchase.request</field>
+      <field name="inherit_id" ref="purchase_request.view_purchase_request_search"/>
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="analytic_account_id"/>
+          <field name="project_id"/>
+          <field name="phase_id"/>
+          <field name="task_id"/>
+        </field>
+        <group position="inside">
+          <filter string="Cost Center" name="cost_center" domain="[]" context="{'group_by':'analytic_account_id'}"/>
+          <filter string="Project" name="project" domain="[('project_id', 'not in', [False])]" context="{'group_by':'project_id'}"/>
+          <filter string="Project's Phase" name="phase" domain="[('project_id', 'not in', [False])]" context="{'group_by':'phase_id'}"/>
+          <filter string="Project's Task" name="task" domain="[('project_id', 'not in', [False])]" context="{'group_by':'task_id'}"/>
+        </group>
+      </field>
+    </record>
+
+    <!-- Inherit Form view -->
+    <record id="view_purchase_request_form" model="ir.ui.view">
+      <field name="name">sprogroup.purchase.request.form</field>
+      <field name="model">sprogroup.purchase.request</field>
+      <field name="inherit_id" ref="purchase_request.view_purchase_request_form"/>
+      <field name="arch" type="xml">
+        <button name="make_purchase_quotation" position="replace">
+          <button name="generate_report" string="Print Report" class="oe_highlight"
+            type="object" />
+          <button string="Create Purchase Order" name="%(action_do_purchase_order)d" type="action"
+              groups="purchase_request.group_purchase_request_manager"
+              attrs="{'invisible': ['|','|',('state', 'not in', ['manager_approved']), ('purchase_order_id', 'not in', [False]), ('purchase_requisition_id', 'not in', [False])]}"/>
+        </button>
+        <field name="purchase_order_id" position="before">
+          <field name="analytic_account_id"/>
+          <field name="project_id"/>
+          <field name="phase_id"/>
+          <field name="task_id"/>
+        </field>
+      </field>
+    </record>
+
+    <!-- Inherit Form view -->
+
+    <record model="ir.actions.act_window" id="purchase_requisition.action_purchase_requisition_to_so">
+        <field name="name">Request for Quotation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('requisition_id','=',active_id)]</field>
+        <field name="context">{"default_requisition_id":active_id}</field>
+    </record>
+
+    <record id="view_purchase_requisition_form" model="ir.ui.view">
+      <field name="name">purchase.requisition.form</field>
+      <field name="model">purchase.requisition</field>
+      <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+      <field name="arch" type="xml">
+        <field name="origin" position="after">
+          <field name="project_related"/>
+        </field>
+        <xpath expr="//field[@name='line_ids']/tree/field[@name='account_analytic_id']"
+          position="after">
+          <field name="phase_id" attrs="{'column_invisible': [('parent.project_related', 'in', [False])]}"/>
+          <field name="task_id" attrs="{'column_invisible': [('parent.project_related', 'in', [False])], 'required': [('phase_id', 'not in', [False])]}"/>
+          <field name="project_boq_category" attrs="{'column_invisible': [('parent.project_related', 'in', [False])], 'required': [('phase_id', 'not in', [False])]}"/>
+        </xpath>
+      </field>
+    </record>
+
+  </data>
+</odoo>

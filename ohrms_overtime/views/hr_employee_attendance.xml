@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_employees_attendance_form_view" model="ir.ui.view">
+            <field name="name">Employees Attendance</field>
+            <field name="model">hr.employees.attendance</field>
+            <field name="arch" type="xml">
+                <form string="Employees Attendance">
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,created"/>
+                        <button name="create_attendance" type="object" string="Create Attendances" class="btn-primary"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="project_id" required="1"/>
+                            </group>
+                            <group>
+                                <field name="check_in" required="1"/>
+                                <field name="check_out" required="1"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Employees">
+                                <field name="employees_ids" domain="[('project_id', '=', project_id)]" widget="many2many_list">
+                                    <tree string="Employees" editable="bottom" edit="false">
+                                        <field name="emp_id" required="1" readonly="1"/>
+                                        <field name="name" required="1" options="{&quot;no_create&quot;: True}" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_employees_attendance_tree_view" model="ir.ui.view">
+            <field name="name">employees overtime</field>
+            <field name="model">hr.employees.attendance</field>
+            <field name="arch" type="xml">
+                <tree string="Employee Overtime">
+                    <field name="project_id"/>
+                    <field name="employees_ids"/>
+                    <field name="check_in"/>
+                    <field name="check_out"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_employees_attendance_action" model="ir.actions.act_window">
+            <field name="name">Employees Attendances</field>
+            <field name="res_model">hr.employees.attendance</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new multi overtime Requests.
+                </p>
+            </field>
+        </record>
+
+        <record id="hr_hr_employee_attendance_search" model="ir.ui.view">
+            <field name="name">hr.employees.attendance.search</field>
+            <field name="model">hr.employees.attendance</field>
+            <field name="arch" type="xml">
+                <search string="Employees Overtime">
+                    <field name="project_id"/>
+                    <field name="state"/>
+                    <filter string="Check In" name="check_in_filter" date="check_in" default_period="this_month"/>
+                    <filter string="Check out" name="check_out_filter" date="check_out" default_period="this_month"/>
+                    <group expand="1" string="Group By...">
+                        <filter name="project" string="Project" help="By Project" context="{'group_by':'project_id'}"/>
+                        <filter string="Check In" name="groupby_check_in" help="Check In" context="{'group_by': 'check_in'}"/>
+                        <filter string="Check out" name="groupby_check_out" help="Check Out" context="{'group_by': 'check_out'}"/>
+                        <filter name="state" string="Status" help="By Status" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- MenuItems -->
+        <menuitem id="employees_attendance" name="Employees Attendances"
+                  parent="hr_attendance.menu_hr_attendance_root"
+                  groups="hr_attendance.group_hr_attendance_manager,ohrms_overtime.group_hr_project_officer"
+                  action="hr_employees_attendance_action"/>
+
+    </data>
+</odoo>

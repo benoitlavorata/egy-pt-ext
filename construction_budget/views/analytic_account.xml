@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <!-- Inherit Form view -->
+    <record id="view_account_analytic_line_form" model="ir.ui.view">
+      <field name="name">account.analytic.line.form</field>
+      <field name="model">account.analytic.line</field>
+      <field name="inherit_id" ref="analytic.view_account_analytic_line_form"/>
+      <field name="arch" type="xml">
+        <field name="account_id" position="after">
+          <field name="project_id" />
+          <field name="analytic_type" invisible="1"/>
+          <field name="project_type" invisible="1"/>
+          <field name="phase_id" domain="[('project_id', '=', project_id)]" attrs="{'required': [('project_type', '=', 'project'), ('project_id', 'not in', [False]), ('analytic_type', '=', 'Expense'), ('project_boq_category', 'in', ['subcon', 'meterial', 'equipment'])], 'invisible': ['|', ('project_id', 'in', [False]), ('analytic_type', 'not in', ['Expense'])]}"/>
+          <field name="task_id" attrs="{'required': [('project_type', '=', 'project'), ('phase_id', 'not in', [False]), ('analytic_type', '=', 'Expense')], 'invisible': ['|', ('phase_id', 'in', [False]), ('analytic_type', 'not in', ['Expense'])]}"/>
+          <field name="project_boq_category" attrs="{'required': [('analytic_type', '=', 'Expense')], 'invisible': ['|', ('project_id', 'in', [False]), ('analytic_type', 'not in', ['Expense'])]}"/>
+        </field>
+      </field>
+    </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+  <!-- Inherit Form view -->
+  <record id="do_purchase_requisition_view_form" model="ir.ui.view">
+    <field name="name">do.purchase.requisition.form</field>
+    <field name="model">do.purchase.requisition</field>
+    <field name="inherit_id" ref="purchase_request.do_purchase_requisition_view_form"/>
+    <field name="arch" type="xml">
+      <field name="action" position="after">
+        <field name="analytic_account_id" invisible="1"/>
+      </field>
+    </field>
+  </record>
+
+</odoo>

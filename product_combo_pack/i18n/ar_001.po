@@ -1,0 +1,241 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* product_combo_pack
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-10-16 13:13+0000\n"
+"PO-Revision-Date: 2020-10-16 13:13+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: product_combo_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_pack_product_form
+msgid "ADD"
+msgstr "اضافة"
+
+#. module: product_combo_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_pack_sale_order
+msgid "Add Product Pack"
+msgstr "اضافة صنف مجمع"
+
+#. module: product_combo_pack
+#: model:ir.model,name:product_combo_pack.model_select_product_pack
+msgid "Add product pack to sale order"
+msgstr "اضافة صنف مجمع لامر البيع"
+
+#. module: product_combo_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_pack_product_form
+msgid "Cancel"
+msgstr "الغاء"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__create_uid
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__create_uid
+msgid "Created by"
+msgstr "انشيء بواسطة"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__create_date
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__create_date
+msgid "Created on"
+msgstr "انشيء في"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__display_name
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__display_name
+msgid "Display Name"
+msgstr "الاسم"
+
+#. module: product_combo_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+msgid "Get Quantity"
+msgstr "حصول علي كمية"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__id
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__id
+msgid "ID"
+msgstr "كود"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/product_form.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_product__is_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_template__is_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_pack_filter
+#, python-format
+msgid "Is a Pack"
+msgstr "مجمع"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products____last_update
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack____last_update
+msgid "Last Modified on"
+msgstr "اخر تعديل في"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__write_uid
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__write_uid
+msgid "Last Updated by"
+msgstr "اخر تعديل بواسطة"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__write_date
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__write_date
+msgid "Last Updated on"
+msgstr "اخر تعديل في"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_product__pack_location_id
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_template__pack_location_id
+msgid "Pack Location"
+msgstr "موقع التجميع"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/product_form.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_product__pack_price
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_template__pack_price
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+#, python-format
+msgid "Pack Price"
+msgstr "سعر الصنف"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/product_form.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_product__pack_products_ids
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_template__pack_products_ids
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+#, python-format
+msgid "Pack Products"
+msgstr "مكونات الصنف"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/product_form.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_product__pack_quantity
+#: model:ir.model.fields,field_description:product_combo_pack.field_product_template__pack_quantity
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+#, python-format
+msgid "Pack Quantity"
+msgstr "الكمية المجمعة"
+
+#. module: product_combo_pack
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__price
+msgid "Price"
+msgstr "السعر"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/pack_products.py:0
+#: code:addons/product_combo_pack/models/pack_products.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__product_id
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__product_tmpl_id
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+#, python-format
+msgid "Product"
+msgstr "صنف"
+
+#. module: product_combo_pack
+#: model:ir.actions.act_window,name:product_combo_pack.product_pack_action
+#: model:ir.ui.menu,name:product_combo_pack.pack_product_sale
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+msgid "Product Pack"
+msgstr "صنف مجمع"
+
+#. module: product_combo_pack
+#: model:ir.model,name:product_combo_pack.model_product_template
+msgid "Product Template"
+msgstr "قالب المنتج"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/wizard/select_product_pack.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__quantity
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__quantity
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+#, python-format
+msgid "Quantity"
+msgstr "الكمية"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/pack_products.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__qty_available
+#, python-format
+msgid "Quantity Available"
+msgstr "الكمية المتاحة"
+
+#. module: product_combo_pack
+#: model:ir.model,name:product_combo_pack.model_sale_order
+msgid "Sales Order"
+msgstr "أمر البيع"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/wizard/select_product_pack.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_select_product_pack__product_id
+#, python-format
+msgid "Select Pack"
+msgstr "اختر صنف"
+
+#. module: product_combo_pack
+#: model:ir.actions.act_window,name:product_combo_pack.action_product_pack_wizard
+#: model:ir.model,name:product_combo_pack.model_pack_products
+msgid "Select Pack Products"
+msgstr "اختر مكونات الصنف"
+
+#. module: product_combo_pack
+#: model_terms:ir.actions.act_window,help:product_combo_pack.product_pack_action
+msgid "There is no product pack to show...!"
+msgstr "لا يوجد اصناف مجمعة"
+
+#. module: product_combo_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+msgid ""
+"To get the quantity of Pack with respect to the quantity of pack products"
+msgstr "للحصول علي الكمية المطلوبة من الصنف المجمع يجب التاكد من الكميات المطلوبة من المكونات"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/pack_products.py:0
+#: model:ir.model.fields,field_description:product_combo_pack.field_pack_products__total_available_quantity
+#, python-format
+msgid "Total Quantity"
+msgstr "اجمالي الكمية"
+
+#. module: product_combo_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+msgid "Update Price"
+msgstr "تحديث السعر"
+
+#. module: product_combo_pack
+#: model_terms:ir.ui.view,arch_db:product_combo_pack.product_template_inherit_pack
+msgid "Update Quantity"
+msgstr "تحديث الكمية"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/pack_products.py:0
+#: code:addons/product_combo_pack/wizard/select_product_pack.py:0
+#, python-format
+msgid "You can not enter negative quantities."
+msgstr "لا يمكنك إدخال كميات سالبة."
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/product_form.py:0
+#: code:addons/product_combo_pack/models/product_form.py:0
+#, python-format
+msgid "You cannot define a pack product as a service..!"
+msgstr "لا يمكن تعريف صنف مجمع كخدمة"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/product_form.py:0
+#: code:addons/product_combo_pack/models/product_form.py:0
+#, python-format
+msgid "You need to add at least one product in the Pack...!"
+msgstr "يجب اضافة مكون واحد علي الاقل"
+
+#. module: product_combo_pack
+#: code:addons/product_combo_pack/models/product_form.py:0
+#, python-format
+msgid "You need to select the location to update the pack quantity...!"
+msgstr "يجب تحديد الموقع لتحديث الكمية المجمعة"

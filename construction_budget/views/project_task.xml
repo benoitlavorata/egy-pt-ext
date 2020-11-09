@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+
+    <record id="account_analytic_line_task_view_pivot" model="ir.ui.view">
+      <field name="name">account.analytic.line.form</field>
+      <field name="model">account.analytic.line</field>
+      <field name="arch" type="xml">
+        <pivot string="Task Expenses Analytic Entries">
+          <field name="name" type="row"/>
+          <field name="project_boq_category" type="col"/>
+          <field name="abs_amount" type="measure"/>
+        </pivot>
+      </field>
+    </record>
+
+    <record id="project_task_expense_log_action" model="ir.actions.act_window">
+      <field name="name">Expense Logs</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">account.analytic.line</field>
+      <field name="view_mode">pivot</field>
+      <field name="domain">[('analytic_type', 'in', ['Expense']), ('task_id', '=', active_id)]</field>
+      <field name="view_ids" eval="[(5, 0, 0),
+          (0, 0, {'view_mode': 'pivot', 'view_id': ref('account_analytic_line_task_view_pivot')})]"/>
+    </record>
+
+    <!-- Inherit Form view -->
+    <record id="view_task_form" model="ir.ui.view">
+      <field name="name">project.task.form</field>
+      <field name="model">project.task</field>
+      <field name="inherit_id" ref="construction_project_management_base.view_task_form"/>
+      <field name="arch" type="xml">
+        <!-- <field name="" position="">
+        </field> -->
+        <div name="button_box" position="inside">
+          <button class="oe_stat_button" type="action"
+            name="%(project_task_expense_log_action)d" icon="fa-shopping-cart" string="Expense Logs">
+          </button>
+        </div>
+        <group name="budget_summary" position="after">
+          <field name="currency_id" invisible="1"/>
+          <group name="task_expense" string="Expenses Logs" invisible="1">
+            <field name="account_analytic_line_ids" nolabel="1" readonly="1" colspan="2">
+              <tree string="Task Exepenses">
+                <field name="date"/>
+                <field name="name"/>
+                <field name="account_id" invisible="1"/>
+                <field name="currency_id" invisible="1"/>
+                <field name="project_boq_category"/>
+                <field name="unit_amount" sum="Quantity"/>
+                <field name="abs_amount" sum="Total"/>
+              </tree>
+            </field>
+          </group>
+        </group>
+      </field>
+    </record>
+
+  </data>
+</odoo>

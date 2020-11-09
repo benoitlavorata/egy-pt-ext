@@ -1,0 +1,45 @@
+.o_has_icon{
+	width: 100% !important;
+	/* height: 400px !important; */
+} 
+
+.os_graph{
+	border: 1px solid #AED6F1 !important;
+}
+.os_bar_graph{
+	margin-right: 15px !important;
+}
+
+.outerDiv{
+	color: #fff;
+	width: 100%;
+	height: 40vh;
+	margin: 0px auto;
+}
+
+.leftDiv{
+	color: #000;
+	width: 42%;
+	height: 100%;
+	float: left;
+	border: 1px solid #AED6F1 !important;
+}
+.rightDiv{
+	color: #000;
+	width: 56%;
+	height: 100%;
+	float: right;
+	border: 1px solid #AED6F1 !important;
+}	
+.o_kanban_bar_graph{
+	height:100% !important;
+}
+.o_kanban_bar_graph .nvd3 text {
+    font: normal 10px Arial;
+}
+.o_kanban_line_graph{
+	height:100% !important;
+}
+.o_kanban_line_graph .nvd3 text {
+    font: normal 10px Arial;
+}

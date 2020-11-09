@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+    <report
+      id="portfolio_report_xlsx"
+      model="project.portfolio.report"
+      string="Portfolio Report"
+      report_type="xlsx"
+      name="construction_project_management_base.portfolio_report"
+      file="construction_project_management_base.payroll_report"
+      attachment_use="True"
+    />
+
+    <record id="project_portfolio_report_view_form" model="ir.ui.view">
+      <field name="name">project.portfolio.report.form</field>
+      <field name="model">project.portfolio.report</field>
+      <field name="arch" type="xml">
+        <form string="Portfolio Report">
+          <sheet>
+            <group>
+              <group>
+                <field name="project_id"/>
+              </group>
+              <group>
+                <field name="include_budget_status"/>
+                <field name="include_project_status"/>
+                <field name="include_timeline_status"/>
+              </group>
+            </group>
+          </sheet>
+          <footer>
+            <button name="generate_report" string="Process Report" class="oe_highlight"
+              type="object" />
+            or
+            <button special="cancel" string="Cancel" class="oe_link" />
+          </footer>
+        </form>
+      </field>
+    </record>
+
+    <record id="project_portfolio_report_action_form" model="ir.actions.act_window">
+      <field name="name">Project Portfolio Report</field>
+      <field name="res_model">project.portfolio.report</field>
+      <field name="view_mode">form</field>
+      <field name="target">new</field>
+      <field name="context">{'default_project_id': active_id}</field>
+    </record>
+
+
+  </data>
+
+</odoo>
