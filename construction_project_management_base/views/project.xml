@@ -51,7 +51,7 @@
             <field name="arch" type="xml">
                 <header position="inside">
                     <button name="%(project_portfolio_report_action_form)d" string="Print Report"
-                            attrs="{'invisible': [('project_type', 'not in', ['porfolio'])]}" class="oe_highlight"
+                            attrs="{'invisible': [('project_type', 'not in', ['portfolio'])]}" class="oe_highlight"
                             type="action" icon="fa-floppy-0"/>
                     <button name="set_inprogress" string="Start Project" class="oe_highlight" states="draft,halted"
                             type="object"/>
@@ -67,7 +67,7 @@
                 </header>
                 <button name="%(project.act_project_project_2_project_task_all)d" position="before">
                     <button class="oe_stat_button" name="%(action_open_child_project)d"
-                            attrs="{'invisible': [('project_type', 'not in', ['porfolio'])]}"
+                            attrs="{'invisible': [('project_type', 'not in', ['portfolio'])]}"
                             context="{'default_parent_id': active_id, 'default_project_type': 'project', 'default_partner_id': partner_id}"
                             type="action" icon="fa-puzzle-piece">
                         <field string="Projects" name="project_count" widget="statinfo"/>
@@ -75,7 +75,7 @@
                     <button class="oe_stat_button" type="action"
                             name="%(open_view_project_phase_link)d" icon="fa-tasks"
                             context="{'default_project_id': active_id, 'default_user_id': user_id}"
-                            attrs="{'invisible': [('project_type', 'in', ['porfolio'])]}">
+                            attrs="{'invisible': [('project_type', 'in', ['portfolio'])]}">
                         <field string="Phases" name="phase_count" widget="statinfo"/>
                     </button>
                 </button>
