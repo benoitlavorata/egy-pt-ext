@@ -8,11 +8,9 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-                <group name="misc" position="before">
-                    <group>
-                        <field name="phase_sequence_id" groups="project.group_project_manager"/>
-                    </group>
-                </group>
+                <xpath expr="//field[@name='privacy_visibility']" position="before">
+                    <field name="phase_sequence_id" groups="project.group_project_manager"/>
+                </xpath>
             </field>
         </record>
 

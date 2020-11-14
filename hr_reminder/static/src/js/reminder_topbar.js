@@ -37,7 +37,6 @@ var reminder_menu = Widget.extend({
              for (var i=0;i<1;i++){
                     var model = self.reminder[i]
                     var date = self.reminder[i+1]
-                    console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDd",date,new Date())
                     if (self.reminder[i+2] == 'today'){
 
                         return self.do_action({

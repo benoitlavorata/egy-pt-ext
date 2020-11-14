@@ -72,6 +72,7 @@ class ProjectLaborBudget(models.Model):
     def _onchange_hr_jobs(self):
         self.update({'description': self.job_id.description})
 
+
 class ProjectBudgetAdjustmentLog(models.Model):
     _name = 'project.budget.adjustment.log'
 
@@ -105,6 +106,7 @@ class ProjectBudgetAdjustmentLog(models.Model):
     name = fields.Text(string="Description", required=True)
     document = fields.Char(string="Document", store=True, compute="_get_document")
     budget_adjustment = fields.Boolean(string="Budget Adjustment")
+
 
 class Project(models.Model):
     _inherit = "project.project"

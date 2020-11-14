@@ -12,6 +12,7 @@
             'security/ir.model.access.csv',
             'wizard/set_projection.xml',
             'wizard/portfolio_report.xml',
+            'views/assets.xml',
             'views/project_task.xml',
             'views/project_phase.xml',
             'views/project.xml',

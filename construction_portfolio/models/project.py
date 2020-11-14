@@ -14,10 +14,12 @@ class AnalyticAccountTag(models.Model):
         for i in self.analytic_distribution_ids:
             i.write({'percentage': 100 / len(self.analytic_distribution_ids.ids)})
 
+
 class Project(models.Model):
     _inherit = 'project.project'
 
-    analytic_tag_id = fields.Many2one('account.analytic.tag', string="Analytic Tag", help="For all Expenses be able to distribute to projects related to the pofolion")
+    analytic_tag_id = fields.Many2one('account.analytic.tag', string="Analytic Tag",
+                                      help="For all Expenses be able to distribute to projects related to the pofolion")
     analytic_group_id = fields.Many2one('account.analytic.group', string="Analytic Group")
 
     @api.onchange('parent_id', 'project_type')
@@ -29,8 +31,10 @@ class Project(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('project_type') != 'project':
-            vals['analytic_group_id'] = self.env['account.analytic.group'].create({'name': vals.get('name'), 'description': 'Project Portfolio'}).id
-            vals['analytic_tag_id'] = self.env['account.analytic.tag'].create({'name': vals.get('name'), 'active_analytic_distribution': True}).id
+            vals['analytic_group_id'] = self.env['account.analytic.group'].create({'name': vals.get('name'),
+                                                                                   'description': 'Project Portfolio'}).id
+            vals['analytic_tag_id'] = self.env['account.analytic.tag'].create({'name': vals.get('name'),
+                                                                               'active_analytic_distribution': True}).id
         res = super(Project, self).create(vals)
         if res.project_type == 'project' and res.parent_id:
             if res.analytic_account_id and res.parent_id and res.parent_id.analytic_group_id:

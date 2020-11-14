@@ -15,12 +15,11 @@
     font-size: larger;
 }
 .reminder-dropdown {
-    .o-flex(0, 1, auto);
-    background: #FFFFFF;
+    background: white;
     max-height: 400px;
     min-height: 50px;
     overflow-y: auto;
-
+}
     @media (max-width: @screen-xs-max) {
         max-height: none;
     }

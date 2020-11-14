@@ -1,8 +1,8 @@
-'''
+"""
 Created on 24 June 2019
 
 @author: Dennis
-'''
+"""
 from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from odoo.exceptions import UserError, ValidationError
 
@@ -30,7 +30,8 @@ class Project(models.Model):
 
     image = fields.Binary(string="Report Image")
     project_type = fields.Selection([('project', 'Project'),
-                                     ('portfolio', 'Portfolio')], string="Project Type", default='project', required=True)
+                                     ('portfolio', 'Portfolio')], string="Project Type", default='project',
+                                    required=True)
     project_weight = fields.Float(string="Project Weight", default=1.0)
     project_ids = fields.One2many("project.project", "parent_id", string="Projects")
 
@@ -88,6 +89,8 @@ class Project(models.Model):
                                                                     " planning, cost and revenue analysis,"
                                                                     " timesheets on projects, etc.",
                                           track_visibility="always")
+
+    employee_id = fields.Many2one("hr.employee", string="Employee")
 
     @api.constrains("start_date", "finished_date", "end_date")
     def chec_dates(self):

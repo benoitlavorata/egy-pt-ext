@@ -66,25 +66,13 @@
                             icon="fa-shopping-cart" string="PO Lines Logs">
                     </button>
                 </button>
-                <field name="user_id" position="replace"/>
-                <field name="subtask_project_id" position="replace"/>
-                <field name="privacy_visibility" position="replace"/>
-                <field name="partner_id" position="replace"/>
-                <group name="misc" position="before">
-                    <group>
-                        <group>
-                            <field name="user_id" string="Project Manager" attrs="{'readonly':[('active','=',False)]}"/>
-                            <field name="subtask_project_id" groups="project.group_subtask_project"/>
-                            <field name="privacy_visibility" widget="radio" groups="project.group_project_manager"/>
-                            <field name="partner_id" string="Customer"/>
-                        </group>
-                        <group string="PO Balance Check" attrs="{'invisible': [('project_type', '!=', 'project')]}">
-                            <field name="monitor_boq_item_qty_and_price" groups="project.group_project_manager"/>
-                            <field name="monitor_boq_category_budget" groups="project.group_project_manager"/>
-                            <field name="monitor_budget_task_level" groups="project.group_project_manager"/>
-                        </group>
+                <xpath expr="//page[@name='settings']/group/group" position="before">
+                    <group string="PO Balance Check" attrs="{'invisible': [('project_type', '!=', 'project')]}">
+                        <field name="monitor_boq_item_qty_and_price" groups="project.group_project_manager"/>
+                        <field name="monitor_boq_category_budget" groups="project.group_project_manager"/>
+                        <field name="monitor_budget_task_level" groups="project.group_project_manager"/>
                     </group>
-                </group>
+                </xpath>
             </field>
         </record>
 

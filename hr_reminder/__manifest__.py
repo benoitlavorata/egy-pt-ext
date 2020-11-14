@@ -35,8 +35,7 @@
         'views/hr_reminder_view.xml',
         'views/reminder_template.xml',
     ],
-    'qweb': [
-        'static/src/xml/reminder_topbar.xml', ],
+    'qweb': ['static/src/xml/reminder_topbar.xml'],
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'installable': True,

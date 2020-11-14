@@ -46,12 +46,10 @@
                 'hr_timesheet',
                 'oh_employee_creation_from_user',
                 'oh_employee_documents_expiry',
-                # 'hr_multi_company',
                 'ohrms_loan_accounting',
                 'ohrms_salary_advance',
                 'hr_reminder',
-                'hr_reward_warning',
-                # 'hrms_dashboard',
+                'hr_reward_warning'
                 ],
     'data': [
         

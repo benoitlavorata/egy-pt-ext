@@ -51,7 +51,7 @@
             <field name="arch" type="xml">
                 <field name="name" position="after">
                     <field name="project_budget_allocated"/>
-                    <field name="project_budget_reserve" string="Budget Reserve"/>
+                    <field name="project_budget_reserve"/>
                     <field name="project_actual_expense"/>
                     <field name="project_budget_amount"/>
                     <field name="project_contract_amount"/>
@@ -62,71 +62,49 @@
                     <div class="o_kanban_primary_left">
                         <table class="table table-hover">
                             <tr>
-                                <td>
-                                    <div>
-                                        <field name="company_currency_id" invisible="1"/>
-                                        <span class="o_value">
-                                            <field name="project_contract_amount"/>
-                                        </span>
-                                        <span class="o_label">
-                                            <string>Contract Amount</string>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        <span class="o_value">
-                                            <field name="project_budget_allocated"/>
-                                        </span>
-                                        <span class="o_label">
-                                            <string>Budget Allocated</string>
-                                        </span>
-                                    </div>
-                                </td>
-                                <td rowspan="3"/>
-                                <td rowspan="3"/>
-                                <td rowspan="3">
+                                <td colspan="2">
                                     <div>
                                         <span class="o_value">
                                             <field name="actual_accomplishment" widget="percentpie"/>
                                         </span>
-                                        <!-- <span class="o_label"><string>Budget Allocated</string></span> -->
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <div>
-                                        <span class="o_value">
-                                            <field name="project_budget_amount"/>
-                                        </span>
-                                        <span class="o_label">
-                                            <string>Budget Amount</string>
-                                        </span>
+                                        <field name="company_currency_id" invisible="1"/>
+                                        <field name="project_contract_amount"/>
+                                        <label>Contract Amount</label>
                                     </div>
                                 </td>
                                 <td>
                                     <div>
-                                        <span class="o_value">
-                                            <field name="project_budget_reserve"/>
-                                        </span>
-                                        <span class="o_label">
-                                            <string>Budget Reserve</string>
-                                        </span>
+                                        <field name="project_budget_allocated"/>
+                                        <label>Budget Allocated</label>
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
+                                    <div>
+                                        <field name="project_budget_amount"/>
+                                        <label>Budget Amount</label>
+                                    </div>
                                 </td>
                                 <td>
                                     <div>
-                                        <span class="o_value">
-                                            <field name="project_actual_expense"/>
-                                        </span>
-                                        <span class="o_label">
-                                            <string>Actual Expense</string>
-                                        </span>
+                                        <field name="project_budget_reserve"/>
+                                        <label>Budget Reserve</label>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td/>
+                                <td>
+                                    <div>
+                                        <field name="project_actual_expense"/>
+                                        <label style="display:block">Actual Expense</label>
                                     </div>
                                 </td>
                             </tr>
@@ -142,9 +120,9 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="construction_project_management_base.project_form_view"/>
             <field name="arch" type="xml">
-                <field name="stock_location_id" position="before">
+                <notebook position="before">
                     <field name="actual_accomplishment" widget="percentpie"/>
-                </field>
+                </notebook>
             </field>
         </record>
 
