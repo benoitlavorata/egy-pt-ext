@@ -3,6 +3,12 @@
 from odoo import fields, models, api
 
 
+class AccountGroup(models.Model):
+    _inherit = "account.group"
+
+    name = fields.Char(translate=True)
+
+
 class AccountMove(models.Model):
     _inherit = "account.move"
 
