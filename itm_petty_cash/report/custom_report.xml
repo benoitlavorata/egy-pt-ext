@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--      
+ -*- coding: utf-8 -*-
+ Odoo, Open Source Itm Petty Cash .
+ License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). 
+-->
+<odoo>
+	<data>
+		
+		<!-- customer or warehose report -->
+		<report id="report_petty_cash" string="Petty Cash Report" model="petty.cash" report_type="qweb-pdf"
+			file="itm_petty_cash.petty_cash_template" name="itm_petty_cash.petty_cash_template"
+			menu="True" />
+	</data>
+</odoo>

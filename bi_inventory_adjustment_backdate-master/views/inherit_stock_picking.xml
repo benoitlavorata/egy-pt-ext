@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="inherit_stockmove_view_form_readonly" model="ir.ui.view">
+            <field name="name">inherit.stockmove.remarks.form.readonly</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after" >
+                    <field name="move_remark"/>
+                    <field name="move_date" invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_stockinventory_line_view_form_readonly" model="ir.ui.view">
+            <field name="name">inherit.stockinventoryline.form.readonly</field>
+            <field name="model">stock.inventory.line</field>
+            <field name="inherit_id" ref="stock.stock_inventory_line_tree2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='prod_lot_id']" position="after">
+                    <field name="invline_remark"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_stockinventory_view_form_readonly" model="ir.ui.view">
+            <field name="name">inherit.stockinventory.form.readonly</field>
+            <field name="model">stock.inventory</field>
+            <field name="inherit_id" ref="stock.view_inventory_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_validate']" position="replace">
+                    <button name="action_validate_custom" string="Validate Inventory" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirm')]}"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="inherit_stockmoveline_view_form_readonly" model="ir.ui.view">
+            <field name="name">inherit.stockmoveline.remarks.form.readonly</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_id']" position="after">
+                    <field name="moveline_remark"/>
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

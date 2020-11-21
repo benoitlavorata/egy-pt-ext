@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<!-- template for sale report -->
+		<template id="petty_cash_template">
+			<t t-call="web.external_layout">
+				<t t-foreach="docs" t-as="o">
+					<div class="page">
+						<div class="oe_structure"/>
+						<br/>
+						<div class="row">
+							<div class="col-xs-12 ">
+								<table class="table table-condensed table table-striped" style="table-layout:fixed;"
+									>
+									<tbody>
+										<tr>
+											<td style=" border: 1px !important; border-style: solid !important;border-color: #fff
+												!important; ">
+												<strong style="font-size:20px">Requested By :</strong>
+												<strong style="font-size:20px">
+													<span t-esc="o.requested_employee_id.name"/>
+												</strong>
+												<br/>
+												<b>
+													Date Received :
+													<span t-esc="o.date_received"/>
+												</b>
+												<br/>
+												<b>
+													Method of Payment :
+													<span t-esc="o.journal_id.name"/>
+												</b>
+												<br/>
+												<b>
+													Amount Received :
+													<span t-esc="o.amount_received"/>
+												</b>
+											</td>
+											<td style=" border: 1px !important; border-style: solid !important;border-color: #fff
+												!important; " >
+												<strong style="font-size:20px">Custodian :</strong>
+												<strong style="font-size:20px">
+													<span t-esc="o.employee_id.name"/>
+												</strong>
+												<br/>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-12 ">
+								<strong style="font-size:20px" >
+									<u>Petty Cash Details</u>
+								</strong>
+							</div>
+						</div>
+						<br />
+						<br />
+						<t t-set="analytic_account" t-value="any([l.analytic_account_id for l in o.petty_cash_line_ids])"/>
+						<t t-set="analytic_tag" t-value="any([l.analytic_tag_ids for l in o.petty_cash_line_ids])"/>
+						<t t-if="o.petty_cash_line_ids">
+							<div class="row">
+								<div class="col-xs-12 ">
+									<table class="table table-condensed">
+										<tr>
+											<th>Particulars</th>
+											<th>Date</th>
+											<th>Account Expense</th>
+											<th>Amount</th>
+											<th   t-if="analytic_account" groups="analytic.group_analytic_accounting">Account Analytic</th>
+											<th  t-if="analytic_tag" groups="analytic.group_analytic_accounting">Account Analytic Tag</th>
+											<th>Status</th>
+										</tr>
+										<tr t-foreach="o.petty_cash_line_ids" t-as="p">
+											<td>
+												<span t-esc="p.memo"/>
+											</td>
+											<td>
+												<span t-esc="p.date_maturity"/>
+											</td>
+											<td>
+												<span t-esc="p.account_expense_id.name"/>
+											</td>
+											<td>
+												<span t-esc="p.amount"/>
+											</td>
+											<td   t-if="analytic_account" groups="analytic.group_analytic_accounting">
+												<t t-if="p.analytic_account_id">
+													<span t-esc="p.analytic_account_id.name"/>
+												</t>
+											</td>
+											<td   t-if="analytic_tag" groups="analytic.group_analytic_accounting">
+												<t t-if="p.analytic_tag_ids">
+													<t t-foreach="p.analytic_tag_ids" t-as="a">
+														<span class="label label-default">
+															<t t-esc="a.name"/> <br/><br/>
+														</span>
+													</t>
+												</t>
+											</td>
+											<td>
+												<span t-esc="p.state"/>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</t>
+						<br />
+						<br />
+						<div class="row">
+							<div class="col-xs-4 pull-right">
+								<table class="table table-condensed">
+									<tr>
+										<td>
+											<strong>Paid Amount Total</strong>
+										</td>
+										<td class="text-right">
+											<span t-esc="'{0:,.2f}'.format(o.paid_amount_total)" />
+										</td>
+									</tr>
+									<tr class="border-black">
+										<td>
+											<strong>Petty Cash Balance</strong>
+										</td>
+										<td class="text-right">
+											<span t-esc="'{0:,.2f}'.format(o.petty_cash_balance)" />
+										</td>
+									</tr>
+								</table>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-xs-6 ">
+								<strong style="font-size:16px" >Custodian Sign</strong>
+								<br/><br/><br/><br/>
+								<span>___________________</span>
+							</div>
+							<div class="col-xs-6">
+								<center>
+								<strong style="font-size:16px" >Received By Sign</strong>
+								<br/><br/><br/><br/>
+								<span>___________________</span>
+								</center>
+							</div>
+					</div>
+						
+					</div>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>
+									

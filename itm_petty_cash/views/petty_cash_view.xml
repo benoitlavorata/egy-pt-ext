@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+	<data>
+		<!-- attachment form view inherit -->
+		<record id="view_attachment_form_inherit" model="ir.ui.view">
+			<field name="name">Documents Attachments</field>
+			<field name="model">ir.attachment</field>
+			<field name="inherit_id" ref="base.view_attachment_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//form" position="replace">
+					<form string="Attachments">
+						<sheet>
+							<label for="name" class="oe_edit_only"/>
+							<h1>
+								<field name="name"/>
+							</h1>
+							<group>
+								<group>
+									<field name="type"/>
+									<field name="datas" filename="datas_fname" attrs="{'invisible':[('type','=','url')]}"/>
+<!--									<field name="datas_fname" invisible="1" attrs="{'invisible':[('type','=','url')]}"-->
+<!--										class="oe_inline oe_right"/>-->
+									<field name="url" widget="url" attrs="{'invisible':[('type','=','binary')]}"/>
+									<field name="mimetype" groups="base.group_no_one"/>
+								</group>
+								<group  groups="base.group_no_one" invisible="1">
+									<field name="res_model" invisible="1" />
+									<field name="res_field" invisible="1" />
+									<field name="res_id" invisible="1" />
+									<field name="res_name" invisible="1" />
+									<field name="company_id" invisible="1" groups="base.group_multi_company" options="{'no_create':
+										True}"/>
+									<field name="public" invisible="1" />
+								</group>
+								<group groups="base.group_no_one" invisible="1">
+									<label for="create_uid" />
+									<div name="creation_div">
+										<field name="create_uid" invisible="1"  readonly="1" class="oe_inline"/>
+										<field name="create_date" invisible="1"  readonly="1" class="oe_inline"/>
+									</div>
+								</group>
+								<group name="description_group" string="Description" groups="base.group_no_one" colspan="4">
+									<field name="description" nolabel="1"/>
+								</group>
+								<group groups="base.group_no_one"  nolabel="1"  colspan="4">
+									<field name="index_content" nolabel="1" invisible="1"/>
+								</group>
+							</group>
+						</sheet>
+					</form>
+				</xpath>
+			</field>
+		</record>
+
+		<!-- attachment tree view inherit -->
+		<record id="view_attachment_tree_inherit" model="ir.ui.view">
+			<field name="name">Documents Attachments</field>
+			<field name="model">ir.attachment</field>
+			<field name="inherit_id" ref="base.view_attachment_tree"/>
+			<field name="arch" type="xml">
+				<xpath expr="//tree" position="replace">
+					<tree string="Attachments">
+						<field name="name"/>
+<!--						<field name="datas_fname"/>-->
+						<field name="type"/>
+						<field name="company_id" groups="base.group_multi_company"/>
+						<field name="create_uid"/>
+						<field name="create_date"/>
+					</tree>
+				</xpath>
+			</field>
+		</record>
+		
+		<!-- attachment wizard form view  -->
+		<record id="petty_cash_attachmnet_wizard_form" model="ir.ui.view">
+			<field name="name">petty cash attachmnet wizard form</field>
+			<field name="model">petty_cash.attachmnet.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<sheet>
+						<field name="name" invisible="1"/>
+						<group>
+							<field name="attachmnet_widget" nolabel="1" widget="petty_cash_attachmnet"    
+						/>
+						</group>
+					</sheet>
+					<footer>
+						<button string="Cancel" class="btn-default" special="cancel" context="{'cancel' :
+							True}"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<!-- attachment wizard action -->
+		<record id="petty_cash_action_attachmnet_wizard" model="ir.actions.act_window">
+			<field name="name">Bill Attachments</field>
+			<field name="res_model">petty_cash.attachmnet.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+		<!-- petty cash line search view-->
+		<record id="view_petty_cash_line_search_id" model="ir.ui.view">
+			<field name="name">petty.cash.line.search</field>
+			<field name="model">petty.cash.line</field>
+			<field name="arch" type="xml">
+				<search string="Petty Cash Filter">
+					<filter string="Current Year Petty Cash Expense" name="current_date_maturity" domain="[
+						('date_maturity', '&gt;=' ,(context_today()).strftime('%Y-01-01')), ('date_maturity',
+						'&lt;' , (context_today()+relativedelta(years=1)).strftime('%Y-01-01'))]" groups="account.group_account_manager"
+						/>
+					<filter string="Last Year Petty Cash Expense" name="last_date_maturity" domain="[('date_maturity',
+						'&gt;=' ,(context_today()-relativedelta(years=1)).strftime('%Y-01-01')), ('date_maturity',
+						'&lt;' , (context_today()).strftime('%Y-01-01'))]" groups="account.group_account_manager"
+						/>
+					<filter string="Current Quarter Expense" name="current_quater_date_maturity" domain="[('date_maturity','&lt;',(context_today()+relativedelta(months=3)).strftime('%%Y-%%m-01')),
+						('date_maturity','&gt;=',time.strftime('%%Y-%%m-01'))]" groups="account.group_account_manager"
+						/>
+					<filter string="Last Quarter Expense" name="last_quarter_date_maturity" domain="[('date_maturity','&gt;=',(context_today()-relativedelta(months=3)).strftime('%%Y-%%m-01')),('date_maturity','&lt;',time.strftime('%%Y-%%m-01'))]"
+						groups="account.group_account_manager"/>
+				</search>
+			</field>
+		</record>
+
+		<!-- petty cash line tree view  -->
+		<record id="view_petty_cash_line_tree" model="ir.ui.view">
+			<field name="name">petty.cash.line.tree</field>
+			<field name="model">petty.cash.line</field>
+			<field name="arch" type="xml">
+				<tree string="petty cash" create="0" delete="0">
+					<field name="pay_status" invisible="1" />
+					<field name="memo" />
+					<field name="account_expense_id" />
+					<field name="date_maturity"/>
+					
+					<field name="analytic_account_id" groups="analytic.group_analytic_accounting" />
+					<field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"
+						/>
+					<field name="amount" sum="Amount"/>
+					<button name="do_pay" type="object" string="Pay" class="btn_default" attrs="{'invisible'
+						: ['|',('state', 'in', ['paid'] ),('pay_status', '=', True)]}" />
+					<field name="state"  />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- petty cash line form view  -->
+		<record id="view_petty_cash_line_form" model="ir.ui.view">
+			<field name="name">petty.cash.line.form</field>
+			<field name="model">petty.cash.line</field>
+			<field name="arch" type="xml">
+				<form string="Account Expenses" create="0" delete="0">
+					<sheet>
+						<group>
+							<group>
+								<field name="memo" />
+								<field name="account_expense_id" />
+								<field name="date_maturity"/>
+								<field name="amount" sum="Amount"/>
+							</group>
+							<group>
+								<field name="pay_status" invisible="1" />
+								<field name="analytic_account_id" groups="analytic.group_analytic_accounting" />
+								<field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"
+									/>
+								<field name="amount" sum="Amount"/>
+								<button name="do_pay" type="object" string="Pay" class="btn_default" attrs="{'invisible'
+									: ['|', ('state', 'in', ['paid'] ),('pay_status', '=', True)]}" groups="account.group_account_manager,account.group_account_user,account.group_account_invoice"/>
+								<field name="state"  />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!--  petty cash line action -->
+		<record id="action_petty_cash_line" model="ir.actions.act_window">
+			<field name="name">Petty Cash Paid Line</field>
+			<field name="res_model">petty.cash.line</field>
+			<field name="view_mode">tree,form,search</field>
+			<field name="target">current</field>
+			<field name="domain">[('state', 'in', ['paid'])]</field>
+		</record>
+		
+		<!-- reconcile wizard form view  -->
+		<record id="reconcile_wizard_form" model="ir.ui.view">
+			<field name="name">reconcile wizard form</field>
+			<field name="model">reconcile.wizard</field>
+			<field name="arch" type="xml">
+				<form>
+					<group>
+						<field name="name" readonly="1" nolabel="1"/>
+					</group>
+					<footer>
+						<button name="accept_reconcile" string="Accept" type="object" class="oe_highlight"
+							/>
+						<button string="Cancel" class="btn-default" special="cancel" context="{'cancel' :
+							True}"/>
+					</footer>
+				</form>
+			</field>
+		</record>
+		
+		<!-- reconcile wizard action -->
+		<record id="action_reconcile_wizard_custom" model="ir.actions.act_window">
+			<field name="name">Reconcile</field>
+			<field name="res_model">reconcile.wizard</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+		
+		<!-- petty cash tree view  -->
+		<record id="view_petty_cash_tree" model="ir.ui.view">
+			<field name="name">petty.cash.tree</field>
+			<field name="model">petty.cash</field>
+			<field name="arch" type="xml">
+				<tree string="petty cash">
+					<field name="requested_employee_id"  />
+					<field name="employee_id" context="{'set_custodian' : True}"/>
+					<field name="petty_journal_id" />
+					<field name="petty_debit_account_id" />
+					<field name="journal_id"/>
+					<field name="petty_credit_account_id"/>
+					<field name="amount_received" sum="Amount Received" />
+					<field name="petty_cash_balance" sum="Petty Cash Balance" />
+					<field name="state" />
+				</tree>
+			</field>
+		</record>
+		
+		<!-- petty cash form view  -->
+		<record id="view_petty_cash_form" model="ir.ui.view">
+			<field name="name">petty.cash.form</field>
+			<field name="model">petty.cash</field>
+			<field name="arch" type="xml">
+				<form string="petty cash">
+					<header>
+						<button name="do_request" type="object" string="Request Cash Dispatch" attrs="{'invisible'
+							: [('state', 'in', ['request','cash_dispatch','to_reconcile','reconcile' ] )]}" class="oe_highlight"
+							 />
+						<button name="do_cash_dispatch" type="object" string="Cash Dispatch" attrs="{'invisible'
+							: [('state', 'in', ['draft','cash_dispatch','to_reconcile','reconcile'] )]}" class="oe_highlight"
+							groups="account.group_account_manager" />
+						<button name="%(itm_petty_cash.action_reconcile_wizard_custom)d" type="action" string="Reconcile"
+							attrs="{'invisible' : [('state', 'in', ['reconcile','draft','cash_dispatch','request'] )]}" class="oe_highlight"
+							groups="account.group_account_manager"/>
+						<button name="do_to_reconcile" type="object" string="Request To Reconcile"
+							attrs="{'invisible' : [('state', 'in', ['to_reconcile','reconcile','draft','request'] )]}" class="oe_highlight"
+							  />
+						<field name="state" select="1" widget="statusbar" statusbar_visible="draft,request,cash_dispatch,to_reconcile,reconcile"
+							groups="account.group_account_manager,account.group_account_user,account.group_account_invoice"  />
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="requested_employee_id" attrs="{'readonly' : [('state', 'not in', ['draft','request'])]}" />
+								<field name="employee_id" context="{'set_custodian' : True}" attrs="{'readonly' : [('state', 'not in', ['draft','request'])]}"  />
+								<field name="journal_id" attrs="{'readonly' : [('state', 'not in', ['draft','request'])]}" />
+								<field name="amount_received" attrs="{'readonly' : [('state', 'not in', ['draft','request'])]}"/>
+								<field name="date_received" attrs="{'readonly' : [('state', 'not in', ['draft','request'])]}"/>
+							</group>
+							<group>
+								<field name="petty_journal_id" attrs="{'readonly' : [('state', 'not in', ['draft','request'])]}" />
+								<field name="petty_credit_account_id" />
+							</group>
+						</group>
+						<notebook>
+							<page string="Petty Cash Lines">
+								<field name="petty_cash_line_ids" widget="one2many_list" attrs="{'readonly': [('state','in',
+									['draft','request','reconcile','to_reconcile' ])]}" context="{'cash_total_amount' : amount_received,'cash_id':active_id
+									,'petty_cash_line_ids':petty_cash_line_ids}">
+									<tree>
+										<field name="memo" attrs="{'readonly': [('state','in', ['paid'])]}" />
+										<field name="account_expense_id" attrs="{'readonly': [('state','in', ['paid'])]}"
+											/>
+										<field name="date_maturity" attrs="{'readonly': [('state','in', ['paid'])]}"/>
+										
+										<field name="analytic_account_id" attrs="{'readonly': [('state','in', ['paid'])]}"
+											groups="analytic.group_analytic_accounting" />
+										<field name="analytic_tag_ids" attrs="{'readonly': [('state','in', ['paid'])]}" groups="analytic.group_analytic_accounting"
+											widget="many2many_tags" />
+										<field name="pay_status" invisible="1" />
+										<field name="amount" attrs="{'readonly': [('state','in', ['paid'])]}"/>
+										<button name="do_pay" type="object" string="Pay" class="btn_default" attrs="{'invisible'
+											: ['|', ('state', 'in', ['paid']),('pay_status', '=', True)],'readonly': [('state','in', ['paid'])]}"
+											groups="account.group_account_manager,account.group_account_user,account.group_account_invoice"/>
+										<field name="attachment_ids" widget="many2many_tags" />
+										<button name="%(itm_petty_cash.petty_cash_action_attachmnet_wizard)d" class="btn-link" type="action"
+											string="Viewer" />
+										<field name="state"  attrs="{'readonly': [('state','in', ['draft','paid'])]}"/>
+									</tree>
+									<form>
+										<sheet>
+											<group>
+												<group>
+													<field name="pay_status" invisible="1" />
+													<field name="memo" attrs="{'readonly': [('state','in', ['paid'])]}" />
+													<field name="date_maturity" attrs="{'readonly': [('state','in', ['paid'])]}" />
+													<field name="analytic_account_id" attrs="{'readonly': [('state','in', ['paid'])]}"
+														groups="analytic.group_analytic_accounting" />
+													<field name="analytic_tag_ids" groups="analytic.group_analytic_accounting" widget="many2many_tags"
+														attrs="{'readonly': [('state','in', ['paid'])]}"/>
+												</group>
+												<group>
+													<field name="account_expense_id" attrs="{'readonly': [('state','in', ['paid'])]}"/>
+													<field name="amount"  attrs="{'readonly': [('state','in', ['paid'])]}"/>
+													<field name="state" attrs="{'readonly': [('state','in', ['draft','paid'])]}" />
+												</group>
+											</group>
+											<group>
+												<field name="attachment_ids" />
+											</group>
+										</sheet>
+									</form>
+								</field>
+								<group class="oe_subtotal_footer oe_right">
+									<field name="paid_amount_total"/>
+									<field name="petty_cash_balance"/>
+								</group>
+							</page>
+							<page string="Payment Line">
+								<field name="payment_line_ids">
+									<tree >
+											<field name="payment_date"/>
+						                    <field name="name"/>
+						                    <field name="journal_id"/>
+						                    <field name="destination_journal_id"/>
+						                    <field name="payment_method_id"/>
+						                    <field name="amount" sum="Amount"/>
+						                    <field name="state"/>
+						                    <field name="company_id" groups="base.group_multi_company"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Move Line">
+								<field name="move_line_ids"/>
+							</page>
+						</notebook>
+					</sheet>
+					<div class="oe_chatter">
+	                    <field name="message_follower_ids" widget="mail_followers"/>
+	                    <field name="message_ids" widget="mail_thread"/>
+                	</div>
+				</form>
+			</field>
+		</record>
+		
+		<!-- petty cash search view-->
+		<record id="view_petty_cash_search_id" model="ir.ui.view">
+			<field name="name">petty.cash.search</field>
+			<field name="model">petty.cash</field>
+			<field name="arch" type="xml">
+				<search string="Petty Cash Filter">
+					<filter string="My Petty Cash" name="requested_employee_id" domain="[('requested_employee_id.user_id',
+						'=', uid)]" groups="account.group_account_manager"/>
+					<filter string="My Petty Cash Request By" name="employee_id" domain="[('employee_id.user_id',
+						'=', uid)]" groups="account.group_account_manager"/>
+					<filter string="Current Year Petty Cash" name="current_date_received" domain="[ ('date_received',
+						'&gt;=' ,(context_today()).strftime('%Y-01-01')), ('date_received', '&lt;' ,
+						(context_today()+relativedelta(years=1)).strftime('%Y-01-01'))]" groups="account.group_account_manager"
+						/>
+					<filter string="Last Year Petty Cash" name="last_date_received" domain="[ ('date_received',
+						'&gt;=' ,(context_today()-relativedelta(years=1)).strftime('%Y-01-01')), ('date_received',
+						'&lt;' , (context_today()).strftime('%Y-01-01'))]" groups="account.group_account_manager"
+						/>
+					<filter string="Current Quarter" name="current_quater_date_received" domain="[('date_received','&lt;',(context_today()+relativedelta(months=3)).strftime('%%Y-%%m-01')),
+						('date_received','&gt;=',time.strftime('%%Y-%%m-01'))]" groups="account.group_account_manager"/>
+					<filter string="Last Quarter" name="last_quarter_date_received" domain="[('date_received','&gt;=',(context_today()-relativedelta(months=3)).strftime('%%Y-%%m-01')),('date_received','&lt;',time.strftime('%%Y-%%m-01'))]"
+						groups="account.group_account_manager"/>
+				</search>
+			</field>
+		</record>
+
+		<!--   petty cash graph action -->
+		<record id="view_petty_cash_graph" model="ir.ui.view">
+			<field name="name">petty.cash.graph</field>
+			<field name="model">petty.cash</field>
+			<field name="arch" type="xml">
+				<graph string="Petty Cash Report" >
+					<field name="date_received"  type="row" />
+					<field name="requested_employee_id"  type="measure" />
+					<field name="amount_received"  type="measure" />
+				</graph>
+			</field>
+		</record>
+		
+		
+		<!-- petty cash action  -->
+		<record model="ir.actions.act_window" id="action_petty_cash">
+			<field name="name">Petty Cash</field>
+			<field name="res_model">petty.cash</field>
+			<field name="view_mode">tree,form,search,graph</field>
+			<field name="context">{'search_default_requested_employee_id':uid}</field>
+			<field name="domain">[]</field>
+		</record>
+		
+		<!-- petty cash request action  -->
+		<record model="ir.actions.act_window" id="action_petty_cash_request">
+			<field name="name">Petty Cash Request</field>
+			<field name="res_model">petty.cash</field>
+			<field name="view_mode">tree,form,search</field>
+			<field name="context">{'search_default_employee_id':uid}</field>
+			<field name="domain">[('state', 'in', ['draft','request'])]</field>
+		</record>
+		
+		<!-- petty cash menu in account  -->
+		<menuitem
+			id="main_menu_petty_cash_req"
+			name="Petty Cash Request"
+			action="action_petty_cash_request"
+			parent="itm_payment.menu_payment_petty_cash"
+			sequence="2"
+			groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"  />
+
+		<menuitem
+			id="main_menu_petty_cash_list"
+			name="Petty Cash"
+			action="action_petty_cash"
+			parent="itm_payment.menu_payment_petty_cash"
+			sequence="3"
+			groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"  />
+
+	</data>
+</odoo>
