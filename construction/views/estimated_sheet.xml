@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+		<record id="estimated_sheet_filter" model="ir.ui.view">
+            <field name="name">estimated.sheet.filter</field>
+            <field name="model">estimated.sheet</field>
+            <field name="arch" type="xml">
+                <search string="Estimated Sheet">
+                    <field name="name"/>
+					<field name="project_id"/>
+					<field name="partner_id"/>
+					<field name="boq_id"/>
+                    <field name="state"/>
+					<field name="submitted_by"/>
+					<field name="cancelled_by"/>
+					<field name="approved_by"/>
+					<filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+					<filter string="Submitted" name="submitted" domain="[('state', '=', 'submitted')]"/>
+					<filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+					<filter string="Canceled" name="canceled" domain="[('state', '=', 'canceled')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="project" string="Project" context="{'group_by':'project_id'}" />
+                        <filter name="partner" string="Partner" context="{'group_by':'partner_id'}" />
+                        <filter name="state" string="State" context="{'group_by':'state'}" />
+                    </group>
+                </search>
+          </field>
+        </record>
+
+        <record id="estimated_sheet_tree" model="ir.ui.view">
+			<field name="name">estimated.sheet.tree</field>
+			<field name="model">estimated.sheet</field>
+			<field name="arch" type="xml">
+				<tree string="Estimated Sheet">
+					<field name="name"/>
+					<field name="project_id"/>
+					<field name="partner_id"/>
+					<field name="boq_id"/>
+					<field name="total_product"/>
+					<field name="total_labour"/>
+					<field name="total_assets"/>
+					<field name="total_expenses"/>
+					<field name="total"/>
+					<field name="date"/>
+                    <field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+        <record id="estimated_sheet_form" model="ir.ui.view">
+            <field name="name">estimated.sheet.form</field>
+            <field name="model">estimated.sheet</field>
+            <field name="arch" type="xml">
+                <form class="extend_sheet" string="Estimated Sheet">
+					<header>
+				       	<button name="es_action_submit" string="Submit" class="oe_highlight" states="draft"
+				       			type="object" attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+				        <button name="es_action_approve" string="Approve" class="oe_highlight" states="submitted" type="object"/>
+				        <button name ="es_action_cancel" states="draft,submitted" string="Cancel"  type="object"/>
+				        <button name="es_action_draft" states="cancelled" type="object" string="Set to BOQ"/>
+				        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"
+				           	statusbar_colors="{'KEY_IS_STATE':'VALUE_IS_COLOR'}"/>
+				    </header>
+					<sheet>
+			            <group>
+				            <group>
+								<field name="name" force_save="1"/>
+								<field name="date"/>
+				            	<field name="project_id" required="1" attrs="{'readonly': [('state', '!=', ('draft'))]}" options="{'no_create': True}"/>
+								<field name="partner_id"/>
+								<field name="boq_id" force_save="1"/>
+							</group>
+							<group>
+								<group>
+									<field name="total_product" force_save="1"/>
+									<field name="total_labour" force_save="1"/>
+									<field name="total_assets" force_save="1"/>
+									<field name="total_expenses" force_save="1"/>
+									<field name="total" force_save="1"/>
+								</group>
+								<group>
+									<field name="es_total_product" force_save="1"/>
+									<field name="es_total_labour" force_save="1"/>
+									<field name="es_total_assets" force_save="1"/>
+									<separtor/>
+									<field name="es_total" force_save="1"/>
+								</group>
+							</group>
+                        </group>
+			            <notebook>
+							<page string="Materials">
+								<field name="material_ids" nolabel="1">
+									<tree editable="bottom">
+										<field name="phase_id" readonly="1" force_save="1"/>
+										<field name="task_id"/>
+										<field name="product_id"/>
+										<field name="product_uom"/>
+										<field name="product_qty"/>
+										<field name="es_per_unit"/>
+										<field name="avg_per_unit" force_save="1"/>
+										<field name="total_material" sum="tm" force_save="1"/>
+										<field name="total_avg_material" sum="tam" force_save="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Labours">
+								<field name="labour_ids" nolabel="1">
+									<tree editable="bottom">
+										<field name="labour_boq" invisible="1"/>
+										<field name="phase_id" readonly="1" force_save="1"/>
+										<field name="task_id"/>
+										<field name="name"/>
+										<field name="labour_no"/>
+										<field name="work_day"/>
+										<field name="es_per_day"/>
+										<field name="avg_per_day" force_save="1"/>
+										<field name="total_labour" sum="tl" force_save="1"/>
+										<field name="avg_total_labour" sum="atl" force_save="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Equipments">
+								<field name="asset_ids" nolabel="1">
+									<tree editable="bottom">
+										<field name="phase_id" readonly="1" force_save="1"/>
+										<field name="task_id"/>
+										<field name="asset_id"/>
+										<field name="asset_qty"/>
+										<field name="asset_w_days"/>
+										<field name="es_per_asset"/>
+										<field name="avg_per_asset" force_save="1"/>
+										<field name="total_asset" sum="ta" force_save="1"/>
+										<field name="total_average_asset" sum="taa" force_save="1"/>
+									</tree>
+								</field>
+							</page>
+							<page string="Overhead">
+								<field name="expense_ids" nolabel="1">
+									<tree editable="bottom">
+										<field name="phase_id" readonly="1" force_save="1"/>
+										<field name="task_id"/>
+										<field name="expenses_id"/>
+										<field name="total_expense" sum="te"/>
+									</tree>
+								</field>
+							</page>
+			            	<page string="Approvals">
+			            		<group>
+				            		<group>
+				            			<field name="submitted_by"/>
+				            			<field name="approved_by"/>
+				            			<field name="cancelled_by"/>
+				            		</group>
+				            		<group>
+				            			<field name="submitted_date"/>
+				            			<field name="approved_date" />
+				            			<field name="cancelled_date" />
+				            		</group>
+			            		</group>
+			            	</page>
+							<page string="Notes">
+								<field name="notes"/>
+							</page>
+			            </notebook>
+					</sheet>
+					<div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+				</form>
+            </field>
+        </record>
+
+        <record id="estimated_sheet_act" model="ir.actions.act_window">
+	        <field name="name">Estimated Sheet</field>
+	        <field name="res_model">estimated.sheet</field>
+	        <field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="estimated_sheet_filter" />
+    	</record>
+
+    </data>
+</odoo>

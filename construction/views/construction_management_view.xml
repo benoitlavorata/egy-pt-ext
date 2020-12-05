@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="project_estimated_sheet_act" model="ir.actions.act_window">
+	        <field name="name">Estimated Sheet</field>
+	        <field name="res_model">estimated.sheet</field>
+	        <field name="view_mode">form</field>
+            <field name="domain">[('project_id','=', active_id)]</field>
+    	</record>
+
+        <record id="project_boq_action" model="ir.actions.act_window">
+	        <field name="name">BOQ</field>
+	        <field name="res_model">project.boq</field>
+	        <field name="view_mode">form</field>
+            <field name="domain">[('project_id','=', active_id)]</field>
+        </record>
+
+        <record id="project_action_job_costing" model="ir.actions.act_window">
+            <field name="name">Job Cost</field>
+            <field name="res_model">job.costing</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('project_id','=', active_id)]</field>
+        </record>
+
+        <record id="construction_project_view_kanban" model="ir.ui.view">
+            <field name="name">construction.project.view.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.project_view_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="replace">
+                    <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors">
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="color"/>
+                        <field name="task_count"/>
+                        <field name="phase_count"/>
+                        <field name="label_tasks"/>
+                        <field name="alias_id"/>
+                        <field name="alias_name"/>
+                        <field name="alias_domain"/>
+                        <field name="is_favorite"/>
+                        <field name="rating_percentage_satisfaction"/>
+                        <field name="rating_status"/>
+                        <field name="analytic_account_id"/>
+                        <field name="boq_amount"/>
+                        <field name="actual_amount"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <templates>
+                            <t t-name="kanban-box">
+                                <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click o_has_icon">
+                                    <div class="o_project_kanban_main">
+                                        <div class="o_kanban_card_content construction_kanban">
+                                            <div class="o_kanban_primary_left">
+                                                <div class="o_primary">
+                                                    <span><t t-esc="record.name.value"/></span>
+                                                    <span t-if="record.partner_id.value">
+                                                        <strong><t t-esc="record.partner_id.value"/></strong>
+                                                    </span>
+                                                    <span t-else="">
+                                                        <strong class="text-danger">No Customer</strong>
+                                                    </span>
+                                                </div>
+                                                <div t-if="record.alias_name.value and record.alias_domain.value">
+                                                    <span><i class="fa fa-envelope" role="img" aria-label="Domain Alias" title="Domain Alias"></i> <t t-esc="record.alias_id.value"/></span>
+                                                </div>
+                                                <div t-if="record.rating_status.raw_value != 'no'" class="mt8 text-primary" title="Percentage of happy ratings over the past 30 days. Get rating details from the More menu." groups="project.group_project_rating">
+                                                    <b>
+                                                        <t t-if="record.rating_percentage_satisfaction.value == -1">
+                                                            <i class="fa fa-smile-o"/> No rating yet
+                                                        </t>
+                                                        <t t-if="record.rating_percentage_satisfaction.value != -1">
+                                                            <a name="action_view_all_rating" type="object" context="{'search_default_rating_last_30_days':1}">
+                                                                <i class="fa fa-smile-o" role="img" aria-label="Percentage of satisfaction" title="Percentage of satisfaction"/> <t t-esc="record.rating_percentage_satisfaction.value"/>%
+                                                            </a>
+                                                        </t>
+                                                    </b>
+                                                </div>
+                                            </div>
+                                            <div class="o_kanban_primary_left">
+                                                <table class="table table-hover">
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <field name="boq_qty_amount" style="display:block"/>
+                                                                <p>Contract</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <field name="actual_qty_amount"/>
+                                                                <p>Actual</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                                <field name="boq_amount" style="display:block"/>
+                                                                <p>Contract</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div>
+                                                                <field name="actual_amount"/>
+                                                                <p>Actual</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div t-if="record.start_date.value">
+                                                                <field name="start_date"/>
+                                                                <p>Start</p>
+                                                            </div>
+                                                            <div t-else="">
+                                                                <span class="text-danger">00/00/0000</span>
+                                                                <p class="text-danger">Start</p>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div t-if="record.end_date.value">
+                                                                <field name="end_date"/>
+                                                                <p>End</p>
+                                                            </div>
+                                                            <div t-else="">
+                                                                <span class="text-danger">00/00/0000</span>
+                                                                <p class="text-danger">End</p>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="o_kanban_card_manage_pane dropdown-menu" groups="project.group_project_manager" role="menu">
+                                            <div class="o_kanban_card_manage_section o_kanban_manage_reports">
+                                                <div role="menuitem">
+                                                    <a type="edit">Edit</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="%(project_estimated_sheet_act)d" type="action">Estimated Sheet</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="%(project_boq_action)d" type="action">BOQ</a>
+                                                </div>
+                                                <div role="menuitem">
+                                                    <a name="%(project_action_job_costing)d" type="action">Job Cost</a>
+                                                </div>
+                                            </div>
+                                            <div role="menuitem" aria-haspopup="true" class="o_no_padding_kanban_colorpicker">
+                                                <ul class="oe_kanban_colorpicker" data-field="color" role="popup"/>
+                                            </div>
+                                        </div>
+                                        <a class="o_kanban_manage_toggle_button o_left" href="#" groups="project.group_project_manager"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                        <span class="o_right"><field name="is_favorite" widget="boolean_favorite" nolabel="1" force_save="1" /></span>
+                                    </div>
+
+                                    <div class="o_project_kanban_boxes">
+                                        <a class="o_project_kanban_box" name="%(action_view_project_phase)d" type="action">
+                                            <div>
+                                                <span class="o_value"><t t-esc="record.phase_count.value"/></span>
+                                                <span class="o_label">Phases</span>
+                                            </div>
+                                        </a>
+                                        <a class="o_project_kanban_box" name="%(project_action_view_job_orders)d" type="action">
+                                            <div>
+                                                <span class="o_value"><t t-esc="record.task_count.value"/></span>
+                                                <span class="o_label">Tasks</span>
+                                            </div>
+                                        </a>
+                                        <a t-if="record.analytic_account_id.raw_value" class="o_project_kanban_box o_project_timesheet_box" name="action_view_account_analytic_line" type="object" groups="analytic.group_analytic_accounting">
+                                            <div>
+                                                <span class="o_label">Profitability</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </t>
+                        </templates>
+                    </kanban>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="open_view_project_job_all_config" model="ir.actions.act_window">
+                <field name="name">Projects</field>
+                <field name="res_model">project.project</field>
+                <field name="domain">[]</field>
+                <field name="view_mode">kanban,form</field>
+                <field name="search_view_id" ref="project.view_project_project_filter"/>
+                <field name="context">{}</field>
+                <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">
+                        Create a new Construction project.
+                    </p><p>
+                        Organize your activities (plan tasks, track issues, invoice timesheets) for internal, personal or customer construction projects.
+                    </p>
+                </field>
+        </record>
+
+        <record id="action_view_job_orders" model="ir.actions.act_window">
+            <field name="name">Job Orders</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+            <field name="context">{'search_default_my_tasks': 1}</field>
+            <field name="search_view_id" ref="project.view_task_search_form"/>
+            <field name="help" type="html">
+                <p>
+                    Odoo's Job Orders management allows you to manage the pipeline of your Jobs efficiently. You can track progress, discuss on jobs, attach documents, etc.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_picking_tree_all_const" model="ir.actions.act_window">
+                <field name="name">Material Requisitions / BOQ</field>
+                <field name="res_model">stock.picking</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="view_mode">tree,kanban,form,calendar</field>
+                <field name="domain">[('picking_type_id.code','=','outgoing')]</field>
+                <field name="context">{
+                        'picking_type_id.code': 'outgoing',
+                }
+                </field>
+                <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+                <field name="help" type="html">
+                  <p class="oe_view_nocontent_create">
+                    Click here to create a new transfer.
+                  </p><p>
+                    You can either do it immediately or mark it as Todo for future processing. Use your scanner to validate the transferred quantity quicker.
+                  </p>
+                </field>
+        </record>
+
+        <record id="action_material_purchase_requisition_job_costing" model="ir.actions.act_window">
+            <field name="name">Material Requisitions/ BOQ</field>
+            <field name="res_model">material.purchase.requisition</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+    </data>
+</odoo>

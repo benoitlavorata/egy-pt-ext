@@ -15,6 +15,7 @@
         'views/stock_view.xml',
         'views/res_config_view.xml',
         'wizard/wizard_stock_internal_transfer_view.xml',
+        'views/stock_inventory.xml'
     ],
     'qweb': ['static/src/xml/*.xml'],
     'demo_xml': [],

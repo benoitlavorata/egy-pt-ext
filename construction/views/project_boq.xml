@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+		<record id="project_boq_filter" model="ir.ui.view">
+            <field name="name">project.boq.filter</field>
+            <field name="model">project.boq</field>
+            <field name="arch" type="xml">
+                <search string="BOQ">
+                    <field name="name"/>
+					<field name="project_id"/>
+					<field name="partner_id"/>
+                    <field name="state"/>
+					<field name="submitted_by"/>
+					<field name="cancelled_by"/>
+					<field name="approved_by"/>
+					<field name="date"/>
+					<filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+					<filter string="Submitted" name="submitted" domain="[('state', '=', 'submitted')]"/>
+					<filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+					<filter string="Canceled" name="canceled" domain="[('state', '=', 'canceled')]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="project" string="Project" context="{'group_by':'project_id'}" />
+                        <filter name="partner" string="Partner" context="{'group_by':'partner_id'}" />
+                        <filter name="state" string="State" context="{'group_by':'state'}" />
+                    </group>
+                </search>
+          </field>
+        </record>
+
+        <record id="project_boq_tree" model="ir.ui.view">
+			<field name="name">project.boq.tree</field>
+			<field name="model">project.boq</field>
+			<field name="arch" type="xml">
+				<tree string="Bill of Quantity">
+					<field name="name"/>
+					<field name="project_id"/>
+					<field name="partner_id"/>
+					<field name="date"/>
+					<field name="boq_total_price" sum="Total Price"/>
+                    <field name="state"/>
+				</tree>
+			</field>
+		</record>
+
+        <record id="project_boq_form" model="ir.ui.view">
+            <field name="name">project.boq.form</field>
+            <field name="model">project.boq</field>
+            <field name="arch" type="xml">
+                <form class="extend_sheet" string="Bill of Quantity">
+					<header>
+				       	<button name="boq_action_submit" string="Submit" class="oe_highlight" states="draft"
+				       			type="object" attrs="{'invisible': [('state', 'not in', ['draft'])]}"/>
+				        <button name="boq_action_approve" string="Approve" class="oe_highlight" states="submitted" type="object"/>
+				        <button name ="boq_action_cancel" states="draft,submitted" string="Cancel"  type="object"/>
+				        <button name="boq_action_draft" states="cancelled" type="object" string="Reset Draft"/>
+				        <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved"
+				           	statusbar_colors="{'KEY_IS_STATE':'VALUE_IS_COLOR'}"/>
+				    </header>
+					<sheet>
+			            <group>
+				            <group>
+								<field name="name" force_save="1"/>
+				            	<field name="date" attrs="{'readonly': [('state', '!=', ('draft'))]}"/>
+							</group>
+							<group>
+								<field name="project_id" attrs="{'readonly': [('state', '!=', ('draft'))]}" options="{'no_create': True}"/>
+								<field name="partner_id"/>
+							</group>
+                        </group>
+			            <notebook>
+                            <page string="Lines">
+									<field name="poq_line_ids" widget="section_and_note_one2many" nolabel="1">
+										<tree editable="bottom">
+											<field name="product_id"/>
+											<field name="name"/>
+											<field name="uom"/>
+											<field name="unit_price"/>
+											<field name="qty"/>
+											<field name="total_price" force_save="1"/>
+										</tree>
+									</field>
+								<group class="oe_subtotal_footer oe_right" name="sale_total">
+									<table class="table table-striped table-hover oe_subtotal_footer" colspan="3">
+										<tr>
+											<td>
+												<strong class="text-center">
+														Total
+												</strong>
+											</td>
+											<td class="active text-right">
+												<field name="boq_total_qty" force_save="1" nolabel="1"/>
+											</td>
+												<td class="active text-right">
+												<field name="boq_total_price" force_save="1" nolabel="1"/>
+											</td>
+										</tr>
+									</table>
+									<div class="oe_clear"/>
+								</group>
+                            </page>
+			            	<page string="Approvals">
+			            		<group>
+				            		<group>
+				            			<field name="submitted_by"/>
+				            			<field name="approved_by"/>
+				            			<field name="cancelled_by"/>
+				            		</group>
+				            		<group>
+				            			<field name="submitted_date"/>
+				            			<field name="approved_date" />
+				            			<field name="cancelled_date" />
+				            		</group>
+			            		</group>
+			            	</page>
+							<page string="Notes">
+								<field name="notes"/>
+							</page>
+			            </notebook>
+                    <div class="oe_clear"/>
+					</sheet>
+					<div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+				</form>
+            </field>
+        </record>
+
+        <record id="project_boq_act" model="ir.actions.act_window">
+	        <field name="name">BOQ</field>
+	        <field name="res_model">project.boq</field>
+	        <field name="view_mode">tree,form</field>
+			<field name="search_view_id" ref="project_boq_filter" />
+    	</record>
+
+    </data>
+</odoo>

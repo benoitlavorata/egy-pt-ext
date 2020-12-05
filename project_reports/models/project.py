@@ -5,6 +5,7 @@ from odoo import api, fields, models
 from odoo.tools.misc import format_date
 from datetime import timedelta
 
+
 class ProjectTaskType(models.Model):
     _inherit = 'project.task.type'
 

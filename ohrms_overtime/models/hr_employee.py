@@ -13,7 +13,7 @@ class HrEmployee(models.Model):
 
     project_id = fields.Many2one('project.project')
     max_over = fields.Char("Max Overtime", default=get_max_overtime)
-    overtime_limit = fields.Float(compute="get_overtime_currentmonth")
+    overtime_limit = fields.Float(compute="get_overtime_currentmonth", string="Overtime")
 
     def get_overtime_currentmonth(self):
         for item in self:

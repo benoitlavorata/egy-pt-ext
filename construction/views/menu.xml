@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <menuitem id="menu_job_managmt" web_icon="construction,static/description/icon.png" name="Jobs" groups="project.group_project_user"/>
+
+        <menuitem id="custom_project" name="Projects" parent="project.menu_main_pm" sequence="0"/>
+        <menuitem id="project.menu_projects" name="Projects" parent="custom_project" action="open_view_project_job_all_config" sequence="1" />
+        <menuitem id="menu_projects_project_phase" name="Phases" parent="custom_project" action="open_view_project_phase" sequence="3"/>
+        <menuitem id="menu_estimated_sheet" name="Estimated Sheet" parent="custom_project" action="estimated_sheet_act" sequence="5"/>
+        <menuitem id="menu_projects_project_boq"  name="Bill of Quantity" parent="custom_project" action="project_boq_act" sequence="10"/>
+        <menuitem id="notes_job_project_menu" name="Project Notes" parent="custom_project" action="action_project_note_note"  sequence="80"/>
+
+        <menuitem id="project.menu_project_management" name="Tasks" parent="project.menu_main_pm" sequence="3"/>
+        <menuitem id="menu_job_cost_order" name="Tasks" parent="project.menu_project_management" action="action_view_job_orders" sequence="1" />
+        <menuitem id="menu_sub_job_costing" name="Task Cost" parent="project.menu_project_management" action="action_job_costing" sequence="5"/>
+        <menuitem id="notes_job_cost_task_menu" name="Tasks Notes" parent="project.menu_project_management" action="action_task_note_note" sequence="10"/>
+
+        <menuitem id="menu_materials" parent="project.menu_main_pm" name="Requisitions" sequence="5"/>
+        <menuitem id="menu_job_cost_material" name="Materials" parent="menu_materials" action="product.product_normal_action" sequence="1" />
+        <menuitem id="menu_job_cost_mat_req_out" name=" Out Material Requisitions/ BOQ" parent="menu_materials" action="action_picking_tree_all_const" sequence="3" />
+        <menuitem id="menu_job_cost_mat_req" name="Material Requisitions/ BOQ" parent="menu_materials" action="action_material_purchase_requisition_job_costing" sequence="2" />
+        <menuitem id="material_purchase_requisitions.menu_action_purchase_requisition" name="Purchase Requisitions" parent="menu_materials" action="material_purchase_requisitions.action_material_purchase_requisition"/>
+        <menuitem name="Equipment Work Orders" id="asset_work_order_menu" action="asset_work_order_action_main" sequence="4" parent="menu_materials"/>
+
+        <menuitem id="menu_job_type" parent="project.menu_project_config" name="Job Types" action="action_job_type" sequence="2"/>
+        <menuitem id="menu_project_view_deduction" action="project_view_deduction_act" name="Deductions" parent="project.menu_project_config" sequence="12"/>
+
+    </data>
+</odoo>

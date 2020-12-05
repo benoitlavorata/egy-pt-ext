@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <report
+            id="action_report_payment_receipt"
+            model="normal.payments"
+            string="Payment check Receipt"
+            report_type="qweb-pdf"
+            name="raqmi_cheque.report_receipt_cash_checck"
+            file="raqmi_cheque.report_receipt_cash_checck"
+            menu="True"/>
+    </data>
+</odoo>

@@ -1,0 +1,15 @@
+.construction_kanban > .o_kanban_primary_left >
+ table > tbody > tr:last-child{
+border-bottom: 1px solid #dee2e6;
+}
+.construction_kanban{
+display: block !important;
+}
+.construction_kanban > .o_kanban_primary_left > table > tbody > tr > td{
+width:50%;
+text-align:center;
+}
+.construction_kanban > .o_kanban_primary_left > table > tbody > tr > td > div > p{
+margin-top: 0 !important;
+margin-bottom: 0 !important;
+}

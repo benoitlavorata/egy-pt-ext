@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="jobcost_sheet_wiz_form">
+            <field name="name">jobcosting.invoice.form</field>
+            <field name="model">jobcost.invoice</field>
+                <field name="arch" type="xml">
+                    <form string="Invoice">
+                        <p>This wizard will create invoice for selected customer.</p>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="project_id"/>
+                                <field name="boq_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="invoice_date_from"/>
+                                <field name="invoice_date_to"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="boq_lines" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="uom"/>
+                                    <field name="unit_price"/>
+                                    <field name="prev_qty"/>
+                                    <field name="curr_qty"/>
+                                    <field name="Total_qty"/>
+                                    <field name="total_price" sum="Value"/>
+                                    <field name="per" sum="Quantity"/>
+                                    <field name="qty_per" sum="Quantity"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group>
+                            <field name="ded_lines" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="deduction_id"/>
+                                    <field name="value"/>
+                                    <field name="custom_value" sum="Value"/>
+                                    <field name="deducted" sum="Deducted"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <footer>
+                            <button name="create_jobcost_invoice" type="object" string="Create Invoice" class="btn-primary"/>
+                            <button string="_Cancel" class="btn-default" special="cancel" />
+                        </footer>
+                    </form>
+                </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_job_costing_invoice">
+            <field name="name">Create Customer Invoice</field>
+            <field name="res_model">jobcost.invoice</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="jobcost_sheet_wiz_form"/>
+            <field name="target">new</field>
+        </record>
+   </data>
+</odoo>

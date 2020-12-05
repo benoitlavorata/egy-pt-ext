@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="stock_internal_transfer_filter" model="ir.ui.view">
+        <field name="name">stock.internal.transfer.filter</field>
+        <field name="model">stock.internal.transfer</field>
+        <field name="arch" type="xml">
+            <search string="Stock Internal Transfer">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="source_warehouse_id"/>
+                <field name="dest_warehouse_id"/>
+                <field name="backorder_id"/>
+                <field name="state"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Send" name="send" domain="[('state', '=', 'send')]"/>
+                <filter string="Done" name="approved" domain="[('state', '=', 'done')]"/>
+                <filter string="Canceled" name="canceled" domain="[('state', '=', 'cancel')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="source_warehouse_id" string="Source" context="{'group_by':'source_warehouse_id'}" />
+                    <filter name="dest_warehouse_id" string="Destination" context="{'group_by':'dest_warehouse_id'}" />
+                    <filter name="state" string="State" context="{'group_by':'state'}" />
+                </group>
+            </search>
+      </field>
+    </record>
+
     <record id="stock_internal_transfer_tree" model="ir.ui.view">
         <field name="name">stock.internal.transfer.tree</field>
         <field name="model">stock.internal.transfer</field>
@@ -53,7 +78,7 @@
                                     <field name="product_id" domain="[('type', '!=', 'service')]" required="1"/>
                                     <field name="product_qty" required="1"/>
                                     <field name="product_uom_id" groups="uom.group_uom" required="1"/>
-                                    <field name="balance_after" readonly="1"/>
+                                    <field name="balance_after" force_save="1"/>
                                 </tree>
                             </field>
                         </page>
@@ -77,6 +102,7 @@
         <field name="res_model">stock.internal.transfer</field>
         <field name="type">ir.actions.act_window</field>
         <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="stock_internal_transfer_filter" />
     </record>
 
     <menuitem action="action_stock_internal_transfer" id="menu_stock_internal_transfer" parent="stock.menu_stock_warehouse_mgmt" sequence="1"/>

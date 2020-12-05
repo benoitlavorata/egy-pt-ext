@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_project_stock" model="ir.actions.act_window">
+            <field name="name">Project Inventory</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree</field>
+            <field name="domain">[('location_id', '=', 'stock_location_id')]</field>
+        </record>
+
+        <record id="project_phase_filter_view" model="ir.ui.view">
+            <field name="name">project.phase.filter</field>
+            <field name="model">project.phase</field>
+            <field name="arch" type="xml">
+                <search string="Phases">
+                    <field name="name" />
+                    <field name="user_id" />
+                    <field name="project_id" />
+                    <field name="state" />
+                    <group expand="0" string="Group By">
+                        <filter name="project" string="Project" domain="[]" context="{'group_by':'project_id'}" />
+                        <filter name="states" string="State" domain="[]" context="{'group_by':'state'}" />
+                        <filter name="assigned_user" string="Assigned User" domain="[]" context="{'group_by':'user_id'}" />
+                    </group>
+                </search>
+          </field>
+        </record>
+
+        <record id="project_phase_view_tree" model="ir.ui.view">
+            <field name="name">project.phase.tree</field>
+            <field name="model">project.phase</field>
+            <field name="arch" type="xml">
+                <tree string="Project Phase">
+                    <field name="name"/>
+                    <field name="project_id"/>
+                    <field name="user_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="state" readonly="1" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="open_view_project_phase_task" model="ir.actions.act_window">
+            <field name="name">Task</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">kanban,tree,calendar,pivot,graph</field>
+            <field name="domain">[('phase_id', '=', active_id)]</field>
+        </record>
+
+        <record id="action_view_project_phase" model="ir.actions.act_window">
+            <field name="name">Phases</field>
+            <field name="res_model">project.phase</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'project_id': active_id}</field>
+            <field name="domain">[('project_id', '=', active_id)]</field>
+        </record>
+
+        <record id="project_phase_view_form" model="ir.ui.view">
+            <field name="name">project.phase.form</field>
+            <field name="model">project.phase</field>
+            <field name="arch" type="xml">
+                <form string="Project Phase">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            <button class="oe_stat_button" type="action"
+                                    name="%(open_view_project_phase_task)d" icon="fa-tasks"
+                                    context="{'default_project_id': project_id, 'default_user_id': user_id, 'default_phase_id': active_id}">
+                                <field string="Tasks" name="task_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="project_id"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter" position="replace">
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="activity_ids" widget="mail_activity"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="open_view_project_phase" model="ir.actions.act_window">
+            <field name="name">Phase</field>
+            <field name="res_model">project.phase</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="project_phase_filter_view" />
+        </record>
+
+        <record id="project_action_view_job_orders" model="ir.actions.act_window">
+            <field name="name">Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
+            <field name="domain">[('project_id','=', active_id)]</field>
+        </record>
+
+        <record id="project_asset_work_order_action_main" model="ir.actions.act_window">
+            <field name="name">Equipments Work Orders</field>
+            <field name="res_model">asset.work.order</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('project_id','=', active_id)]</field>
+        </record>
+
+        <record id="project_estimated_sheet_action" model="ir.actions.act_window">
+	        <field name="name">Estimated Sheet</field>
+	        <field name="res_model">estimated.sheet</field>
+	        <field name="view_mode">form</field>
+            <field name="domain">[('project_id','=', active_id)]</field>
+    	</record>
+
+        <record id="job_cost_project_form_view" model="ir.ui.view">
+            <field name="name">project.inherited.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="%(action_job_costing_invoice)d" type="action" string="Create Invoice"
+                        groups="project.group_project_manager"
+                            attrs="{'invisible': [('job_cost_count', '=', 0)]}"
+                            class="btn-primary"/>
+                </xpath>
+                <button name="%(project.act_project_project_2_project_task_all)d" position="replace">
+                    <button name="%(construction.action_view_project_phase)d" type="action" class="oe_stat_button" icon="fa-book">
+                        <field string="Phases" name="phase_count" widget="statinfo"/>
+                    </button>
+                    <button name="%(construction.project_action_view_job_orders)d" class="oe_stat_button" type="action" icon="fa-tasks">
+                        <field string="Tasks" name="task_count" widget="statinfo"/>
+                    </button>
+                    <button name="project_to_jobcost_action" type="object" class="oe_stat_button" icon="fa-book">
+                        <field string="Task Costs" name="job_cost_count" widget="statinfo"/>
+                    </button>
+                    <button name="%(construction.project_estimated_sheet_action)d" type="action" class="oe_stat_button" icon="fa-book">
+                        <field string="Estimated Sheet" name="estimated_count" widget="statinfo"/>
+                    </button>
+                    <button name="%(construction.project_asset_work_order_action_main)d" type="action" class="oe_stat_button" icon="fa-book">
+                        <field string="Equipment Orders" name="asset_order_count" widget="statinfo"/>
+                    </button>
+                    <button string="Stock" name="%(construction.action_project_stock)d" type="action"
+                            class="oe_stat_button" icon="fa-book">
+                    </button>
+                </button>
+                <div class="oe_title" position="replace">
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="name"/>
+                            <field name="partner_id" domain="[('customer_rank', '=', 1)]" string="Customer"/>
+                        </group>
+                        <group>
+                            <field name="analytic_account_id" readonly="1" force_save="1" />
+                            <field name="resource_calendar_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                        </group>
+                        <group>
+                            <field name="act_date_start"/>
+                            <field name="act_date_end"/>
+                        </group>
+                    </group>
+                </div>
+                <xpath expr="//page[@name='settings']" position="replace">
+                    <page name="settings" string="Setting">
+                        <group>
+                            <group>
+                                <field name="label_tasks"/>
+                                <field name="privacy_visibility" widget="radio"/>
+                                <field name="subtask_project_id" groups="project.group_subtask_project"/>
+                            </group>
+                        </group>
+                        <group>
+                            <div class="row mt16 o_settings_container">
+                                <div id="rating_settings" class="col-lg-6 o_setting_box" groups="project.group_project_rating">
+                                    <div class="o_setting_right_pane">
+                                        <label for="rating_status"/>
+                                        <div class="text-muted">
+                                            Get customer feedback
+                                        </div>
+                                        <div>
+                                            <field name="rating_status" widget="radio"/>
+                                            <p attrs="{'invisible': [('rating_status','not in',('periodic','stage'))]}" class="text-muted oe_edit_only">
+                                                Edit project's stages and set an email template on the stages on which you want to activate the rating.
+                                            </p>
+                                            <div attrs="{'required': [('rating_status','=','periodic')], 'invisible': [('rating_status','!=','periodic')]}">
+                                                <label for="rating_status_period"/>
+                                                <field name="rating_status_period" class="oe_inline"/>
+                                            </div>
+                                            <div attrs="{'invisible': [('rating_status','==','no')]}">
+                                                <label for="portal_show_rating"/>
+                                                <field name="portal_show_rating"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </group>
+                        <group>
+                            <group name="misc">
+                            </group>
+                            <group name="extra_settings">
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+                <page name="settings" position="before">
+                    <page name="General Info" string="General Info">
+                        <group>
+                            <group>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="user_id"/>
+                                <field name="employee_id"/>
+                            </group>
+                            <group>
+                                <field name="stock_warehouse_id" context="{'default_name': name}"/>
+                                <field name="stock_location_id" domain="[('usage', 'in', ['internal'])]"
+                                       context="{'default_name': name, 'default_usage': 'internal'}"/>
+                                <field name="picking_type_id" domain="[('code', '=', 'internal')]"
+                                       context="{'default_name': name, 'default_code': 'internal', 'default_default_location_dest_id': stock_location_id, 'default_default_location_scr_id': stock_location_id}"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page name="BOQ" string="BOQ">
+                        <group>
+                            <field name="poq_line_ids" readonly="1" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="uom"/>
+                                    <field name="qty"/>
+                                    <field name="unit_price"/>
+                                    <field name="total_price"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page name="acc" string="Accounting">
+                        <group>
+                            <field name="project_deduction_line_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="deduction_id" string="Deduction"/>
+                                    <field name="value" string="Value"/>
+                                    <field name="custom_value" string="Custom Value"/>
+                                    <field name="deducted" string="Deducted"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page name="payment" string="Payment">
+                        <group>
+                            <field name="payment_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="phase_id"/>
+                                    <field name="task_id"/>
+                                    <field name="type"/>
+                                    <field name="val"/>
+                                    <field name="paid" readonly="1"/>
+                                    <field name="state" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                    <page name="extension" string="Extensions">
+                        <group>
+                            <group string="Project Dates">
+                                <field name="extension_date"/>
+                            </group>
+                            <group string="Actual Dates">
+
+                            </group>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+        <record id="job_cost_task_form_view" model="ir.ui.view">
+            <field name="name">project.task.inherited.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="task_to_jobcost_action" type="object" class="oe_stat_button" icon="fa-book">
+                        <field string="Task costs" name="job_cost_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

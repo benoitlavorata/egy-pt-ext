@@ -89,7 +89,7 @@ class stock_internal_transfer(models.Model):
     name = fields.Char(string=_("Reference"), track_visibility='onchange')
     product_id = fields.Many2one('product.product', string=_("Product"), track_visibility="onchange")
     product_qty = fields.Float(string=_("Quantity"), track_visibility="onchange", default=1)
-    product_uom_id = fields.Many2one('product.uom', string=_("Unit of Measure"), track_visibility='onchange')
+    product_uom_id = fields.Many2one('uom.uom', string=_("Unit of Measure"), track_visibility='onchange')
     state = fields.Selection([('cancel', _('Cancel')), ('draft', _('Draft')), ('send', _('Send')), ('done', _('Done'))],
                              string=_("Status"), track_visibility='onchange', default=_("draft"))
     transfer_id = fields.Many2one('stock.internal.transfer', string=_("Transfer"), track_visibility="onchange")

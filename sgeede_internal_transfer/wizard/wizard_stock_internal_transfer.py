@@ -6,6 +6,7 @@ from odoo import models, fields, api
 from odoo.tools.translate import _
 from odoo.exceptions import UserError, ValidationError
 
+
 class wizard_stock_internal_transfer(models.TransientModel):
     _name = 'wizard.stock.internal.transfer'
 
@@ -245,7 +246,7 @@ class stock_internal_transfer_items(models.TransientModel):
     transfer_id = fields.Many2one('wizard.stock.internal.transfer', string=_("Transfer"))
     product_id = fields.Many2one('product.product', string=_("Product"))
     product_qty = fields.Float(string="Quantity")
-    product_uom_id = fields.Many2one('product.uom', string=_("Unit of Measure"))
+    product_uom_id = fields.Many2one('uom.uom', string=_("Unit of Measure"))
     source_location_id = fields.Many2one('stock.location', string=_("Source Location"))
     transit_location_id = fields.Many2one('stock.location', string=_("Transit Location"))
     dest_location_id = fields.Many2one('stock.location', string=_("Destination Location"))
