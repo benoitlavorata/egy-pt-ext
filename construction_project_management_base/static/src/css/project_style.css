@@ -1,8 +1,0 @@
-.o_project_kanban_main > .o_kanban_card_content > .o_kanban_primary_left >
- table > tbody > tr:last-child{
-border-bottom: 1px solid #dee2e6;
-}
-.o_project_kanban_boxes > a {
-display: inline-block !important;
-width: 30%;
-}
