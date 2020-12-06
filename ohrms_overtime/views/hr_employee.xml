@@ -14,13 +14,13 @@
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
                 <div class="oe_button_box" position="inside">
-                    <button class="oe_stat_button" name="%(act_hr_employee_overtime_cou)d" type="action" icon="fa-calendar">
+                    <button class="oe_stat_button" name="%(act_hr_employee_overtime_cou)d"
+                            type="action" icon="fa-calendar">
                         <field name="overtime_limit" widget="statinfo" string="Overtime"/>
                     </button>
                 </div>
                 <xpath expr="//field[@name='identification_id']" position="replace">
                      <field name="identification_id"   groups="hr.group_hr_user" required="1"/>
-
                 </xpath>
                  <xpath expr="//field[@name='department_id']" position="after">
                      <field name="project_id"/>
