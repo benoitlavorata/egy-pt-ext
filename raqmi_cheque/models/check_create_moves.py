@@ -2,10 +2,6 @@ from odoo import models, fields, api
 from datetime import datetime
 
 
-# class AccMove(models.Model):
-#     _inherit = 'account.move'
-
-
 class MoveLines(models.Model):
     _inherit = 'account.move.line'
 
