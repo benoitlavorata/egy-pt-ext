@@ -137,6 +137,8 @@ class CheckCycleAccs(models.TransientModel):
                 #                                                           src_currency=self.env['res.users'].search([('id', '=', self.env.user.id)]).company_id.currency_id,
                 #                                                           amount=checkamt)
                 for check in checks:
+                    analytic_id = self.env['native.payments.check.create'].search(
+                        [('id', '=', check.check_id)]).nom_pay_id.analytic_id
                     move = {
                         'name': 'Approve Check number ' + check.check_number,
                         'journal_id': self.journal_id.id,
@@ -153,9 +155,12 @@ class CheckCycleAccs(models.TransientModel):
                     credit_account = []
                     debit_account.append(
                         {'account': self.journal_id.default_debit_account_id.id, 'percentage': 100})
-                    if check.notes_rece_id:
-                        print(check.notes_rece_id.name)
-                        credit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
+                    # if check.notes_rece_id:
+                    #     print(check.notes_rece_id.name)
+                    #     credit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
+                    if check.under_collect_id:
+                        print(check.under_collect_id.name)
+                        credit_account.append({'account': check.under_collect_id.id, 'percentage': 100, 'analytic_id': analytic_id.id})
                     else:
                         credit_account.append(
                             {'account': check.unit_id.project_id.NotesReceivableAccount.id, 'percentage': 100})
