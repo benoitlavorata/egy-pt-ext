@@ -75,7 +75,7 @@ class CheckCycleAccs(models.TransientModel):
                     if check.notes_rece_id:
                         credit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
                     else:
-                        credit_account.append({'account': check.unit_id.project_id.NotesReceivableAccount.id, 'percentage': 100})
+                        credit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
                     self.sudo().env['create.moves'].create_move_lines(move=move, move_line=move_line,
                                                                debit_account=debit_account,
                                                                credit_account=credit_account,
@@ -159,11 +159,10 @@ class CheckCycleAccs(models.TransientModel):
                     #     print(check.notes_rece_id.name)
                     #     credit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
                     if check.under_collect_id:
-                        print(check.under_collect_id.name)
                         credit_account.append({'account': check.under_collect_id.id, 'percentage': 100, 'analytic_id': analytic_id.id})
                     else:
                         credit_account.append(
-                            {'account': check.unit_id.project_id.NotesReceivableAccount.id, 'percentage': 100})
+                            {'account': check.notes_rece_id.id, 'percentage': 100})
                     self.sudo().env['create.moves'].create_move_lines(move=move, move_line=move_line,
                                                                       debit_account=debit_account,
                                                                       credit_account=credit_account,
@@ -201,7 +200,7 @@ class CheckCycleAccs(models.TransientModel):
                     if check.notes_rece_id:
                         debit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
                     else:
-                        debit_account.append({'account': check.unit_id.project_id.NotesReceivableAccount.id, 'percentage': 100})
+                        debit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
                     self.sudo().env['create.moves'].create_move_lines(move=move, move_line=move_line,
                                                                debit_account=debit_account,
                                                                credit_account=credit_account,
