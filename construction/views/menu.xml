@@ -7,8 +7,8 @@
         <menuitem id="custom_project" name="Projects" parent="project.menu_main_pm" sequence="0"/>
         <menuitem id="project.menu_projects" name="Projects" parent="custom_project" action="open_view_project_job_all_config" sequence="1" />
         <menuitem id="menu_projects_project_phase" name="Phases" parent="custom_project" action="open_view_project_phase" sequence="3"/>
-        <menuitem id="menu_estimated_sheet" name="Estimated Sheet" parent="custom_project" action="estimated_sheet_act" sequence="5"/>
-        <menuitem id="menu_projects_project_boq"  name="Bill of Quantity" parent="custom_project" action="project_boq_act" sequence="10"/>
+        <menuitem id="menu_projects_project_boq"  name="Bill of Quantity" parent="custom_project" action="project_boq_act" sequence="5"/>
+        <menuitem id="menu_estimated_sheet" name="Estimated Sheet" parent="custom_project" action="estimated_sheet_act" sequence="10"/>
         <menuitem id="notes_job_project_menu" name="Project Notes" parent="custom_project" action="action_project_note_note"  sequence="80"/>
 
         <menuitem id="project.menu_project_management" name="Tasks" parent="project.menu_main_pm" sequence="3"/>

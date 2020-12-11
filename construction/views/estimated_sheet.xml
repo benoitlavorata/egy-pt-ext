@@ -41,6 +41,10 @@
 					<field name="total_labour"/>
 					<field name="total_assets"/>
 					<field name="total_expenses"/>
+					<field name="tech_package"/>
+					<field name="contingency"/>
+					<field name="mark_up"/>
+					<field name="unit_price"/>
 					<field name="total"/>
 					<field name="date"/>
                     <field name="state"/>
@@ -68,27 +72,36 @@
 								<field name="name" force_save="1"/>
 								<field name="date"/>
 				            	<field name="project_id" required="1" attrs="{'readonly': [('state', '!=', ('draft'))]}" options="{'no_create': True}"/>
-								<field name="partner_id"/>
-								<field name="boq_id" force_save="1"/>
 							</group>
 							<group>
-								<group>
-									<field name="total_product" force_save="1"/>
-									<field name="total_labour" force_save="1"/>
-									<field name="total_assets" force_save="1"/>
-									<field name="total_expenses" force_save="1"/>
-									<field name="total" force_save="1"/>
-								</group>
-								<group>
-									<field name="es_total_product" force_save="1"/>
-									<field name="es_total_labour" force_save="1"/>
-									<field name="es_total_assets" force_save="1"/>
-									<separtor/>
-									<field name="es_total" force_save="1"/>
-								</group>
+								<field name="partner_id"/>
+								<field name="boq_id" force_save="1"/>
+								<field name="qty"/>
 							</group>
                         </group>
 			            <notebook>
+							<page string="Total">
+								<group>
+									<group>
+										<field name="total_product" force_save="1"/>
+										<field name="total_labour" force_save="1"/>
+										<field name="total_assets" force_save="1"/>
+										<field name="total_expenses" force_save="1"/>
+										<field name="tech_package"/>
+										<field name="contingency"/><span class="oe_grey"> %</span>
+										<field name="mark_up"/>
+										<field name="total" force_save="1"/>
+										<field name="unit_price" force_save="1"/>
+									</group>
+									<group>
+										<field name="es_total_product" force_save="1"/>
+										<field name="es_total_labour" force_save="1"/>
+										<field name="es_total_assets" force_save="1"/>
+										<separtor/>
+										<field name="es_total" force_save="1"/>
+									</group>
+								</group>
+							</page>
 							<page string="Materials">
 								<field name="material_ids" nolabel="1">
 									<tree editable="bottom">

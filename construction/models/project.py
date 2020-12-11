@@ -63,10 +63,9 @@ class Project(models.Model):
     start_date = fields.Date('Start Date', track_visibility="always")
     end_date = fields.Date(string='End Date', track_visibility="always")
     extension_date = fields.Date(string='Requested Extension Date', track_visibility="always")
-    state = fields.Selection([('draft', 'Draft'),
+    state = fields.Selection([('draft', 'Draft'), ('study', 'Study'),
                               ('inprogress', 'In Progress'),
-                              ('finished', 'Finished'),
-                              ('closed', 'Closed and Turned Over'),
+                              ('closed', 'Closed'),
                               ('canceled', 'Canceled'),
                               ('halted', 'Halted')], string="Status", readonly=True, default='draft', track_visibility="always")
     act_date_start = fields.Datetime(string='Actual Starting Date', index=True, copy=False)
@@ -90,11 +89,37 @@ class Project(models.Model):
     location_id = fields.Many2one('res.partner', string='Location')
     notes_ids = fields.One2many('note.note', 'project_id', string='Notes Id')
     notes_count = fields.Integer(compute='_compute_notes_count', string="Notes")
+    partner_email = fields.Char(related='partner_id.email', string='Customer Email', readonly=False)
+    partner_phone = fields.Char(related='partner_id.phone', readonly=False)
+    partner_mobile = fields.Char(related='partner_id.mobile', readonly=False)
+    partner_zip = fields.Char(related='partner_id.zip', readonly=False)
+    partner_street = fields.Char(related='partner_id.street', readonly=False)
+    partner_city = fields.Char(related='partner_id.city', readonly=False)
 
     @api.depends()
     def _compute_notes_count(self):
         for project in self:
             project.notes_count = len(project.notes_ids)
+
+    def set_study(self):
+        for pro in self:
+            pro.write({'state': 'study'})
+
+    def set_inprogress(self):
+        for pro in self:
+            pro.write({'state': 'inprogress'})
+
+    def set_draft(self):
+        for pro in self:
+            pro.write({'state': 'draft'})
+
+    def set_closed(self):
+        for pro in self:
+            pro.write({'state': 'closed'})
+
+    def set_canceled(self):
+        for pro in self:
+            pro.write({'state': 'closed'})
 
     def view_notes(self):
         for rec in self:
@@ -401,3 +426,20 @@ class ProjectPayments(models.Model):
     val = fields.Float(string="Value", default=0.0)
     paid = fields.Float(string="Paid", default=0.0)
     state = fields.Boolean(default=False)
+
+
+class ProjectCrm(models.Model):
+    _inherit = 'crm.lead'
+
+    project_id = fields.Many2one("project.project")
+
+    def send_whats_msg(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _('Whatsapp Message'),
+            'res_model': 'whatsapp.message.wizard',
+            'target': 'new',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'context': {'default_user_id': self.name, 'default_phone': self.phone},
+        }

@@ -17,7 +17,7 @@
         </record>
 
         <record id="project_action_job_costing" model="ir.actions.act_window">
-            <field name="name">Job Cost</field>
+            <field name="name">Task Cost</field>
             <field name="res_model">job.costing</field>
             <field name="view_mode">tree,form</field>
             <field name="domain">[('project_id','=', active_id)]</field>
@@ -29,8 +29,9 @@
             <field name="inherit_id" ref="project.project_view_kanban"/>
             <field name="arch" type="xml">
                 <xpath expr="//kanban" position="replace">
-                    <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors">
+                    <kanban default_group_by="state" class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors">
                         <field name="name"/>
+                        <field name="state"/>
                         <field name="partner_id"/>
                         <field name="color"/>
                         <field name="task_count"/>
@@ -184,36 +185,40 @@
         </record>
 
         <record id="open_view_project_job_all_config" model="ir.actions.act_window">
-                <field name="name">Projects</field>
-                <field name="res_model">project.project</field>
-                <field name="domain">[]</field>
-                <field name="view_mode">kanban,form</field>
-                <field name="search_view_id" ref="project.view_project_project_filter"/>
-                <field name="context">{}</field>
-                <field name="help" type="html">
-                    <p class="oe_view_nocontent_create">
-                        Create a new Construction project.
-                    </p><p>
-                        Organize your activities (plan tasks, track issues, invoice timesheets) for internal, personal or customer construction projects.
-                    </p>
-                </field>
+            <field name="name">Projects</field>
+            <field name="res_model">project.project</field>
+            <field name="view_mode">kanban,tree,dashboard,map,form</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+            (0, 0, {'view_mode': 'kanban', 'view_id': ref('construction_project_view_kanban')}),
+            (0, 0, {'view_mode': 'tree', 'view_id': ref('project_tree_view')}),
+            (0, 0, {'view_mode': 'form', 'view_id': ref('job_cost_project_form_view')}),
+            (0, 0, {'view_mode': 'dashboard', 'view_id': ref('project_view_dashboard')}),
+            (0, 0, {'view_mode': 'map', 'view_id': ref('project_map_view')})]"/>
+            <field name="search_view_id" ref="project.view_project_project_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create a new Construction project.
+                </p><p>
+                    Organize your activities (plan tasks, track issues, invoice timesheets) for internal, personal or customer construction projects.
+                </p>
+            </field>
         </record>
 
         <record id="action_view_job_orders" model="ir.actions.act_window">
-            <field name="name">Job Orders</field>
+            <field name="name">Tasks</field>
             <field name="res_model">project.task</field>
             <field name="view_mode">kanban,tree,form,calendar,pivot,graph</field>
             <field name="context">{'search_default_my_tasks': 1}</field>
             <field name="search_view_id" ref="project.view_task_search_form"/>
             <field name="help" type="html">
                 <p>
-                    Odoo's Job Orders management allows you to manage the pipeline of your Jobs efficiently. You can track progress, discuss on jobs, attach documents, etc.
+                    Task management allows you to manage the pipeline of your Jobs efficiently. You can track progress, discuss on jobs, attach documents, etc.
                 </p>
             </field>
         </record>
 
         <record id="action_picking_tree_all_const" model="ir.actions.act_window">
-                <field name="name">Material Requisitions / BOQ</field>
+                <field name="name">Material Requisitions</field>
                 <field name="res_model">stock.picking</field>
                 <field name="type">ir.actions.act_window</field>
                 <field name="view_mode">tree,kanban,form,calendar</field>
@@ -233,7 +238,7 @@
         </record>
 
         <record id="action_material_purchase_requisition_job_costing" model="ir.actions.act_window">
-            <field name="name">Material Requisitions/ BOQ</field>
+            <field name="name">Material Requisitions</field>
             <field name="res_model">material.purchase.requisition</field>
             <field name="view_mode">tree,form</field>
         </record>

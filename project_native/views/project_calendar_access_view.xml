@@ -5,7 +5,6 @@
         <record id="edit_project_access_inherited" model="ir.ui.view">
             <field name="name">project.project.access.edit.inherited</field>
             <field name="model">project.project</field>
-<!--            <field name="inherit_id" ref="project.edit_project"/>-->
             <field name="inherit_id" ref="construction.job_cost_project_form_view"/>
             <field name="priority">24</field>
             <field name="arch" type="xml">

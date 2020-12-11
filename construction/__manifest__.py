@@ -31,7 +31,8 @@
                 'account',
                 'analytic',
                 'account_asset',
-                'stock'],
+                'stock',
+                'crm'],
 
     # always loaded
     'data': [
@@ -65,6 +66,8 @@
         'views/account_invoice_view.xml',
         'views/estimated_sheet.xml',
         'views/project_boq.xml',
+        'views/crm_view.xml',
+        'wizard/whatsapp_wizard.xml',
         'views/menu.xml'
     ],
 }

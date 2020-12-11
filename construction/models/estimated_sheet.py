@@ -40,9 +40,15 @@ class EstimatedSheet(models.Model):
     es_total_assets = fields.Float("Average Equipments", compute='_compute_total', store=True)
     total = fields.Float("Total", compute='_compute_total', store=True)
     es_total = fields.Float("Total Average", compute='_compute_total', store=True)
+    tech_package = fields.Float(string="Technical Package", default=0)
+    contingency = fields.Float(string="Contingency", default=0)
+    mark_up = fields.Float(string="Mark Up", default=0)
+    unit_price = fields.Float(string="Unit Price", default=0, readonly=True)
+    qty = fields.Float(string="Quantity", default=0)
     notes = fields.Html()
 
-    @api.depends('labour_ids', 'material_ids', 'asset_ids', 'expense_ids')
+    @api.depends('labour_ids', 'material_ids', 'asset_ids', 'expense_ids',
+                 'tech_package', 'contingency', 'mark_up', 'unit_price', 'qty')
     def _compute_total(self):
         for boq in self:
             total_material = total_labour = total_asset = total_expenses = 0
@@ -69,8 +75,13 @@ class EstimatedSheet(models.Model):
             boq.total_assets = total_asset
             boq.es_total_assets = total_avg_asset
             boq.total_expenses = total_expenses
-            boq.total = total_material + total_labour + total_asset + total_expenses
+            sub_total = total_material + total_labour + total_asset + total_expenses + boq.tech_package
+            mark = (sub_total * boq.mark_up) / 100
+            cont = (sub_total * boq.contingency) / 100
+            boq.total = sub_total + mark + cont
             boq.es_total = total_avg_material + total_avg_labour + total_avg_asset
+            if boq.qty > 0 and boq.total > 0:
+                boq.unit_price = boq.total / boq.qty
 
     @api.onchange('project_id')
     def _onchange_project(self):

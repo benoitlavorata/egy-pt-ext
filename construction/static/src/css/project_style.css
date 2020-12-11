@@ -13,3 +13,11 @@ text-align:center;
 margin-top: 0 !important;
 margin-bottom: 0 !important;
 }
+.whatsapp-btn{
+border: none;
+background:transparent;
+color: #28a745;
+}
+.construction_kanban > .o_kanban_primary_left > .o_primary > span{
+white-space: nowrap !important;
+}

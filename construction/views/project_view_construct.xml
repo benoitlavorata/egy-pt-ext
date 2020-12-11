@@ -1,31 +1,6 @@
 <odoo>
     <data>
     
-    <record id="edit_project_inherit_construction" model="ir.ui.view">
-        <field name="name">project.project.form</field>
-        <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.edit_project"/>
-        <field name="arch" type="xml">
-            <xpath expr="//form/sheet/notebook" position="inside">
-                <page name="construction_sites" string="Construction Site Detail">
-                    <group>
-                        <group>
-                            <field name="type_of_construction"/>
-                            <field name="location_id" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True}'/>
-                        </group>
-                        <group>
-                        </group>
-                    </group>
-                </page>
-            </xpath>
-            <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
-                 <button class="oe_stat_button" type="object" icon="fa-tasks" name="view_notes">
-                        <field string="Notes" name="notes_count" widget="statinfo" options="{'label_field': 'label_notes'}"/>
-                 </button>
-            </xpath>
-        </field>
-    </record>
-    
     <record id="action_view_task_subtask" model="ir.actions.act_window">
             <field name="name">Tasks</field>
             <field name="res_model">project.task</field>
