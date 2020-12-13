@@ -89,6 +89,7 @@ class EstimatedSheet(models.Model):
             if boq.project_id:
                 boq_id = self.env['project.boq'].search([('project_id', '=', boq.project_id.id)], limit=1)
                 boq.boq_id = boq_id
+                boq.qty = boq_id.boq_total_price
             else:
                 boq.boq_id = False
 
@@ -131,6 +132,7 @@ class LaboursLines(models.Model):
     _description = "Estimated Labours"
 
     es_labour_id = fields.Many2one('estimated.sheet', required=True)
+    project = fields.Integer()
     phase_id = fields.Many2one('project.phase')
     task_id = fields.Many2one('project.task')
     labour_boq = fields.Many2one('project.boq')
@@ -141,14 +143,18 @@ class LaboursLines(models.Model):
     avg_per_day = fields.Float('Average', readonly=True, store=True, default=0)
     total_labour = fields.Float('Total', readonly=True, store=True, default=0)
     avg_total_labour = fields.Float('Total Average', readonly=True, store=True, default=0)
+    description = fields.Char(string='Description')
 
     @api.onchange('name', 'labour_no', 'work_day', 'es_per_day')
-    def _onchange_project(self):
+    def _onchange_labour(self):
         for lab in self:
             if lab.name and lab.work_day > 0 and lab.labour_no > 0:
-                avg = self.env['hr.contract'].search([('type_id', '=', lab.name.id), ('state', '=', 'open')], limit=1).wage
+                avg = self.env['hr.contract'].search([('type_id', '=', lab.name.id), ('state', '=', 'open')],
+                                                     limit=1).wage
                 if avg:
                     lab.avg_per_day = avg / 30
+                    if not lab.es_per_day > 0:
+                        lab.es_per_day = avg / 30
                     lab.avg_total_labour = lab.labour_no * (avg / 30) * lab.work_day
                 lab.total_labour = lab.labour_no * lab.es_per_day * lab.work_day
 
@@ -163,6 +169,7 @@ class MaterialsLines(models.Model):
     _description = "Estimated Materials"
 
     es_product_id = fields.Many2one('estimated.sheet', required=True)
+    project = fields.Integer()
     phase_id = fields.Many2one('project.phase')
     task_id = fields.Many2one('project.task')
     product_id = fields.Many2one('product.product', required=True)
@@ -172,6 +179,7 @@ class MaterialsLines(models.Model):
     avg_per_unit = fields.Float('Average', readonly=True, store=True, default=0)
     total_material = fields.Float('Total', readonly=True, store=True, default=0)
     total_avg_material = fields.Float('Total Average', readonly=True, store=True, default=0)
+    description = fields.Char(string='Description')
 
     @api.onchange('product_id', 'product_qty', 'es_per_unit')
     def _onchange_product(self):
@@ -181,6 +189,8 @@ class MaterialsLines(models.Model):
                 if cost:
                     mat.avg_per_unit = cost
                     mat.total_avg_material = cost * mat.product_qty
+                    if not mat.es_per_unit > 0:
+                        mat.es_per_unit = cost
                 mat.total_material = mat.es_per_unit * mat.product_qty
 
     @api.onchange('task_id')
@@ -193,9 +203,10 @@ class AssetsLines(models.Model):
     _name = 'es.assets'
     _description = "Estimated Assets"
 
+    es_asset_id = fields.Many2one('estimated.sheet', required=True)
+    project = fields.Integer()
     phase_id = fields.Many2one('project.phase')
     task_id = fields.Many2one('project.task')
-    es_asset_id = fields.Many2one('estimated.sheet', required=True)
     asset_id = fields.Many2one('account.asset', required=True)
     asset_qty = fields.Integer('Qty', required=True, default=1)
     asset_w_days = fields.Float('Days', required=True, default=1)
@@ -203,6 +214,7 @@ class AssetsLines(models.Model):
     avg_per_asset = fields.Float('Average', readonly=True, store=True, default=0)
     total_asset = fields.Float('Total', readonly=True, store=True, default=0)
     total_average_asset = fields.Float('Total Average', readonly=True, store=True, default=0)
+    description = fields.Char(string='Description')
 
     @api.onchange('asset_id', 'asset_qty', 'asset_w_days', 'es_per_asset')
     def _onchange_asset(self):
@@ -212,6 +224,8 @@ class AssetsLines(models.Model):
                 if cost:
                     ass.avg_per_asset = cost
                     ass.total_average_asset = cost * ass.asset_qty * ass.asset_w_days
+                    if not ass.es_per_asset > 0:
+                        ass.es_per_asset = cost
                 ass.total_asset = ass.es_per_asset * ass.asset_qty * ass.asset_w_days
 
     @api.onchange('task_id')
@@ -224,11 +238,13 @@ class ExpensesLines(models.Model):
     _name = 'es.expenses'
     _description = "Estimated Expenses"
 
+    es_expenses_id = fields.Many2one('estimated.sheet', required=True)
+    project = fields.Integer()
     phase_id = fields.Many2one('project.phase')
     task_id = fields.Many2one('project.task')
-    es_expenses_id = fields.Many2one('estimated.sheet', required=True)
     expenses_id = fields.Many2one('account.account', domain="[('user_type_id', 'in', ['Expenses'])]", required=True)
     total_expense = fields.Float('Total', required=True, default=0)
+    description = fields.Text(string='Description')
 
     @api.onchange('task_id')
     def _onchange_task(self):

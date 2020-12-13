@@ -18,10 +18,11 @@
                 </button>
 
                 <xpath expr="//field[@name='tag_ids']" position="after">
-                     <field name="date_finished"/>
+                    <field name="date_started"/>
+                    <field name="date_finished"/>
                 </xpath>
 
-                <xpath expr="//notebook/page[2]" position="after">
+                <xpath expr="//notebook/page[@name='pickings']" position="after">
 
                     <page name="gantt_view" string="Gantt View">
                             <group>

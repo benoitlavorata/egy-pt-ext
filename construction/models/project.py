@@ -133,14 +133,14 @@ class Project(models.Model):
             res = self.env.ref('stock.action_view_quants')
             res = res.read()[0]
             res['domain'] = str([('location_id', '=', '1')])
-            print(res)
         return res
 
     def project_to_jobcost_action(self):
         job_cost = self.mapped('job_cost_ids')
         action = self.env.ref('construction.action_job_costing').read()[0]
         action['domain'] = [('id', 'in', job_cost.ids)]
-        action['context'] = {'default_project_id':self.id,'default_analytic_id':self.analytic_account_id.id,'default_user_id':self.user_id.id}
+        action['context'] = {'default_project_id': self.id, 'default_analytic_id': self.analytic_account_id.id,
+                             'default_user_id': self.user_id.id}
         return action
 
 
@@ -197,23 +197,30 @@ class ProjectPhase(models.Model):
     user_id = fields.Many2one('res.users', string="Assigned User")
     start_date = fields.Date('Start Date')
     end_date = fields.Date('End Date')
+    date_started = fields.Date('Actual Start Date')
+    date_ended = fields.Date('Actual End Date')
     task_ids = fields.One2many(comodel_name='project.task', inverse_name='phase_id', string="Jop Orders")
     task_count = fields.Integer(compute='_compute_task_count', string="Jop Orders")
+    material_plan_ids = fields.One2many('es.materials', 'phase_id', string='Estimated Materials')
+    labour_plan_ids = fields.One2many('es.labours', 'phase_id', string='Estimated Labours')
+    asset_plan_ids = fields.One2many('es.assets', 'phase_id', string='Estimated Equipments')
+    exp_plan_ids = fields.One2many('es.expenses', 'phase_id', string='Estimated Overhead')
     state = fields.Selection([('draft', 'Draft'),
                               ('inprogress', 'In Progress'),
-                              ('closed', 'Closed'),
+                              ('finished', 'Finished'),
                               ('canceled', 'Canceled'),
                               ('halted', 'Halted')], string="Status", readonly=True, default='draft')
+    description = fields.Text(string='Description')
 
 
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
-    def _compute_jobcost_count(self):
-        jobcost = self.env['job.costing']
-        job_cost_ids = self.mapped('job_cost_ids')
-        for task in self:
-            task.job_cost_count = jobcost.search_count([('id', 'in', job_cost_ids.ids)])
+    # def _compute_jobcost_count(self):
+    #     jobcost = self.env['job.costing']
+    #     job_cost_ids = self.mapped('job_cost_ids')
+    #     for task in self:
+    #         task.job_cost_count = jobcost.search_count([('id', 'in', job_cost_ids.ids)])
 
     @api.depends('picking_ids.requisition_line_ids')
     def _compute_stock_picking_moves(self):
@@ -231,13 +238,16 @@ class ProjectTask(models.Model):
         for task in self:
             task.notes_count = len(task.notes_ids)
 
-    job_cost_count = fields.Integer(compute='_compute_jobcost_count')
-    job_cost_ids = fields.One2many('job.costing', 'task_id')
+    # job_cost_count = fields.Integer(compute='_compute_jobcost_count')
+    # job_cost_ids = fields.One2many('job.costing', 'task_id')
     phase_id = fields.Many2one('project.phase', string="Phase")
     picking_ids = fields.One2many('material.purchase.requisition', 'task_id', string='Stock Pickings')
     move_ids = fields.Many2many('material.purchase.requisition.line', compute='_compute_stock_picking_moves',
                                 store=True)
-    material_plan_ids = fields.One2many('material.plan', 'material_task_id', string='Material Plannings')
+    material_plan_ids = fields.One2many('es.materials', 'task_id', string='Estimated Materials')
+    labour_plan_ids = fields.One2many('es.labours', 'task_id', string='Estimated Labours')
+    asset_plan_ids = fields.One2many('es.assets', 'task_id', string='Estimated Equipments')
+    exp_plan_ids = fields.One2many('es.expenses', 'task_id', string='Estimated Overhead')
     consumed_material_ids = fields.One2many('consumed.material', 'consumed_task_material_id',
                                             string='Consumed Materials')
     stock_moves_count = fields.Integer(compute='total_stock_moves_count', string='# of Stock Moves', store=True)
@@ -251,7 +261,9 @@ class ProjectTask(models.Model):
         job_cost = self.mapped('job_cost_ids')
         action = self.env.ref('construction.action_job_costing').read()[0]
         action['domain'] = [('id', 'in', job_cost.ids)]
-        action['context'] = {'default_task_id':self.id,'default_project_id':self.project_id.id,'default_analytic_id':self.project_id.analytic_account_id.id,'default_user_id':self.user_id.id}
+        action['context'] = {'default_task_id': self.id, 'default_project_id': self.project_id.id,
+                             'default_analytic_id': self.project_id.analytic_account_id.id,
+                             'default_user_id': self.user_id.id}
         return action
 
     @api.model

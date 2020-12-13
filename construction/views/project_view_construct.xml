@@ -24,26 +24,6 @@
         <field name="view_mode">tree</field>
         <field name="act_window_id" ref="action_view_task_subtask"/>
     </record>
-    
-    <record model="ir.ui.view" id="view_task_form2_inherit_subtask">
-        <field name="name">project.task.view</field>
-        <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
-        <field name="arch" type="xml">
-            <xpath expr="//form/header/field[@name='stage_id']" position="before">
-                 <button string="Create Subtasks" type="action" name="%(action_proejct_subtask_user_wizard)d"
-                         class="oe_highlight" groups="project.group_project_manager" />
-             </xpath>
-             <xpath expr="//form/sheet/notebook/page[2]" position="after">
-                 <page name="subtasks" string="Subtasks">
-                     <field name="child_task_ids" readonly="True" />
-                 </page>
-             </xpath>
-             <field name="user_id" position="after">
-                 <field name="parent_task_id" invisible="1"/>
-            </field>
-        </field>
-     </record>
      
      <record model="ir.ui.view" id="view_task_search_form_inherit_parenttask">
         <field name="name">project.task.view</field>

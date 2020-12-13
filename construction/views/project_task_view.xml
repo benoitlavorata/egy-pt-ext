@@ -1,12 +1,122 @@
 <odoo>
     <data>
+
+        <record id="construction_task_kanban" model="ir.ui.view">
+            <field name="name">construction.task.kanban</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="replace">
+                    <kanban default_group_by="stage_id" class="o_kanban_small_column o_kanban_project_tasks" examples="project">
+                        <field name="color"/>
+                        <field name="priority"/>
+                        <field name="stage_id" options="{&quot;group_by_tooltip&quot;: {&quot;description&quot;: &quot;Description&quot;}}"/>
+                        <field name="user_id"/>
+                        <field name="partner_id"/>
+                        <field name="sequence"/>
+                        <field name="date_deadline"/>
+                        <field name="date_deadline_formatted"/>
+                        <field name="message_needaction_counter"/>
+                        <field name="displayed_image_id"/>
+                        <field name="active"/>
+                        <field name="legend_blocked"/>
+                        <field name="legend_normal"/>
+                        <field name="legend_done"/>
+                        <field name="activity_ids"/>
+                        <field name="activity_state"/>
+                        <field name="rating_last_value"/>
+                        <field name="rating_ids"/>
+                        <progressbar field="kanban_state" colors="{&quot;done&quot;: &quot;success&quot;, &quot;blocked&quot;: &quot;danger&quot;, &quot;normal&quot;: &quot;muted&quot;}"/>
+                        <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="{{!selection_mode ? 'oe_kanban_color_' + kanban_getcolor(record.color.raw_value) : ''}} oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                            <span invisible="context.get('default_project_id', False) or context.get('fsm_mode', False)"><br/><field name="project_id"/></span>
+                                            <br/>
+                                            <t t-if="record.partner_id.value">
+                                                <span>
+                                                    <field name="partner_id"/>
+                                                </span>
+                                            </t>
+                                            <t t-else="record.email_from.raw_value"><span><field name="email_from"/></span></t>
+                                        </div>
+                                        <div class="o_dropdown_kanban dropdown" t-if="!selection_mode" groups="base.group_user">
+                                            <a role="button" class="dropdown-toggle o-no-caret btn" data-toggle="dropdown" data-display="static" href="#" aria-label="Dropdown menu" title="Dropdown menu">
+                                                <span class="fa fa-ellipsis-v"/>
+                                            </a>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a t-if="widget.editable" role="menuitem" type="set_cover" class="dropdown-item" data-field="displayed_image_id">Set Cover Image</a>
+                                                <a name="162" role="menuitem" type="action" class="dropdown-item">Share</a>
+                                                <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">Edit Task</a>
+                                                <a t-if="widget.deletable" role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                                <div role="separator" class="dropdown-divider"/>
+                                                <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" invisible="context.get('fsm_mode', False)"/>
+                                        <div t-if="record.displayed_image_id.value">
+                                            <field name="displayed_image_id" widget="attachment_image"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_bottom" t-if="!selection_mode">
+                                        <div class="oe_kanban_bottom_left">
+                                            <field name="priority" widget="priority"/>
+                                            <field name="activity_ids" widget="kanban_activity"/>
+                                            <t t-if="record.message_needaction_counter.raw_value">
+                                                <span role="alert" class="oe_kanban_mail_new" title="Unread Messages"><i class="fa fa-comments" role="img" aria-label="Unread Messages"/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                            </t>
+                                            <b t-if="record.rating_ids.raw_value.length">
+                                                <span style="font-weight:bold;" class="fa fa-fw mt4 fa-smile-o text-success" t-if="record.rating_last_value.value == 10" title="Latest Rating: Satisfied" role="img" aria-label="Happy face"/>
+                                                <span style="font-weight:bold;" class="fa fa-fw mt4 fa-meh-o text-warning" t-if="record.rating_last_value.value == 5" title="Latest Rating: Not Satisfied" role="img" aria-label="Neutral face"/>
+                                                <span style="font-weight:bold;" class="fa fa-fw mt4 fa-frown-o text-danger" t-if="record.rating_last_value.value == 1" title="Latest Rating: Higly Dissatisfied" role="img" aria-label="Sad face"/>
+                                            </b>
+                                            <!-- formating of the date -->
+                                            <t t-set="date_format" t-value="'MM/DD/YY'"/>
+                                            <t t-set="date" t-value=""/>
+                                            <!-- color of the span -->
+                                            <t t-if="record.date_deadline.raw_value and moment(record.date_deadline.raw_value.toISOString()).startOf('day') lt moment().startOf('day')">
+                                                <t t-set="deadline_class" t-value="'oe_kanban_text_red'"/>
+                                            </t>
+                                            <t t-elif="record.date_deadline.raw_value and moment(record.date_deadline.raw_value.toISOString()).startOf('day') lt moment().endOf('day')">
+                                                <t t-set="deadline_class" t-value="'text-warning font-weight-bold'"/>
+                                            </t>
+                                            <!-- Date value -->
+                                            <t t-if="record.date_deadline.raw_value" t-set="date" t-value="record.date_deadline_formatted.raw_value"/>
+                                            <span name="date" t-attf-class="#{deadline_class || ''}"><t t-esc="date"/></span>
+                                        </div>
+                                        <div class="oe_kanban_bottom_right" t-if="!selection_mode">
+                                            <field name="kanban_state" widget="state_selection" groups="base.group_user" invisible="context.get('fsm_mode', False)"/>
+                                            <img t-att-src="kanban_image('res.users', 'image_128', record.user_id.raw_value)" t-att-title="record.user_id.value" t-att-alt="record.user_id.value" class="oe_kanban_avatar"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="oe_clear"/>
+                            </div>
+                        </t>
+                        </templates>
+                    </kanban>
+                </xpath>
+            </field>
+        </record>
     
         <record id="view_task_form2_inherit_picking" model="ir.ui.view">
             <field name="name">project.task.form</field>
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
+                <xpath expr="//form/header/field[@name='stage_id']" position="before">
+                     <button string="Create Subtasks" type="action" name="%(action_proejct_subtask_user_wizard)d"
+                             class="oe_highlight" groups="project.group_project_manager" />
+                </xpath>
                 <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
+<!--                    <button name="task_to_jobcost_action" type="object" class="oe_stat_button" icon="fa-book">-->
+<!--                        <field string="Task costs" name="job_cost_count" widget="statinfo"/>-->
+<!--                    </button>-->
                     <button class="oe_stat_button" string="Stock Moves" name="view_stock_moves" type="object" icon="fa-navicon">
 <!--                        <field name="stock_moves_count" widget="statinfo" options="{'label_field': 'label_notes'}"/-->
                     </button>
@@ -20,24 +130,67 @@
                 <field name="project_id" position="after">
                     <field name="phase_id"/>
                 </field>
+                <field name="user_id" position="after">
+                     <field name="parent_task_id" invisible="1"/>
+                </field>
                 <xpath expr="//form/sheet/notebook/page[@name='description_page']" position="after">
-                    <page string="Material Plannings" name="job_cost_task_material">
-                        <field name="material_plan_ids" nolabel="1">
-                            <tree editable="bottom">
-                                <field name="product_id"/>
-                                <field name="description"/>
-                                <field name="product_uom_qty"/>
-                                <field name="product_uom"/>
-                            </tree>
-                        </field>
+                    <page name="subtasks" string="Subtasks">
+                        <field name="child_task_ids" readonly="True" />
+                    </page>
+                    <page string="Estimated Sheet" name="job_cost_task_material">
+                        <group string="Materials">
+                            <field name="material_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="product_qty" readonly="1"/>
+                                    <field name="product_uom" readonly="1"/>
+                                    <field name="es_per_unit" readonly="1"/>
+                                    <field name="total_material" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Labours">
+                            <field name="labour_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="name" readonly="1"/>
+                                    <field name="labour_no" readonly="1"/>
+                                    <field name="work_day" readonly="1"/>
+                                    <field name="es_per_day" readonly="1"/>
+                                    <field name="total_labour" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Equipments">
+                            <field name="asset_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="asset_id" readonly="1"/>
+                                    <field name="asset_qty" readonly="1"/>
+                                    <field name="asset_w_days" readonly="1"/>
+                                    <field name="es_per_asset" readonly="1"/>
+                                    <field name="total_asset" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Overhead">
+                            <field name="exp_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="expenses_id" readonly="1"/>
+                                    <field name="total_expense" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
                     </page>
                     <page string="Consumed Materials" name="job_cost_task_consume_material">
                         <field name="consumed_material_ids" nolabel="1">
-                            <tree editable="bottom">
-                                <field name="product_id"/>
-                                <field name="description"/>
-                                <field name="product_uom_qty"/>
-                                <field name="product_uom"/>
+                            <tree create="false" delete="false" editable="bottom">
+                                <field name="product_id" readonly="1"/>
+                                <field name="description" readonly="1"/>
+                                <field name="product_uom_qty" readonly="1"/>
+                                <field name="product_uom" readonly="1"/>
                             </tree>
                         </field>
                     </page>

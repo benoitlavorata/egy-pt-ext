@@ -12,7 +12,7 @@
         <record id="joborder_seq" model = "ir.sequence">
             <field name="name">Joborder Sequence</field>
             <field name="code">project.task</field>
-            <field name="prefix">JOB/</field>
+            <field name="prefix">TSK/</field>
             <field name="padding">5</field>
         </record>
     </data>

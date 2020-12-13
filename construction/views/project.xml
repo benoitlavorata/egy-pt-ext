@@ -62,6 +62,11 @@
             <field name="model">project.phase</field>
             <field name="arch" type="xml">
                 <form string="Project Phase">
+                    <header>
+                        <field name="state" options="{'clickable': '1', 'fold_field': 'fold'}"
+                               widget="statusbar"
+                               statusbar_visible="draft,inprogress,finished,canceled"/>
+                    </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box" groups="base.group_user">
                             <button class="oe_stat_button" type="action"
@@ -79,8 +84,62 @@
                             <group>
                                 <field name="start_date"/>
                                 <field name="end_date"/>
+                                <field name="date_started"/>
+                                <field name="date_ended"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                            <page string="Estimated Sheet" name="job_cost_task_material">
+                        <group string="Materials">
+                            <field name="material_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="product_id" readonly="1"/>
+                                    <field name="product_qty" readonly="1"/>
+                                    <field name="product_uom" readonly="1"/>
+                                    <field name="es_per_unit" readonly="1"/>
+                                    <field name="total_material" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Labours">
+                            <field name="labour_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="name" readonly="1"/>
+                                    <field name="labour_no" readonly="1"/>
+                                    <field name="work_day" readonly="1"/>
+                                    <field name="es_per_day" readonly="1"/>
+                                    <field name="total_labour" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Equipments">
+                            <field name="asset_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="asset_id" readonly="1"/>
+                                    <field name="asset_qty" readonly="1"/>
+                                    <field name="asset_w_days" readonly="1"/>
+                                    <field name="es_per_asset" readonly="1"/>
+                                    <field name="total_asset" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Overhead">
+                            <field name="exp_plan_ids" nolabel="1">
+                                <tree create="false" delete="false" editable="bottom">
+                                    <field name="expenses_id" readonly="1"/>
+                                    <field name="total_expense" readonly="1"/>
+                                    <field name="description" readonly="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                        </notebook>
                     </sheet>
                     <div class="oe_chatter" position="replace">
                         <div class="oe_chatter">
@@ -381,18 +440,18 @@
             </field>
         </record>
 
-        <record id="job_cost_task_form_view" model="ir.ui.view">
-            <field name="name">project.task.inherited.form</field>
-            <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
-            <field name="arch" type="xml">
-                <xpath expr="//div[@name='button_box']" position="inside">
-                    <button name="task_to_jobcost_action" type="object" class="oe_stat_button" icon="fa-book">
-                        <field string="Task costs" name="job_cost_count" widget="statinfo"/>
-                    </button>
-                </xpath>
-            </field>
-        </record>
+<!--        <record id="job_cost_task_form_view" model="ir.ui.view">-->
+<!--            <field name="name">project.task.inherited.form</field>-->
+<!--            <field name="model">project.task</field>-->
+<!--            <field name="inherit_id" ref="project.view_task_form2"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//div[@name='button_box']" position="inside">-->
+<!--                    <button name="task_to_jobcost_action" type="object" class="oe_stat_button" icon="fa-book">-->
+<!--                        <field string="Task costs" name="job_cost_count" widget="statinfo"/>-->
+<!--                    </button>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
 
     </data>
 </odoo>

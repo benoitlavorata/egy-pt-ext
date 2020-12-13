@@ -3,6 +3,7 @@
 from datetime import date
 
 from odoo import models, fields, api, _
+from datetime import datetime
 from odoo.exceptions import Warning
 
 
@@ -24,8 +25,7 @@ class JobType(models.Model):
 class JobCosting(models.Model):
     _name = 'job.costing'
     _inherit = ['mail.thread', 'mail.activity.mixin', 'portal.mixin']
-    _description = "Job Costing"
-    _rec_name = 'number'
+    _description = "Task Costing"
 
     def _invocie_count(self):
         invoice_obj = self.env['account.move']
@@ -33,10 +33,10 @@ class JobCosting(models.Model):
             cost_sheet.invoice_count = invoice_obj.search_count([('job_cost_id', '=', cost_sheet.id)])
 
     @api.model
-    def create(self,vals):
+    def create(self, vals):
         number = self.env['ir.sequence'].next_by_code('job.costing')
         vals.update({
-            'number': number,
+            'name': number,
         })
         return super(JobCosting, self).create(vals) 
 
@@ -90,20 +90,28 @@ class JobCosting(models.Model):
     def _onchange_project_id(self):
         for rec in self:
             rec.analytic_id = rec.project_id.analytic_account_id.id
+            rec.partner_id = rec.project_id.partner_id.id
+            last_sheet_date = self.env['job.costing'].search([('project_id', '=', rec.project_id.id)])
+            if last_sheet_date:
+                dt = rec.project_id.start_date
+                for sheet in last_sheet_date:
+                    if sheet.complete_date and dt:
+                        if sheet.complete_date > dt:
+                            dt = sheet.complete_date
+                rec.start_date = dt
 
-    number = fields.Char(readonly=True, default='New', copy=False)
-    name = fields.Char(required=True, copy=True, default='New', string='Name')
+    name = fields.Char(required=True, copy=True, string="Reference Number", default='New')
     notes_job = fields.Text(required=False, copy=True, string='Job Cost Details')
     user_id = fields.Many2one('res.users', default=lambda self: self.env.user,  string='Created By', readonly=True)
-    description = fields.Char(string='Description')
+    description = fields.Html(string='Description')
     currency_id = fields.Many2one('res.currency', string='Currency',
                                   default=lambda self: self.env.user.company_id.currency_id, readonly=True)
     company_id = fields.Many2one('res.company', default=lambda self: self.env.company, string='Company', readonly=True)
-    project_id = fields.Many2one('project.project', string='Project')
-    analytic_id = fields.Many2one('account.analytic.account', string='Analytic Account')
+    project_id = fields.Many2one('project.project', string='Project', required=True)
+    analytic_id = fields.Many2one('account.analytic.account', string='Analytic Account', readonly=True)
     contract_date = fields.Date(string='Contract Date')
-    start_date = fields.Date(string='Create Date', readonly=True, default=fields.Date.today())
-    complete_date = fields.Date(string='Closed Date', readonly=True)
+    start_date = fields.Date(string='From', required=True)
+    complete_date = fields.Date(string='To', required=True, default=fields.Date.today())
     material_total = fields.Float(string='Total Material Cost', compute='_compute_material_total', store=True)
     labor_total = fields.Float(string='Total Labour Cost', compute='_compute_labor_total', store=True)
     overhead_total = fields.Float(string='Total Overhead Cost', compute='_compute_overhead_total', store=True)
@@ -114,16 +122,10 @@ class JobCosting(models.Model):
                                           domain=[('job_type', '=', 'labour')])
     job_overhead_line_ids = fields.One2many('job.cost.line', 'direct_id', string='Direct Overheads',
                                             copy=False, domain=[('job_type', '=', 'overhead')])
-    partner_id = fields.Many2one('res.partner', string='Customer', required=True)
-    state = fields.Selection(
-        selection=[
-                    ('draft', 'Draft'),
-                    ('confirm', 'Confirmed'),
-                    ('approve', 'Approved'),
-                    ('done', 'Done'),
-                    ('cancel', 'Canceled')
-                  ], string='State', track_visibility='onchange', default='draft')
-    task_id = fields.Many2one('project.task', string='Task')
+    partner_id = fields.Many2one('res.partner', string='Customer', required=True, readonly=True)
+    state = fields.Selection(selection=[('draft', 'Draft'), ('confirm', 'Confirmed'), ('approve', 'Approved'),
+                             ('done', 'Done'), ('cancel', 'Canceled')], string='State', track_visibility='onchange',
+                             default='draft')
     so_number = fields.Char(string='Sale Reference')
     purchase_order_line_count = fields.Integer(compute='_purchase_order_line_count')
     job_costsheet_line_count = fields.Integer(compute='_job_costsheet_line_count')
@@ -132,23 +134,43 @@ class JobCosting(models.Model):
     timesheet_line_ids = fields.One2many('account.analytic.line', 'job_cost_id')
     account_invoice_line_count = fields.Integer(compute='_account_invoice_line_count')
     account_invoice_line_ids = fields.One2many('account.move.line', 'job_cost_id')
-    
+    confirmed_by = fields.Char("Confirmed By", readonly=True, copy=False)
+    cancelled_by = fields.Char("Cancelled By", readonly=True, copy=False)
+    approved_by = fields.Char("Approved By", readonly=True, copy=False)
+    confirmed_date = fields.Datetime("Confirmed Date", readonly=True, copy=False)
+    cancelled_date = fields.Datetime("Cancelled Date", readonly=True, copy=False)
+    approved_date = fields.Datetime("Approved Date", readonly=True, copy=False)
+    labour_ids = fields.One2many(comodel_name='act.labours', inverse_name='act_labour_id',
+                                 string=_("Labours"))
+    material_ids = fields.One2many(comodel_name='act.materials', inverse_name='act_product_id',
+                                   string=_("Materials"))
+    asset_ids = fields.One2many(comodel_name='act.assets', inverse_name='act_asset_id',
+                                string=_("Equipments"))
+    expense_ids = fields.One2many(comodel_name='act.expenses', inverse_name='act_expenses_id',
+                                  string=_("Overhead"))
+
     def action_draft(self):
         for rec in self:
             rec.write({
-                'state' : 'draft',
+                'state': 'draft',
             })
     
     def action_confirm(self):
+        user = self.env['res.users'].browse(self.env.uid)
         for rec in self:
             rec.write({
                 'state': 'confirm',
+                'confirmed_by': user.name,
+                'confirmed_date': datetime.today()
             })
         
     def action_approve(self):
+        user = self.env['res.users'].browse(self.env.uid)
         for rec in self:
             rec.write({
                 'state': 'approve',
+                'approved_by': user.name,
+                'approved_date': datetime.today()
             })
     
     def action_done(self):
@@ -159,9 +181,12 @@ class JobCosting(models.Model):
             })
         
     def action_cancel(self):
+        user = self.env['res.users'].browse(self.env.uid)
         for rec in self:
             rec.write({
                 'state': 'cancel',
+                'cancelled_by': user.name,
+                'cancelled_date': datetime.today()
             })
 
     def action_view_purchase_order_line(self):
@@ -225,7 +250,7 @@ class JobCosting(models.Model):
                    ('based_on_avbq', 'Based On Actual Vendor Bill Qty'),
                    ('based_on_mi', 'Based On Manual Invoice')],
         required=True,
-        default='based_on_avbq'
+        default='based_on_mi'
     )
 
     def action_view_invoice(self):
@@ -351,4 +376,110 @@ class JobCostLine(models.Model):
     invoice_hours = fields.Float('Invoiced Hour', compute="_compute_invoice_hour")
     manual_invoice_qty = fields.Float('Manual Invoiced Qty')
     manual_invoice_hours = fields.Float('Manual Invoiced Hour')
-    sale_price = fields.Float(string='Sale Price / Unit', copy=False)
+    sale_price = fields.Float(string='Price', copy=False)
+
+
+class MaterialsLines(models.Model):
+    _name = 'act.materials'
+    _description = "Task Cost Materials"
+
+    act_product_id = fields.Many2one('job.costing', required=True)
+    project = fields.Integer()
+    phase_id = fields.Many2one('project.phase')
+    task_id = fields.Many2one('project.task')
+    product_id = fields.Many2one('product.product', required=True)
+    product_qty = fields.Integer('Qty', required=True, default=1)
+    product_uom = fields.Many2one(related='product_id.uom_id', required=True, readonly=True)
+    act_per_unit = fields.Float('Value', required=True, default=0)
+    total_material = fields.Float('Total', readonly=True, store=True, default=0)
+    description = fields.Char(string='Description')
+
+    @api.onchange('product_id', 'product_qty')
+    def _onchange_product(self):
+        for mat in self:
+            if mat.product_id and mat.product_qty > 0:
+                cost = self.env['product.template'].search([('id', '=', mat.product_id.id)], limit=1).standard_price
+                if cost:
+                    mat.act_per_unit = cost
+                mat.total_material = mat.act_per_unit * mat.product_qty
+
+    @api.onchange('task_id')
+    def _onchange_task(self):
+        for line in self:
+            line.phase_id = line.task_id.phase_id
+
+
+class LaboursLines(models.Model):
+    _name = 'act.labours'
+    _description = "Task Cost Labours"
+
+    act_labour_id = fields.Many2one('job.costing', required=True)
+    project = fields.Integer()
+    phase_id = fields.Many2one('project.phase')
+    task_id = fields.Many2one('project.task')
+    name = fields.Many2one('hr.contract.type', required=True, string="Type")
+    labour_no = fields.Integer('Number of Labour', required=True, default=1)
+    work_day = fields.Integer('Days', required=True, default=1)
+    total_labour = fields.Float('Total', readonly=True, store=True, default=0)
+    description = fields.Char(string='Description')
+
+    @api.onchange('name', 'labour_no', 'work_day')
+    def _onchange_labour(self):
+        for lab in self:
+            if lab.name and lab.work_day > 0 and lab.labour_no > 0:
+                cost = 0
+                avg = self.env['hr.contract'].search([('type_id', '=', lab.name.id), ('state', '=', 'open')],
+                                                     limit=1).wage
+                if avg:
+                    cost += avg / 30
+                lab.total_labour = lab.labour_no * cost * lab.work_day
+
+    @api.onchange('task_id')
+    def _onchange_task(self):
+        for line in self:
+            line.phase_id = line.task_id.phase_id
+
+
+class AssetsLines(models.Model):
+    _name = 'act.assets'
+    _description = "Task Cost Assets"
+
+    act_asset_id = fields.Many2one('job.costing', required=True)
+    project = fields.Integer()
+    phase_id = fields.Many2one('project.phase')
+    task_id = fields.Many2one('project.task')
+    asset_id = fields.Many2one('account.asset', required=True)
+    asset_qty = fields.Integer('Qty', required=True, default=1)
+    asset_w_days = fields.Float('Days', required=True, default=1)
+    total_asset = fields.Float('Total', readonly=True, store=True, default=0)
+    description = fields.Char(string='Description')
+
+    @api.onchange('asset_id', 'asset_qty', 'asset_w_days', 'es_per_asset')
+    def _onchange_asset(self):
+        for ass in self:
+            if ass.asset_id and ass.asset_qty > 0 and ass.asset_w_days > 0:
+                cost = self.env['account.asset'].search([('id', '=', ass.asset_id.id)], limit=1).rent_per_day
+                ass.total_asset = cost * ass.asset_qty * ass.asset_w_days
+
+    @api.onchange('task_id')
+    def _onchange_task(self):
+        for line in self:
+            line.phase_id = line.task_id.phase_id
+
+
+class ExpensesLines(models.Model):
+    _name = 'act.expenses'
+    _description = "Task Cost Expenses"
+
+    act_expenses_id = fields.Many2one('job.costing', required=True)
+    project = fields.Integer()
+    phase_id = fields.Many2one('project.phase')
+    task_id = fields.Many2one('project.task')
+    expenses_id = fields.Many2one('account.account', domain="[('user_type_id', 'in', ['Expenses'])]", required=True)
+    total_expense = fields.Float('Total', required=True, default=0)
+    description = fields.Text(string='Description')
+
+    @api.onchange('task_id')
+    def _onchange_task(self):
+        for line in self:
+            line.phase_id = line.task_id.phase_id

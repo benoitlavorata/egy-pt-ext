@@ -22,6 +22,10 @@ access_es_labours,project_es_labours,model_es_labours,,1,1,1,1
 access_es_materials,project_es_materials,model_es_materials,,1,1,1,1
 access_es_assets,project_es_assets,model_es_assets,,1,1,1,1
 access_es_expenses,project_es_expenses,model_es_expenses,,1,1,1,1
+access_act_labours,project_act_labours,model_act_labours,,1,1,1,1
+access_act_materials,project_act_materials,model_act_materials,,1,1,1,1
+access_act_assets,project_act_assets,model_act_assets,,1,1,1,1
+access_act_expenses,project_act_expenses,model_act_expenses,,1,1,1,1
 access_project_boq,project_boq,model_project_boq,,1,1,1,1
 access_project_boq_lines,project_project_boq_lines,model_project_boq_lines,,1,1,1,1
 access_project_project_payments,project_project_payments,model_project_payments,,1,1,1,1

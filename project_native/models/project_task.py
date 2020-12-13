@@ -180,7 +180,6 @@ class ProjectTaskPredecessor(models.Model):
         return res
 
 
-
 class ProjectTaskNative(models.Model):
     _name = 'project.task'
     _inherit = 'project.task'
@@ -241,8 +240,6 @@ class ProjectTaskNative(models.Model):
 
         return date_start
 
-
-
     @api.model
     def _get_fixed_calc_type(self):
         value = [
@@ -266,7 +263,8 @@ class ProjectTaskNative(models.Model):
     # Gantt
     is_milestone = fields.Boolean("Mark as Milestone", default=False)
     on_gantt = fields.Boolean("Task name on gantt", default=False)
-    date_finished = fields.Datetime('Done Date')
+    date_started = fields.Datetime('Actual Start Date')
+    date_finished = fields.Datetime('Actual Ending Date')
 
     # info - autoplanning
     duration = fields.Integer(
@@ -311,7 +309,6 @@ class ProjectTaskNative(models.Model):
     duration_scale = fields.Char(string='Duration Scale', related="project_id.duration_scale", readonly=True, )
     duration_picker = fields.Selection(string='Duration Picker', related="project_id.duration_picker", readonly=True,)
     duration_work_scale = fields.Char(string='Duration Work Scale', related="project_id.duration_work_scale", readonly=True, )
-
 
     def update_date_end(self, stage_id):
         #Disable remove (end date) when stage change,
