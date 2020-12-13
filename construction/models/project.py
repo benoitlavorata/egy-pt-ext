@@ -4,6 +4,7 @@ from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from odoo.addons import decimal_precision as dp
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from odoo.exceptions import UserError, ValidationError
+from datetime import datetime
 
 
 class Project(models.Model):
@@ -275,12 +276,33 @@ class ProjectTask(models.Model):
         })
         if vals.get('phase_id'):
             phase_id = vals.get('phase_id')
-            phase = self.env['project.phase'].search([('id', '=', phase_id)], limit=1).name
+            phase = self.env['project.phase'].search([('id', '=', phase_id)], limit=1)
             if phase:
+                if vals.get('date_started'):
+                    dt = fields.Date.from_string(vals.get('date_started'))
+                    if fields.Date.from_string(phase.date_started) > fields.Date.from_string(vals.get('date_started')):
+                        phase.update({'date_started': dt})
+                if vals.get('date_finished'):
+                    dt = vals.get('date_finished')
+                    if fields.Date.from_string(phase.date_ended) < fields.Date.from_string(vals.get('date_finished')):
+                        phase.update({'date_ended': dt})
                 vals.update({
-                    'name': phase + " " + name,
+                    'name': phase.name + " " + name,
                 })
         return super(ProjectTask, self).create(vals)
+
+    def write(self, values):
+        if self.phase_id:
+            phase = self.phase_id
+            if values.get('date_started'):
+                dt = fields.Date.from_string(values.get('date_started'))
+                if fields.Date.from_string(phase.date_started) > fields.Date.from_string(values.get('date_started')):
+                    phase.update({'date_started': dt})
+            if values.get('date_finished'):
+                dt = values.get('date_finished')
+                if fields.Date.from_string(phase.date_ended) < fields.Date.from_string(values.get('date_finished')):
+                    phase.update({'date_ended': dt})
+        return super(ProjectTask, self).write(values)
 
     def view_stock_moves(self):
         for rec in self:

@@ -43,28 +43,33 @@ class JobCosting(models.Model):
     def unlink(self):
         for rec in self:
             if rec.state not in ('draft', 'cancel'):
-                raise Warning(_('You can not delete Job Cost Sheet which is not draft or cancelled.'))
+                raise Warning(_('You can not delete Task Cost Sheet which is not draft or cancelled.'))
         return super(JobCosting, self).unlink()
 
-    @api.depends('job_cost_line_ids', 'job_cost_line_ids.product_qty', 'job_cost_line_ids.cost_price')
+    @api.depends('material_ids', 'material_ids.product_qty', 'material_ids.act_per_unit')
     def _compute_material_total(self):
         for rec in self:
-            rec.material_total = sum([(p.product_qty * p.cost_price) for p in rec.job_cost_line_ids])
+            rec.material_total = sum([(p.product_qty * p.act_per_unit) for p in rec.material_ids])
 
-    @api.depends('job_labour_line_ids', 'job_labour_line_ids.hours', 'job_labour_line_ids.cost_price')
+    @api.depends('labour_ids', 'labour_ids.labour_no', 'labour_ids.work_day', 'labour_ids.total_labour')
     def _compute_labor_total(self):
         for rec in self:
-            rec.labor_total = sum([(p.hours * p.cost_price) for p in rec.job_labour_line_ids])
+            rec.labor_total = sum([(p.labour_no * p.work_day * p.total_labour) for p in rec.labour_ids])
 
-    @api.depends('job_overhead_line_ids', 'job_overhead_line_ids.product_qty', 'job_overhead_line_ids.cost_price')
+    @api.depends('asset_ids', 'asset_ids.total_asset')
+    def _compute_equipment_total(self):
+        for rec in self:
+            rec.equipment_total = sum([p.total_asset for p in rec.asset_ids])
+
+    @api.depends('expense_ids', 'expense_ids.total_expense')
     def _compute_overhead_total(self):
         for rec in self:
-            rec.overhead_total = sum([(p.product_qty * p.cost_price) for p in rec.job_overhead_line_ids])
+            rec.overhead_total = sum([p.total_expense for p in rec.expense_ids])
 
-    @api.depends('material_total', 'labor_total', 'overhead_total')
+    @api.depends('material_total', 'labor_total', 'overhead_total', 'equipment_total')
     def _compute_jobcost_total(self):
         for rec in self:
-            rec.jobcost_total = rec.material_total + rec.labor_total + rec.overhead_total
+            rec.jobcost_total = rec.material_total + rec.labor_total + rec.equipment_total + rec.overhead_total
 
     def _purchase_order_line_count(self):
         purchase_order_lines_obj = self.env['purchase.order.line']
@@ -114,6 +119,7 @@ class JobCosting(models.Model):
     complete_date = fields.Date(string='To', required=True, default=fields.Date.today())
     material_total = fields.Float(string='Total Material Cost', compute='_compute_material_total', store=True)
     labor_total = fields.Float(string='Total Labour Cost', compute='_compute_labor_total', store=True)
+    equipment_total = fields.Float(string='Total Equipment Cost', compute='_compute_equipment_total', store=True)
     overhead_total = fields.Float(string='Total Overhead Cost', compute='_compute_overhead_total', store=True)
     jobcost_total = fields.Float(string='Total Cost', compute='_compute_jobcost_total', store=True)
     job_cost_line_ids = fields.One2many('job.cost.line', 'direct_id', string='Direct Materials', copy=False,
@@ -140,14 +146,10 @@ class JobCosting(models.Model):
     confirmed_date = fields.Datetime("Confirmed Date", readonly=True, copy=False)
     cancelled_date = fields.Datetime("Cancelled Date", readonly=True, copy=False)
     approved_date = fields.Datetime("Approved Date", readonly=True, copy=False)
-    labour_ids = fields.One2many(comodel_name='act.labours', inverse_name='act_labour_id',
-                                 string=_("Labours"))
-    material_ids = fields.One2many(comodel_name='act.materials', inverse_name='act_product_id',
-                                   string=_("Materials"))
-    asset_ids = fields.One2many(comodel_name='act.assets', inverse_name='act_asset_id',
-                                string=_("Equipments"))
-    expense_ids = fields.One2many(comodel_name='act.expenses', inverse_name='act_expenses_id',
-                                  string=_("Overhead"))
+    labour_ids = fields.One2many(comodel_name='act.labours', inverse_name='act_labour_id', string=_("Labours"))
+    material_ids = fields.One2many(comodel_name='act.materials', inverse_name='act_product_id', string=_("Materials"))
+    asset_ids = fields.One2many(comodel_name='act.assets', inverse_name='act_asset_id', string=_("Equipments"))
+    expense_ids = fields.One2many(comodel_name='act.expenses', inverse_name='act_expenses_id', string=_("Overhead"))
 
     def action_draft(self):
         for rec in self:

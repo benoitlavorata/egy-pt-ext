@@ -10,8 +10,8 @@
                     <header>
                         <button name='action_draft' type="object" string='Reset to Draft' states='cancel'/>
                         <button name="action_confirm" type="object" string="Confirm" states="draft" class="btn-primary"/>
-                        <button name="%(action_job_costing_invoice)d" type="action" string="Create Invoice"
-                                groups="project.group_project_manager" states="confirm,approve,done" class="btn-primary"/>
+<!--                        <button name="%(action_job_costing_invoice)d" type="action" string="Create Invoice"-->
+<!--                                groups="project.group_project_manager" states="confirm,approve,done" class="btn-primary"/>-->
                         <button name="action_approve" type="object" string="Approve" states="confirm" class="btn-primary"/>
                         <button name="action_done" type="object" string="Done" states="approve" class="btn-primary"/>
                         <button name="action_cancel" type="object" string="Cancel" states="draft,confirm,approve"/>
@@ -62,11 +62,6 @@
                             </group>
                         </group>
                         <notebook>
-                            <page string="Notes">
-                                <group>
-                                    <field name="description" nolabel="1" attrs="{'readonly' : [('state','in',('approve','done','cancel'))]}"/>
-                                </group>
-                            </page>
                             <page string="Materials">
 								<field name="material_ids" context="{'default_project': project_id}" nolabel="1">
 									<tree editable="bottom" >
@@ -77,7 +72,7 @@
                                         <field name="description"/>
 										<field name="product_uom"/>
 										<field name="product_qty"/>
-										<field name="act_per_unit"/>
+										<field name="act_per_unit" readonly="1" force_save="1"/>
 										<field name="total_material" sum="tm" force_save="1"/>
 									</tree>
 								</field>
@@ -106,7 +101,7 @@
                                         <field name="description"/>
 										<field name="asset_qty"/>
 										<field name="asset_w_days"/>
-                                        <field name="total_asset"/>
+                                        <field name="total_asset" force_save="1"/>
 									</tree>
 								</field>
 							</page>
@@ -122,97 +117,97 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Materials" name="job_cost_material_page">
-                                <field name="job_cost_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'material'}" attrs="{'readonly' : [('state','in',('cancel'))]}">
-                                    <tree editable="bottom">
-                                        <field name="date"/>
-                                        <field name="job_type" invisible="1"/>
-                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>
-                                        <field name="product_id"/>
-                                        <field name="description"/>
-                                        <field name="reference"/>
-                                        <field name="product_qty" sum="Total"/>
-                                        <field name="uom_id"/>
-                                        <field name="cost_price" sum="Total"/>
-                                        <field name="sale_price" sum="Total"/>
-                                        <field name="actual_quantity" sum="Total"/>
-                                        <field name="actual_invoice_quantity" sum="Total"/>
-                                        <field name="total_cost" widget="monetary" sum="Total"/>
-                                        <field name="manual_invoice_qty" sum="Total"/>
-                                        <field name="invoice_qty" sum="Total"/>
-                                        <field name="billable"/>
-                                        <field name="currency_id" invisible="1"/>
-                                        <field name="direct_id" invisible="1"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Labours" name="job_cost_labour_page">
-                                <field name="job_labour_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'labour'}" attrs="{'readonly' : [('state','in',('cancel'))]}">
-                                    <tree editable="bottom">
-                                        <field name="date"/>
-                                        <field name="job_type" invisible="1"/>
-                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>
-                                        <field name="product_id"/>
-                                        <field name="description"/>
-                                        <field name="reference"/>
-                                        <field name="hours" widget="float_time" sum="Total"/>
-                                        <field name="cost_price" sum="Total"/>
-                                        <field name="actual_hour" widget="float_time" sum="Total"/>
-                                        <field name="total_cost" widget="monetary" sum="Total"/>
-                                        <field name="manual_invoice_hours" sum="Total" widget="float_time"/>
-                                        <field name="invoice_hours" sum="Total" widget="float_time"/>
-                                        <field name="billable"/>
-                                        <field name="currency_id" invisible="1"/>
-                                        <field name="direct_id" invisible="1"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Equipment" name="job_cost_labour_page">
-                                <field name="job_labour_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'labour'}" attrs="{'readonly' : [('state','in',('cancel'))]}">
-                                    <tree editable="bottom">
-                                        <field name="date"/>
-                                        <field name="job_type" invisible="1"/>
-                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>
-                                        <field name="product_id"/>
-                                        <field name="description"/>
-                                        <field name="reference"/>
-                                        <field name="hours" widget="float_time" sum="Total"/>
-                                        <field name="cost_price" sum="Total"/>
-                                        <field name="actual_hour" widget="float_time" sum="Total"/>
-                                        <field name="total_cost" widget="monetary" sum="Total"/>
-                                        <field name="manual_invoice_hours" sum="Total" widget="float_time"/>
-                                        <field name="invoice_hours" sum="Total" widget="float_time"/>
-                                        <field name="billable"/>
-                                        <field name="currency_id" invisible="1"/>
-                                        <field name="direct_id" invisible="1"/>
-                                    </tree>
-                                </field>
-                            </page>
-                            <page string="Overhead" name="job_cost_overhead_page">
-                                <field name="job_overhead_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'overhead'}" attrs="{'readonly' : [('state','in',('cancel'))]}">
-                                    <tree editable="bottom">
-                                        <field name="date"/>
-                                        <field name="job_type" invisible="1"/>
-                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>
-                                        <field name="product_id"/>
-                                        <field name="description"/>
-                                        <field name="reference"/>
-                                        <field name="basis"/>
-                                        <field name="product_qty" sum="Total"/>
-                                        <field name="uom_id"/>
-                                        <field name="cost_price" sum="Total"/>
-                                        <field name="sale_price" sum="Total"/>
-                                        <field name="actual_quantity" sum="Total"/>
-                                        <field name="actual_invoice_quantity" sum="Total"/>
-                                        <field name="total_cost" widget="monetary" sum="Total"/>
-                                        <field name="manual_invoice_qty" sum="Total"/>
-                                        <field name="invoice_qty" sum="Total"/>
-                                        <field name="billable"/>
-                                        <field name="currency_id" invisible="1"/>
-                                        <field name="direct_id" invisible="1"/>
-                                    </tree>
-                                </field>
-                            </page>
+<!--                            <page string="Materials" name="job_cost_material_page">-->
+<!--                                <field name="job_cost_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'material'}" attrs="{'readonly' : [('state','in',('cancel'))]}">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="date"/>-->
+<!--                                        <field name="job_type" invisible="1"/>-->
+<!--                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>-->
+<!--                                        <field name="product_id"/>-->
+<!--                                        <field name="description"/>-->
+<!--                                        <field name="reference"/>-->
+<!--                                        <field name="product_qty" sum="Total"/>-->
+<!--                                        <field name="uom_id"/>-->
+<!--                                        <field name="cost_price" sum="Total"/>-->
+<!--                                        <field name="sale_price" sum="Total"/>-->
+<!--                                        <field name="actual_quantity" sum="Total"/>-->
+<!--                                        <field name="actual_invoice_quantity" sum="Total"/>-->
+<!--                                        <field name="total_cost" widget="monetary" sum="Total"/>-->
+<!--                                        <field name="manual_invoice_qty" sum="Total"/>-->
+<!--                                        <field name="invoice_qty" sum="Total"/>-->
+<!--                                        <field name="billable"/>-->
+<!--                                        <field name="currency_id" invisible="1"/>-->
+<!--                                        <field name="direct_id" invisible="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
+<!--                            <page string="Labours" name="job_cost_labour_page">-->
+<!--                                <field name="job_labour_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'labour'}" attrs="{'readonly' : [('state','in',('cancel'))]}">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="date"/>-->
+<!--                                        <field name="job_type" invisible="1"/>-->
+<!--                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>-->
+<!--                                        <field name="product_id"/>-->
+<!--                                        <field name="description"/>-->
+<!--                                        <field name="reference"/>-->
+<!--                                        <field name="hours" widget="float_time" sum="Total"/>-->
+<!--                                        <field name="cost_price" sum="Total"/>-->
+<!--                                        <field name="actual_hour" widget="float_time" sum="Total"/>-->
+<!--                                        <field name="total_cost" widget="monetary" sum="Total"/>-->
+<!--                                        <field name="manual_invoice_hours" sum="Total" widget="float_time"/>-->
+<!--                                        <field name="invoice_hours" sum="Total" widget="float_time"/>-->
+<!--                                        <field name="billable"/>-->
+<!--                                        <field name="currency_id" invisible="1"/>-->
+<!--                                        <field name="direct_id" invisible="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
+<!--                            <page string="Equipment" name="job_cost_labour_page">-->
+<!--                                <field name="job_labour_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'labour'}" attrs="{'readonly' : [('state','in',('cancel'))]}">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="date"/>-->
+<!--                                        <field name="job_type" invisible="1"/>-->
+<!--                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>-->
+<!--                                        <field name="product_id"/>-->
+<!--                                        <field name="description"/>-->
+<!--                                        <field name="reference"/>-->
+<!--                                        <field name="hours" widget="float_time" sum="Total"/>-->
+<!--                                        <field name="cost_price" sum="Total"/>-->
+<!--                                        <field name="actual_hour" widget="float_time" sum="Total"/>-->
+<!--                                        <field name="total_cost" widget="monetary" sum="Total"/>-->
+<!--                                        <field name="manual_invoice_hours" sum="Total" widget="float_time"/>-->
+<!--                                        <field name="invoice_hours" sum="Total" widget="float_time"/>-->
+<!--                                        <field name="billable"/>-->
+<!--                                        <field name="currency_id" invisible="1"/>-->
+<!--                                        <field name="direct_id" invisible="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
+<!--                            <page string="Overhead" name="job_cost_overhead_page">-->
+<!--                                <field name="job_overhead_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'overhead'}" attrs="{'readonly' : [('state','in',('cancel'))]}">-->
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="date"/>-->
+<!--                                        <field name="job_type" invisible="1"/>-->
+<!--                                        <field name="job_type_id" domain="[('job_type','=',job_type)]"/>-->
+<!--                                        <field name="product_id"/>-->
+<!--                                        <field name="description"/>-->
+<!--                                        <field name="reference"/>-->
+<!--                                        <field name="basis"/>-->
+<!--                                        <field name="product_qty" sum="Total"/>-->
+<!--                                        <field name="uom_id"/>-->
+<!--                                        <field name="cost_price" sum="Total"/>-->
+<!--                                        <field name="sale_price" sum="Total"/>-->
+<!--                                        <field name="actual_quantity" sum="Total"/>-->
+<!--                                        <field name="actual_invoice_quantity" sum="Total"/>-->
+<!--                                        <field name="total_cost" widget="monetary" sum="Total"/>-->
+<!--                                        <field name="manual_invoice_qty" sum="Total"/>-->
+<!--                                        <field name="invoice_qty" sum="Total"/>-->
+<!--                                        <field name="billable"/>-->
+<!--                                        <field name="currency_id" invisible="1"/>-->
+<!--                                        <field name="direct_id" invisible="1"/>-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+<!--                            </page>-->
                             <page string="Other Info">
                                 <group>
                                     <field name="partner_id" force_save="1"/>
@@ -236,6 +231,11 @@
 				            		</group>
 			            		</group>
 			            	</page>
+                            <page string="Notes">
+    <group>
+        <field name="description" nolabel="1" attrs="{'readonly' : [('state','in',('approve','done','cancel'))]}"/>
+    </group>
+</page>
                             <page invisible="1">
                             <field name="invoice_ids"/>
                         </page>
@@ -244,6 +244,7 @@
                              <group class="oe_subtotal_footer oe_right" colspan="2" name="jobcost_total">
                                  <field name="material_total" widget="monetary"/>
                                  <field name="labor_total" widget="monetary"/>
+                                 <field name="equipment_total" widget="monetary"/>
                                  <field name="overhead_total" widget="monetary"/>
                                  <field name="jobcost_total" widget="monetary"/>
                              </group>
