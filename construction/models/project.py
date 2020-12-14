@@ -51,6 +51,16 @@ class Project(models.Model):
                 amount += cost.jobcost_total
             pro.actual_amount = amount
             pro.actual_qty_amount = qty
+            print(amount)
+
+    def _compute_estimated(self):
+        for pro in self:
+            amount = 0
+            es = self.env['estimated.sheet'].search([('project_id', '=', pro.id)])
+            for cost in es:
+                amount += cost.es_total
+            pro.total_es = amount
+            print(amount)
 
     job_cost_count = fields.Integer(compute='_compute_jobcost_count')
     job_cost_ids = fields.One2many('job.costing', 'project_id')
@@ -82,9 +92,9 @@ class Project(models.Model):
                                           ('portal', 'Portal users and all employees')], string='Visibility',
                                           required=True, default='followers')
     boq_amount = fields.Integer(string="BOQ amount", compute='_compute_boq_amount')
-    actual_amount = fields.Integer(string="Actual amount", compute='_compute_actual_amount')
-    boq_qty_amount = fields.Integer(string="BOQ amount", compute='_compute_boq_amount')
-    actual_qty_amount = fields.Integer(string="Actual amount", compute='_compute_actual_amount')
+    actual_amount = fields.Integer(string="Actual amount", compute='_compute_actual_amount', store=True)
+    boq_qty_amount = fields.Integer(string="BOQ amount", compute='_compute_boq_amount', store=True)
+    actual_qty_amount = fields.Integer(string="Actual amount", compute='_compute_actual_amount', store=True)
     type_of_construction = fields.Selection([('post_tension', 'Post Tension'), ('other', 'other')],
                                             string='Types of Construction', default="post_tension")
     location_id = fields.Many2one('res.partner', string='Location')
@@ -96,6 +106,7 @@ class Project(models.Model):
     partner_zip = fields.Char(related='partner_id.zip', readonly=False)
     partner_street = fields.Char(related='partner_id.street', readonly=False)
     partner_city = fields.Char(related='partner_id.city', readonly=False)
+    total_es = fields.Integer("Total Estimated", compute='_compute_estimated', store=True)
 
     @api.depends()
     def _compute_notes_count(self):
@@ -193,6 +204,40 @@ class ProjectPhase(models.Model):
         for phase in self:
             phase.task_count = result.get(phase.id, 0)
 
+    def _compute_cost(self):
+        for pro in self:
+            amount = 0
+            mes = self.env['act.materials'].search([('phase_id', '=', pro.id)])
+            for cost in mes:
+                amount += cost.total_material
+            les = self.env['act.labours'].search([('phase_id', '=', pro.id)])
+            for cost in les:
+                amount += cost.total_labour
+            aes = self.env['act.assets'].search([('phase_id', '=', pro.id)])
+            for cost in aes:
+                amount += cost.total_asset
+            ees = self.env['act.expenses'].search([('phase_id', '=', pro.id)])
+            for cost in ees:
+                amount += cost.total_expense
+            pro.total_act = amount
+
+    def _compute_est(self):
+        for pro in self:
+            amount = 0
+            mes = self.env['es.materials'].search([('phase_id', '=', pro.id)])
+            for cost in mes:
+                amount += cost.total_material
+            les = self.env['es.labours'].search([('phase_id', '=', pro.id)])
+            for cost in les:
+                amount += cost.total_labour
+            aes = self.env['es.assets'].search([('phase_id', '=', pro.id)])
+            for cost in aes:
+                amount += cost.total_asset
+            ees = self.env['es.expenses'].search([('phase_id', '=', pro.id)])
+            for cost in ees:
+                amount += cost.total_expense
+            pro.total_es = amount
+
     project_id = fields.Many2one('project.project', string="Project")
     name = fields.Char(string="Name", required=True)
     user_id = fields.Many2one('res.users', string="Assigned User")
@@ -212,6 +257,8 @@ class ProjectPhase(models.Model):
                               ('canceled', 'Canceled'),
                               ('halted', 'Halted')], string="Status", readonly=True, default='draft')
     description = fields.Text(string='Description')
+    total_es = fields.Integer("Total Estimated", compute='_compute_est')
+    total_act = fields.Integer("Total Cost", compute='_compute_cost')
 
 
 class ProjectTask(models.Model):
@@ -239,6 +286,40 @@ class ProjectTask(models.Model):
         for task in self:
             task.notes_count = len(task.notes_ids)
 
+    def _compute_cost(self):
+        for pro in self:
+            amount = 0
+            mes = self.env['act.materials'].search([('task_id', '=', pro.id)])
+            for cost in mes:
+                amount += cost.total_material
+            les = self.env['act.labours'].search([('task_id', '=', pro.id)])
+            for cost in les:
+                amount += cost.total_labour
+            aes = self.env['act.assets'].search([('task_id', '=', pro.id)])
+            for cost in aes:
+                amount += cost.total_asset
+            ees = self.env['act.expenses'].search([('task_id', '=', pro.id)])
+            for cost in ees:
+                amount += cost.total_expense
+            pro.total_act = amount
+
+    def _compute_est(self):
+        for pro in self:
+            amount = 0
+            mes = self.env['es.materials'].search([('task_id', '=', pro.id)])
+            for cost in mes:
+                amount += cost.total_material
+            les = self.env['es.labours'].search([('task_id', '=', pro.id)])
+            for cost in les:
+                amount += cost.total_labour
+            aes = self.env['es.assets'].search([('task_id', '=', pro.id)])
+            for cost in aes:
+                amount += cost.total_asset
+            ees = self.env['es.expenses'].search([('task_id', '=', pro.id)])
+            for cost in ees:
+                amount += cost.total_expense
+            pro.total_es = amount
+
     # job_cost_count = fields.Integer(compute='_compute_jobcost_count')
     # job_cost_ids = fields.One2many('job.costing', 'task_id')
     phase_id = fields.Many2one('project.phase', string="Phase")
@@ -257,6 +338,9 @@ class ProjectTask(models.Model):
     notes_ids = fields.One2many('note.note', 'task_id', string='Notes Id')
     notes_count = fields.Integer(compute='_compute_notes_count', string="Notes")
     job_number = fields.Char(string="Task Number", copy=False)
+    total_es = fields.Integer("Total Estimated", compute='_compute_est')
+    total_act = fields.Integer("Total Cost", compute='_compute_cost')
+    task_progress = fields.Float(string="Task Progress", default=0.0)
 
     def task_to_jobcost_action(self):
         job_cost = self.mapped('job_cost_ids')

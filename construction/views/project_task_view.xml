@@ -204,6 +204,48 @@
                 </xpath>
             </field>
         </record>
+
+        <record id="project_task_tree" model="ir.ui.view">
+            <field name="name">project.task.tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='project_id']" position="after">
+                    <field name="phase_id"/>
+                    <field name="total_es" sum="Total Estimated"/>
+                    <field name="total_act" sum="Total Cost"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="task_time_sheet" model="ir.ui.view">
+            <field name="name">task.time.sheet</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_tree2_inherited"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='progress']" position="replace">
+                    <field name="task_progress" widget="progressbar" optional="show"/>
+                </xpath>
+                <xpath expr="//field[@name='planned_hours']" position="replace"/>
+                <xpath expr="//field[@name='remaining_hours']" position="replace"/>
+                <xpath expr="//field[@name='effective_hours']" position="replace"/>
+
+            </field>
+        </record>
+
+        <record id="task_time_sheet_native" model="ir.ui.view">
+            <field name="name">task.time.sheet</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project_native.view_task_tree2_gantt"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='duration']" position="replace"/>
+
+            </field>
+        </record>
     
     </data>
 </odoo>

@@ -4,7 +4,7 @@ from datetime import date
 
 from odoo import models, fields, api, _
 from datetime import datetime
-from odoo.exceptions import Warning
+from odoo.exceptions import Warning, UserError, ValidationError
 
 
 class JobType(models.Model):
@@ -150,6 +150,8 @@ class JobCosting(models.Model):
     material_ids = fields.One2many(comodel_name='act.materials', inverse_name='act_product_id', string=_("Materials"))
     asset_ids = fields.One2many(comodel_name='act.assets', inverse_name='act_asset_id', string=_("Equipments"))
     expense_ids = fields.One2many(comodel_name='act.expenses', inverse_name='act_expenses_id', string=_("Overhead"))
+    task_progress = fields.One2many(comodel_name='task.progress', inverse_name='act_progress',
+                                    string=_("Task Progress"))
 
     def action_draft(self):
         for rec in self:
@@ -485,3 +487,55 @@ class ExpensesLines(models.Model):
     def _onchange_task(self):
         for line in self:
             line.phase_id = line.task_id.phase_id
+
+
+class TaskProgress(models.Model):
+    _name = 'task.progress'
+    _description = "Task Progress"
+
+    act_progress = fields.Many2one('job.costing', required=True)
+    project = fields.Integer()
+    phase_id = fields.Many2one('project.phase')
+    task_id = fields.Many2one('project.task')
+    progress_before = fields.Float("Before", default=0.0)
+    progress_current = fields.Float("Current", required=True)
+    description = fields.Text(string='Description')
+
+    @api.onchange('task_id')
+    def _onchange_task(self):
+        for line in self:
+            line.phase_id = line.task_id.phase_id
+            line.progress_before = line.task_id.task_progress
+
+    @api.model
+    def create(self, values):
+        if values.get('progress_current') > values.get('progress_before'):
+            progress = values.get('progress_current')
+            if progress:
+                task = self.env['project.task'].search([('id', '=', values.get('task_id'))])
+                task.update({
+                    'task_progress': progress
+                })
+        else:
+            raise ValidationError(_("Wrong value"))
+        return super(TaskProgress, self).create(values)
+
+    def write(self, values):
+        if values.get('progress_current') > values.get('progress_before'):
+            progress = values.get('progress_current')
+            if progress:
+                task = self.env['project.task'].search([('id', '=', self.task_id.id)])
+                task.update({
+                    'task_progress': progress
+                })
+            return super(TaskProgress, self).write(values)
+        else:
+            raise ValidationError(_("Wrong value"))
+
+    def unlink(self):
+        for line in self:
+            task = self.env['project.task'].search([('id', '=', self.task_id.id)])
+            task.update({
+                'task_progress': line.progress_before
+            })
+        return super(TaskProgress, self).unlink()

@@ -29,3 +29,4 @@ access_act_expenses,project_act_expenses,model_act_expenses,,1,1,1,1
 access_project_boq,project_boq,model_project_boq,,1,1,1,1
 access_project_boq_lines,project_project_boq_lines,model_project_boq_lines,,1,1,1,1
 access_project_project_payments,project_project_payments,model_project_payments,,1,1,1,1
+access_project_task_progress,project_task_progress,model_task_progress,,1,1,1,1

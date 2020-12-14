@@ -117,6 +117,18 @@
                                     </tree>
                                 </field>
                             </page>
+                            <page string="Task Progress">
+                                <field name="task_progress" context="{'default_project': project_id}" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="project" invisible="1"/>
+										<field name="phase_id" readonly="1" force_save="1"/>
+                                        <field name="task_id"/>
+                                        <field name="description"/>
+                                        <field name="progress_before" readonly="1" force_save="1"/>
+                                        <field name="progress_current"/>
+                                    </tree>
+                                </field>
+                            </page>
 <!--                            <page string="Materials" name="job_cost_material_page">-->
 <!--                                <field name="job_cost_line_ids" nolabel="1" context="{'default_analytic_id':analytic_id,'default_job_type':'material'}" attrs="{'readonly' : [('state','in',('cancel'))]}">-->
 <!--                                    <tree editable="bottom">-->
