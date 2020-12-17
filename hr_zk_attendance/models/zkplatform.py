@@ -2,18 +2,10 @@ from struct import pack, unpack
 from .zkconst import *
 
 
-def reverseHex(hexstr):
-    tmp = ''
-    for i in reversed(range(len(hexstr)/2)):
-        tmp += hexstr[i*2:(i*2)+2]
-    
-    return tmp
-
-
-def zksettime(self, t):
+def zkplatform(self):
     """Start a connection with the time clock"""
-    command = CMD_SET_TIME
-    command_string = pack('I',encode_time(t))
+    command = CMD_DEVICE
+    command_string = '~Platform'
     chksum = 0
     session_id = self.session_id
     reply_id = unpack('HHHH', self.data_recv[:8])[3]
@@ -28,12 +20,12 @@ def zksettime(self, t):
         return self.data_recv[8:]
     except:
         return False
-    
 
-def zkgettime(self):
+
+def zkplatformVersion(self):
     """Start a connection with the time clock"""
-    command = CMD_GET_TIME
-    command_string = ''
+    command = CMD_DEVICE
+    command_string = '~ZKFPVersion'
     chksum = 0
     session_id = self.session_id
     reply_id = unpack('HHHH', self.data_recv[:8])[3]
@@ -45,6 +37,7 @@ def zkgettime(self):
     try:
         self.data_recv, addr = self.zkclient.recvfrom(1024)
         self.session_id = unpack('HHHH', self.data_recv[:8])[2]
-        return decode_time( int( reverseHex( self.data_recv[8:].encode("hex") ), 16 ) )
+        return self.data_recv[8:]
     except:
         return False
+
