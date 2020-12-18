@@ -19,27 +19,26 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###################################################################################
-{
-    'name': 'Biometric Device Integration',
-    'version': '13.0.1.1.2',
-    'summary': """Integrating Biometric Device (Model: ZKteco uFace 202) With HR Attendance (Face + Thumb)""",
-    'description': """This module integrates Odoo with the biometric device(Model: ZKteco uFace 202),odoo13,odd,hr,attendance""",
-    'category': 'Generic Modules/Human Resources',
-    'author': 'Cybrosys Techno Solutions, Mostafa Shokiel',
-    'company': 'Cybrosys Techno Solutions',
-    'website': "https://www.cybrosys.com",
-    'depends': ['base_setup', 'hr_attendance'],
-    'data': [
-        'security/ir.model.access.csv',
-        'views/zk_machine_view.xml',
-        'views/zk_machine_attendance_view.xml',
-        'data/download_data.xml'
+from struct import pack, unpack
+from .zkconst import *
 
-    ],
-    'images': ['static/description/banner.gif'],
-    'license': 'AGPL-3',
-    'demo': [],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-}
+
+def zkfaceon(self):
+    """Start a connection with the time clock"""
+    command = CMD_DEVICE
+    command_string = 'FaceFunOn'
+    chksum = 0
+    session_id = self.session_id
+    reply_id = unpack('HHHH', self.data_recv[:8])[3]
+
+    buf = self.createHeader(command, chksum, session_id,
+        reply_id, command_string)
+    self.zkclient.sendto(buf, self.address)
+    #print buf.encode("hex")
+    try:
+        self.data_recv, addr = self.zkclient.recvfrom(1024)
+        self.session_id = unpack('HHHH', self.data_recv[:8])[2]
+        return self.data_recv[8:]
+    except:
+        return False
+
