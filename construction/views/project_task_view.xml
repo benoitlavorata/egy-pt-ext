@@ -235,17 +235,6 @@
 
             </field>
         </record>
-
-<!--	<record id="task_time_sheet_native" model="ir.ui.view">-->
-<!--        <field name="name">task.time.sheet</field>-->
-<!--        <field name="model">project.task</field>-->
-<!--        <field name="inherit_id" ref="project_native.view_task_tree2_gantt"/>-->
-<!--        <field name="arch" type="xml">-->
-
-<!--            <xpath expr="//field[@name='duration']" position="replace"/>-->
-
-<!--        </field>-->
-<!--    </record>-->
     
     </data>
 </odoo>
