@@ -264,12 +264,6 @@ class ProjectPhase(models.Model):
 class ProjectTask(models.Model):
     _inherit = 'project.task'
 
-    # def _compute_jobcost_count(self):
-    #     jobcost = self.env['job.costing']
-    #     job_cost_ids = self.mapped('job_cost_ids')
-    #     for task in self:
-    #         task.job_cost_count = jobcost.search_count([('id', 'in', job_cost_ids.ids)])
-
     @api.depends('picking_ids.requisition_line_ids')
     def _compute_stock_picking_moves(self):
         for rec in self:
@@ -320,8 +314,6 @@ class ProjectTask(models.Model):
                 amount += cost.total_expense
             pro.total_es = amount
 
-    # job_cost_count = fields.Integer(compute='_compute_jobcost_count')
-    # job_cost_ids = fields.One2many('job.costing', 'task_id')
     phase_id = fields.Many2one('project.phase', string="Phase")
     picking_ids = fields.One2many('material.purchase.requisition', 'task_id', string='Stock Pickings')
     move_ids = fields.Many2many('material.purchase.requisition.line', compute='_compute_stock_picking_moves',

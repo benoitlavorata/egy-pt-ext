@@ -3,13 +3,6 @@
 from odoo import models, fields, api, _
 
 
-class AccountInvoiceLine(models.Model):
-    _inherit = 'account.move.line'
-
-    job_cost_id = fields.Many2one('job.costing', string='Job Cost Center')
-    job_cost_line_id = fields.Many2one('job.cost.line', string='Job Cost Line')
-
-
 class AccountInvoice(models.Model):
     _inherit = 'account.move'
     
@@ -43,8 +36,6 @@ class AccountInvoice(models.Model):
                     if pre.id != rec.id:
                         rec.previously_invoice += pre.amount_total
                         rec.previously_invoice_due += pre.amount_residual
-                #rec.previously_invoice = rec.previously_invoice - rec.amount_total
-                #rec.previously_invoice_due = rec.previously_invoice_due - rec.residual
     
     @api.depends('amount_total')
     def _set_current_invoiced(self):
@@ -135,5 +126,3 @@ class AccountAnalyticLine(models.Model):
 
     start_time = fields.Float(string='Start Time')
     end_time = fields.Float(string='End Time')
-    job_cost_id = fields.Many2one('job.costing', string='Job Cost Center')
-    job_cost_line_id = fields.Many2one('job.cost.line', string='Job Cost Line')

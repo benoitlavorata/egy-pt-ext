@@ -2,6 +2,44 @@
 <odoo>
     <data>
 
+        <record model="ir.ui.view" id="job_type_form_view">
+            <field name="name">Job.Type.Form</field>
+            <field name="model">job.type</field>
+            <field name="arch" type="xml">
+                <form string='Task Type form'>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="job_type"/>
+                            </group>
+                            <group>
+                                <field name="code"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="job_type_tree_view" model="ir.ui.view">
+            <field name="name">Job.Type.List</field>
+            <field name="model">job.type</field>
+            <field name="arch" type="xml">
+                <tree string="Task Types" editable="bottom">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="job_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_job_type">
+            <field name="name">Task Type</field>
+            <field name="res_model">job.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
         <record id="project_estimated_sheet_act" model="ir.actions.act_window">
 	        <field name="name">Estimated Sheet</field>
 	        <field name="res_model">estimated.sheet</field>
@@ -146,7 +184,7 @@
                                                     <a name="%(project_boq_action)d" type="action">BOQ</a>
                                                 </div>
                                                 <div role="menuitem">
-                                                    <a name="%(project_action_job_costing)d" type="action">Job Cost</a>
+                                                    <a name="%(project_action_job_costing)d" type="action">Task Cost</a>
                                                 </div>
                                             </div>
                                             <div role="menuitem" aria-haspopup="true" class="o_no_padding_kanban_colorpicker">

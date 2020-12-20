@@ -23,7 +23,7 @@
         <menuitem id="material_purchase_requisitions.menu_action_purchase_requisition" name="Purchase Requisitions" parent="menu_materials" action="material_purchase_requisitions.action_material_purchase_requisition"/>
         <menuitem name="Equipment Work Orders" id="asset_work_order_menu" action="asset_work_order_action_main" sequence="4" parent="menu_materials"/>
 
-        <menuitem id="menu_job_type" parent="project.menu_project_config" name="Job Types" action="action_job_type" sequence="2"/>
+        <menuitem id="menu_job_type" parent="project.menu_project_config" name="Task Types" action="action_job_type" sequence="2"/>
         <menuitem id="menu_project_view_deduction" action="project_view_deduction_act" name="Deductions" parent="project.menu_project_config" sequence="12"/>
 
     </data>
