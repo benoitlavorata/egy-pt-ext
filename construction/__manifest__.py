@@ -15,7 +15,7 @@
     'category': 'Construction',
     'version': '0.1',
 
-    'depends': ['sale',
+    'depends': ['dash_view', 'sale',
                 'project',
                 'hr_timesheet',
                 'purchase',
