@@ -252,7 +252,7 @@ class LaboursLines(models.Model):
     _description = "Task Cost Labours"
 
     act_labour_id = fields.Many2one('job.costing', required=True)
-    project = fields.Integer()
+    lab_project = fields.Integer()
     phase_id = fields.Many2one('project.phase')
     task_id = fields.Many2one('project.task')
     name = fields.Many2one('hr.contract.type', required=True, string="Type")

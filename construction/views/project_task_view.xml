@@ -114,12 +114,6 @@
                              class="oe_highlight" groups="project.group_project_manager" />
                 </xpath>
                 <xpath expr="//form/sheet/div[@name='button_box']" position="inside">
-<!--                    <button name="task_to_jobcost_action" type="object" class="oe_stat_button" icon="fa-book">-->
-<!--                        <field string="Task costs" name="job_cost_count" widget="statinfo"/>-->
-<!--                    </button>-->
-                    <button class="oe_stat_button" string="Stock Moves" name="view_stock_moves" type="object" icon="fa-navicon">
-<!--                        <field name="stock_moves_count" widget="statinfo" options="{'label_field': 'label_notes'}"/-->
-                    </button>
                      <button class="oe_stat_button" type="object" icon="fa-tasks" name="view_notes">
                             <field string="Notes" name="notes_count" widget="statinfo" options="{'label_field': 'label_notes'}"/>
                      </button>
@@ -128,7 +122,7 @@
                     <field name="job_number"/>
                 </field>
                 <field name="project_id" position="after">
-                    <field name="phase_id"/>
+                    <field name="phase_id" domain="[('project_id', '=', project_id)]"/>
                 </field>
                 <field name="user_id" position="after">
                      <field name="parent_task_id" invisible="1"/>
@@ -174,7 +168,7 @@
                                 </tree>
                             </field>
                         </group>
-                        <group string="Overhead">
+                        <group name="overhead" string="Overhead">
                             <field name="exp_plan_ids" nolabel="1">
                                 <tree create="false" delete="false" editable="bottom">
                                     <field name="expenses_id" readonly="1"/>
@@ -184,24 +178,19 @@
                             </field>
                         </group>
                     </page>
-                    <page string="Consumed Materials" name="job_cost_task_consume_material">
-                        <field name="consumed_material_ids" nolabel="1">
-                            <tree create="false" delete="false" editable="bottom">
-                                <field name="product_id" readonly="1"/>
-                                <field name="description" readonly="1"/>
-                                <field name="product_uom_qty" readonly="1"/>
-                                <field name="product_uom" readonly="1"/>
-                            </tree>
-                        </field>
-                    </page>
-                    <page name="pickings" string="Material Requisitions" >
-                        <field name="picking_ids"  readonly="1" />
-                    </page>
-                    <!--
-                    <page name="stock_moves" string="Stock Moves" >
-                        <field name="move_ids"/>
-                    </page>-->
                 </xpath>
+            </field>
+        </record>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="remove_timesheet" model="ir.ui.view">
+            <field name="name">remove.timesheet</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//page[@id='timesheets_tab']" position="replace"/>
+
             </field>
         </record>
 

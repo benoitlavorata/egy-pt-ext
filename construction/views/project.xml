@@ -256,25 +256,30 @@
             </field>
         </record>
 
+        <record id="project_invoice" model="ir.ui.view">
+            <field name="name">project.invoice</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="sale_timesheet.project_project_view_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//button[@name='action_make_billable']" position="replace"/>
+
+            </field>
+        </record>
+
         <record id="job_cost_project_form_view" model="ir.ui.view">
             <field name="name">project.inherited.form</field>
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-                <xpath expr="//header" position="inside">
-                    <button name="%(action_job_costing_invoice)d" type="action" string="Create Invoice"
-                        groups="project.group_project_manager"
-                            attrs="{'invisible': [('job_cost_count', '=', 0)]}"
+                <xpath expr="//header" position="replace">
+                    <header>
+                        <button name="%(action_job_costing_invoice)d" type="action" string="Create Invoice"
+                            groups="project.group_project_manager"
+                            attrs="{'invisible': [('task_cost_count', '=', 0)]}"
                             class="btn-primary"/>
-                    <button type="object" name="set_draft" string="Draft" groups="project.group_project_manager"
-                            attrs="{'invisible': [('state', '=', 'draft')]}"/>
-                    <button type="object" name="set_study" string="Study" groups="project.group_project_manager"
-                            attrs="{'invisible': [('state', '=', 'study')]}"/>
-                    <button type="object" name="set_inprogress" string="In Progress" groups="project.group_project_manager"
-                            attrs="{'invisible': [('state', '=', 'inprogress')]}"/>
-                    <button type="object" name="set_canceled" string="Canceled" groups="project.group_project_manager"
-                            attrs="{'invisible': [('state', '=', 'canceled')]}" class="btn-danger"/>
-                    <field name="state" options="{'clickable': '1', 'fold_field': 'fold'}" widget="statusbar" statusbar_visible="draft,study,inprogress,finished,closed,canceled"/>
+                        <field name="stage" options="{'clickable': '1'}" widget="statusbar"/>
+                    </header>
                 </xpath>
                 <button name="%(project.act_project_project_2_project_task_all)d" position="replace">
                     <button name="%(construction.action_view_project_phase)d" type="action" class="oe_stat_button" icon="fa-book">
@@ -284,7 +289,7 @@
                         <field string="Tasks" name="task_count" widget="statinfo"/>
                     </button>
                     <button name="project_to_jobcost_action" type="object" class="oe_stat_button" icon="fa-book">
-                        <field string="Task Costs" name="job_cost_count" widget="statinfo"/>
+                        <field string="Task Costs" name="task_cost_count" widget="statinfo"/>
                     </button>
                     <button name="%(construction.project_estimated_sheet_action)d" type="action" class="oe_stat_button" icon="fa-book">
                         <field string="Estimated Sheet" name="estimated_count" widget="statinfo"/>
@@ -363,15 +368,15 @@
                         </group>
                     </page>
                     <page name="construction_sites" string="Construction Site Detail">
-                    <group>
                         <group>
-                            <field name="type_of_construction"/>
-                            <field name="location_id" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True}'/>
+                            <group>
+                                <field name="type_of_construction"/>
+                                <field name="location_id" context="{'search_default_customer':1, 'show_address': 1}" options='{"always_reload": True}'/>
+                            </group>
+                            <group>
+                            </group>
                         </group>
-                        <group>
-                        </group>
-                    </group>
-                </page>
+                    </page>
                 </xpath>
                 <page name="settings" position="before">
                     <page name="General Info" string="General Info">

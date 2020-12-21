@@ -67,7 +67,7 @@
             <field name="inherit_id" ref="project.project_view_kanban"/>
             <field name="arch" type="xml">
                 <xpath expr="//kanban" position="replace">
-                    <kanban default_group_by="state" class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors">
+                    <kanban default_group_by="stage" create="false" class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors">
                         <field name="name"/>
                         <field name="state"/>
                         <field name="partner_id"/>

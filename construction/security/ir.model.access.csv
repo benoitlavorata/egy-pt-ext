@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_material_plan_project_user,material_plan_project_user,model_material_plan,project.group_project_user,1,1,1,1
+access_project_stages,project_stages_project_user,model_project_stages,project.group_project_user,1,1,1,1
 access_consumed_material_project_user_,project_user_consumed_material,model_consumed_material,project.group_project_user,1,1,1,1
 project.access_partner_task_user,base.res.partner_user,base.model_res_partner,project.group_project_user,1,1,1,0
 access_material_project_user,project_user_material,stock.model_stock_picking,project.group_project_user,1,1,1,1

@@ -77,8 +77,7 @@ class EstimatedSheet(models.Model):
             boq.total_expenses = total_expenses
             sub_total = total_material + total_labour + total_asset + total_expenses + boq.tech_package
             mark = (sub_total * boq.mark_up) / 100
-            cont = (sub_total * boq.contingency) / 100
-            boq.total = sub_total + mark + cont
+            boq.total = sub_total + mark + boq.contingency
             boq.es_total = total_avg_material + total_avg_labour + total_avg_asset
             if boq.qty > 0 and boq.total > 0:
                 boq.unit_price = boq.total / boq.qty

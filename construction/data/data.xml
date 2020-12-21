@@ -22,5 +22,19 @@
             <field name="default_location_src_id" ref="stock.stock_location_stock"/>
             <field name="default_location_dest_id" ref="stock.stock_location_customers"/>
         </record>
+
+        <record model="project.stages" id="project_stages_draft">
+            <field name="name">Draft</field>
+            <field name="sequence">0</field>
+        </record>
+        <record model="project.stages" id="project_stages_study">
+            <field name="name">Study</field>
+            <field name="sequence">1</field>
+        </record>
+        <record model="project.stages" id="project_stages_progress">
+            <field name="name">In Progress</field>
+            <field name="sequence">2</field>
+        </record>
+
     </data>
 </odoo>

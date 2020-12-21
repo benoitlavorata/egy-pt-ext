@@ -10,15 +10,15 @@ from datetime import datetime
 class Project(models.Model):
     _inherit = "project.project"
 
-    def _compute_jobcost_count(self):
-        jobcost = self.env['job.costing']
-        job_cost_ids = self.mapped('job_cost_ids')
+    def _compute_task_cost_count(self):
+        task_cost = self.env['job.costing']
+        task_cost_ids = self.mapped('task_cost_ids')
         for project in self:
-            project.job_cost_count = jobcost.search_count([('id', 'in', job_cost_ids.ids)])
+            project.task_cost_count = task_cost.search_count([('id', 'in', task_cost_ids.ids)])
 
     def _compute_estimated_count(self):
         estimated = self.env['estimated.sheet']
-        estimated_ids = self.mapped('job_cost_ids')
+        estimated_ids = self.mapped('estimated_ids')
         for project in self:
             project.estimated_count = estimated.search_count([('id', 'in', estimated_ids.ids)])
 
@@ -62,8 +62,13 @@ class Project(models.Model):
             pro.total_es = amount
             print(amount)
 
-    job_cost_count = fields.Integer(compute='_compute_jobcost_count')
-    job_cost_ids = fields.One2many('job.costing', 'project_id')
+    @api.model
+    def get_default_stage(self):
+        stg = self.env['project.stages'].search([('sequence', '=', 0)], limit=1)
+        return stg
+
+    task_cost_count = fields.Integer(compute='_compute_task_cost_count')
+    task_cost_ids = fields.One2many('job.costing', 'project_id')
     phase_count = fields.Integer(compute='_compute_phase_count')
     phase_ids = fields.One2many('project.phase', 'project_id')
     boq_id = fields.One2many(comodel_name='project.boq', inverse_name='project_id')
@@ -97,6 +102,7 @@ class Project(models.Model):
     actual_qty_amount = fields.Integer(string="Actual amount", compute='_compute_actual_amount', store=True)
     type_of_construction = fields.Selection([('post_tension', 'Post Tension'), ('other', 'other')],
                                             string='Types of Construction', default="post_tension")
+    partner_id = fields.Many2one('res.partner', required=True)
     location_id = fields.Many2one('res.partner', string='Location')
     notes_ids = fields.One2many('note.note', 'project_id', string='Notes Id')
     notes_count = fields.Integer(compute='_compute_notes_count', string="Notes")
@@ -107,31 +113,27 @@ class Project(models.Model):
     partner_street = fields.Char(related='partner_id.street', readonly=False)
     partner_city = fields.Char(related='partner_id.city', readonly=False)
     total_es = fields.Integer("Total Estimated", compute='_compute_estimated', store=True)
+    stage = fields.Many2one("project.stages", default=get_default_stage)
 
     @api.depends()
     def _compute_notes_count(self):
         for project in self:
             project.notes_count = len(project.notes_ids)
 
-    def set_study(self):
-        for pro in self:
-            pro.write({'state': 'study'})
-
-    def set_inprogress(self):
-        for pro in self:
-            pro.write({'state': 'inprogress'})
-
-    def set_draft(self):
-        for pro in self:
-            pro.write({'state': 'draft'})
-
-    def set_closed(self):
-        for pro in self:
-            pro.write({'state': 'closed'})
-
-    def set_canceled(self):
-        for pro in self:
-            pro.write({'state': 'closed'})
+    @api.onchange('stage')
+    def _onchange_stage(self):
+        for rec in self:
+            stg = rec.stage
+            if stg.sequence == 1 and not rec.boq_id:
+                raise UserError(_('You cannot Study Project without BOQ.'))
+            elif stg.sequence == 2 and not rec.stock_warehouse_id:
+                raise UserError(_('You cannot Start Project without Warehouse'))
+            elif stg.sequence == 2 and not rec.stock_location_id:
+                raise UserError(_('You cannot Start Project without Location'))
+            elif stg.sequence == 2 and not rec.picking_type_id:
+                raise UserError(_('You cannot Start Project without Picking Type'))
+            else:
+                print('done')
 
     def view_notes(self):
         for rec in self:
@@ -148,31 +150,19 @@ class Project(models.Model):
         return res
 
     def project_to_jobcost_action(self):
-        job_cost = self.mapped('job_cost_ids')
+        job_cost = self.mapped('task_cost_ids')
         action = self.env.ref('construction.action_job_costing').read()[0]
         action['domain'] = [('id', 'in', job_cost.ids)]
         action['context'] = {'default_project_id': self.id, 'default_analytic_id': self.analytic_account_id.id,
                              'default_user_id': self.user_id.id}
         return action
 
+class ProjectStages(models.Model):
+    _name = 'project.stages'
+    _description = 'Project Stages'
 
-class MaterialPlanning(models.Model):
-    _name = 'material.plan'
-    _description = 'Material Plan'
-
-    @api.onchange('product_id')
-    def onchange_product_id(self):
-        result = {}
-        if not self.product_id:
-            return result
-        self.product_uom = self.product_id.uom_po_id or self.product_id.uom_id
-        self.description = self.product_id.name
-
-    product_id = fields.Many2one('product.product', string='Product')
-    description = fields.Char(string='Description')
-    product_uom_qty = fields.Integer('Quantity', default=1.0)
-    product_uom = fields.Many2one('uom.uom', 'Unit of Measure')
-    material_task_id = fields.Many2one('project.task', 'Material Plan Task')
+    name = fields.Char()
+    sequence = fields.Integer()
 
 
 class ConsumedMaterial(models.Model):
@@ -335,13 +325,19 @@ class ProjectTask(models.Model):
     task_progress = fields.Float(string="Task Progress", default=0.0)
 
     def task_to_jobcost_action(self):
-        job_cost = self.mapped('job_cost_ids')
+        task_cost = self.mapped('task_cost_ids')
         action = self.env.ref('construction.action_job_costing').read()[0]
-        action['domain'] = [('id', 'in', job_cost.ids)]
+        action['domain'] = [('id', 'in', task_cost.ids)]
         action['context'] = {'default_task_id': self.id, 'default_project_id': self.project_id.id,
                              'default_analytic_id': self.project_id.analytic_account_id.id,
                              'default_user_id': self.user_id.id}
         return action
+
+    @api.onchange('project_id')
+    def _change_phase_id(self):
+        for rec in self:
+            if rec.project_id != rec._origin.project_id:
+                rec.phase_id = False
 
     @api.model
     def create(self, vals):
@@ -356,29 +352,41 @@ class ProjectTask(models.Model):
             if phase:
                 if vals.get('date_started'):
                     dt = fields.Date.from_string(vals.get('date_started'))
-                    if fields.Date.from_string(phase.date_started) > fields.Date.from_string(vals.get('date_started')):
+                    if phase.date_started:
+                        if fields.Date.from_string(phase.date_started) > fields.Date.from_string(vals.get('date_started')):
+                            phase.update({'date_started': dt})
+                    else:
                         phase.update({'date_started': dt})
                 if vals.get('date_finished'):
                     dt = vals.get('date_finished')
-                    if fields.Date.from_string(phase.date_ended) < fields.Date.from_string(vals.get('date_finished')):
+                    if phase.date_ended:
+                        if fields.Date.from_string(phase.date_ended) < fields.Date.from_string(vals.get('date_finished')):
+                            phase.update({'date_ended': dt})
+                    else:
                         phase.update({'date_ended': dt})
                 vals.update({
                     'name': phase.name + " " + name,
                 })
         return super(ProjectTask, self).create(vals)
 
-    def write(self, values):
+    def write(self, vals):
         if self.phase_id:
             phase = self.phase_id
-            if values.get('date_started'):
-                dt = fields.Date.from_string(values.get('date_started'))
-                if fields.Date.from_string(phase.date_started) > fields.Date.from_string(values.get('date_started')):
+            if vals.get('date_started'):
+                dt = fields.Date.from_string(vals.get('date_started'))
+                if phase.date_started:
+                    if fields.Date.from_string(phase.date_started) > fields.Date.from_string(vals.get('date_started')):
+                        phase.update({'date_started': dt})
+                else:
                     phase.update({'date_started': dt})
-            if values.get('date_finished'):
-                dt = values.get('date_finished')
-                if fields.Date.from_string(phase.date_ended) < fields.Date.from_string(values.get('date_finished')):
+            if vals.get('date_finished'):
+                dt = vals.get('date_finished')
+                if phase.date_ended:
+                    if fields.Date.from_string(phase.date_ended) < fields.Date.from_string(vals.get('date_finished')):
+                        phase.update({'date_ended': dt})
+                else:
                     phase.update({'date_ended': dt})
-        return super(ProjectTask, self).write(values)
+        return super(ProjectTask, self).write(vals)
 
     def view_stock_moves(self):
         for rec in self:
@@ -397,13 +405,6 @@ class ProjectTask(models.Model):
             res = self.env.ref('construction.action_task_note_note')
             res = res.read()[0]
             res['domain'] = str([('task_id', 'in', rec.ids)])
-        return res
-
-    def action_subtask(self):
-        res = super(ProjectTask, self).action_subtask()
-        res['context'].update({
-            'default_parent_task_id': self.id,
-        })
         return res
 
 

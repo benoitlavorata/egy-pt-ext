@@ -22,7 +22,7 @@
                     <field name="date_finished"/>
                 </xpath>
 
-                <xpath expr="//notebook/page[@name='pickings']" position="after">
+                <xpath expr="//notebook" position="inside">
 
                     <page name="gantt_view" string="Gantt View">
                             <group>

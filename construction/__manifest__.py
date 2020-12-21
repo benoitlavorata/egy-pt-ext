@@ -18,6 +18,7 @@
     'depends': ['dash_view', 'map_view', 'sale',
                 'project',
                 'hr_timesheet',
+                'sale_timesheet',
                 'purchase',
                 'note',
                 'stock',

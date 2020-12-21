@@ -64,11 +64,11 @@
                                 </field>
                             </page>
 							<page string="Labours">
-								<field name="labour_ids" context="{'default_project': project_id}" nolabel="1">
+								<field name="labour_ids" context="{'default_lab_project': project_id}" nolabel="1">
 									<tree editable="bottom">
-										<field name="project" invisible="1"/>
+										<field name="lab_project" invisible="1"/>
 										<field name="phase_id" readonly="1" force_save="1"/>
-										<field name="task_id"/>
+										<field name="task_id" domain="[('project_id', '=', lab_project)]" options="{'no_create': True}"/>
 										<field name="name"/>
                                         <field name="description"/>
 										<field name="labour_no"/>
@@ -82,7 +82,7 @@
 									<tree editable="bottom">
 										<field name="project" invisible="1"/>
 										<field name="phase_id" readonly="1" force_save="1"/>
-										<field name="task_id"/>
+										<field name="task_id" domain="[('project_id', '=', project)]" options="{'no_create': True}"/>
 										<field name="asset_id"/>
                                         <field name="description"/>
 										<field name="asset_qty"/>
@@ -96,7 +96,7 @@
                                     <tree editable="bottom">
                                         <field name="project" invisible="1"/>
                                         <field name="phase_id" readonly="1" force_save="1"/>
-                                        <field name="task_id"/>
+                                        <field name="task_id" domain="[('project_id', '=', project)]" options="{'no_create': True}"/>
                                         <field name="expenses_id"/>
                                         <field name="description"/>
                                         <field name="total_expense" sum="te"/>
@@ -154,8 +154,6 @@
                                  <field name="overhead_total" widget="monetary"/>
                                  <field name="jobcost_total" widget="monetary"/>
                              </group>
-<!--                             <label for="notes_job"/>-->
-<!--                             <field name="notes_job" class="oe_inline" nolabel="1" placeholder="Setup default Job Details or Technical contents."/>-->
                              <div class="oe_clear"/>
                          </group>
                     </sheet>
