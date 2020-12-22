@@ -7,6 +7,14 @@ from odoo.exceptions import UserError, ValidationError
 from datetime import datetime
 
 
+class ProjectStages(models.Model):
+    _name = 'project.stages'
+    _description = 'Project Stages'
+
+    name = fields.Char()
+    sequence = fields.Integer()
+
+
 class Project(models.Model):
     _inherit = "project.project"
 
@@ -156,13 +164,6 @@ class Project(models.Model):
         action['context'] = {'default_project_id': self.id, 'default_analytic_id': self.analytic_account_id.id,
                              'default_user_id': self.user_id.id}
         return action
-
-class ProjectStages(models.Model):
-    _name = 'project.stages'
-    _description = 'Project Stages'
-
-    name = fields.Char()
-    sequence = fields.Integer()
 
 
 class ConsumedMaterial(models.Model):
