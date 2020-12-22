@@ -159,6 +159,7 @@ class CheckCycleAccs(models.TransientModel):
                     #     print(check.notes_rece_id.name)
                     #     credit_account.append({'account': check.notes_rece_id.id, 'percentage': 100})
                     if check.under_collect_id:
+                        print(check.under_collect_id.name)
                         credit_account.append({'account': check.under_collect_id.id, 'percentage': 100, 'analytic_id': analytic_id.id})
                     else:
                         credit_account.append(

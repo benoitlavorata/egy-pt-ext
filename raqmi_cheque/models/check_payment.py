@@ -44,12 +44,17 @@ class NormalPayments(models.Model):
     send_rec_money = fields.Selection(string="Payment Type",
                                       selection=[("send", "Send Cheques"), ("rece", "Receive Cheques")],
                                       default="rece")
-    receipt_number = fields.Char(string="Receipt Number")
+    receipt_number = fields.Char(string="Receipt Number" )
     account_id = fields.Many2one("account.account", string="Account Payable")
     analytic_id = fields.Many2one("account.analytic.account", string="Analytic Account")
     logo = fields.Binary(related="partner_id.company_id.logo")
     payment_related_journal = fields.Boolean("Payment related journal", default=False)
     name_check = fields.Char(default="")
+
+    @api.model
+    def create(self,vals):
+        vals['receipt_number'] = self.env['ir.sequence'].next_by_code('normal.payments')
+        return super(NormalPayments,self).create(vals)
 
     @api.constrains("amount")
     def _total_amount(self):

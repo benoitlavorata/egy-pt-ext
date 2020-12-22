@@ -10,6 +10,15 @@
             </search>
         </field>
     </record>
+    <odoo>
+    <record id="seq_normal_payment" model="ir.sequence">
+        <field name="name">Normal Pyament</field>
+        <field name="code">normal.payments</field>
+        <field name="prefix">Rec</field>
+        <field name="padding">3</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>
 
     <record id="normal_payments_check_form_view" model="ir.ui.view">
         <field name="name">noraml.payments.form</field>
@@ -33,25 +42,39 @@
                             <field name="name" invisible="1"/>
                         </h1>
                     </div>
-                    <group col="4">
-                        <field name="partner_id" string="Customer/Vendor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        <field name="payment_method"  widget="selection" options='{"no_open": True, "no_create": True}' attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        <label for="amount"/>
-                        <div name="amount_div" class="o_row">
-                            <field name="amount1" widget='monetary' options="{'currency_field': 'currency_id'}"
-                            attrs="{'invisible' : ['|',('payment_subtype', '=', 'issue_check'),('payment_subtype', '=', 'rece_check')]
-                            ,'readonly': [('state', '!=', 'draft')]}"/>
-                            <field name="amount" widget='monetary' options="{'currency_field': 'currency_id'}"
-                            attrs="{'invisible' : [('payment_subtype', '!=', 'issue_check'),('payment_subtype', '!=', 'rece_check')]}"/>
-                        </div>
-                        <field name="account_id" attrs="{'readonly': [('state', '!=', 'draft')],'required':True}" />
-                        <field name="payment_date"  string="Receive/Issue Date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                        <group>
+                            <group>
+                                <field name="partner_id" string="Customer/Vendor" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+
+
+                                 <label for="amount"/>
+
+                                <field name="payment_date"  string="Receive/Issue Date"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="send_rec_money" widget="radio" attrs="{'readonly': ['|',('state', '!=', 'draft'),('payment_related_journal','=',True)]}"/>
+
+
+
+                            </group>
+
+
+
+                        <group>
+                            <field name="payment_method"  widget="selection" options='{"no_open": True, "no_create": True}' attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+
+                             <field name="account_id" attrs="{'readonly': [('state', '!=', 'draft')],'required':True,'invisible': [('send_rec_money', '=', 'send')]}" string="Account Receivable" />
+
+                        <field name="account_id" attrs="{'readonly': [('state', '!=', 'draft')],'required':True,'invisible': [('send_rec_money', '=', 'rece')]}"  string="Account Payable"/>
+
+
                         <field name="analytic_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
-                        <field name="send_rec_money" widget="radio" attrs="{'readonly': ['|',('state', '!=', 'draft'),('payment_related_journal','=',True)]}"/>
-                        <field name="receipt_number"/>
+
+                            <field name="receipt_number" readonly="1"/>
+
                         <field name="currency_id" invisible="1"/>
                         <field name="user_id" invisible="1"/>
                         <field name="payment_subtype" invisible="1"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Checks" attrs="{'invisible': [('payment_subtype', '!=', 'issue_check'),('payment_subtype', '!=', 'rece_check')]}" >
