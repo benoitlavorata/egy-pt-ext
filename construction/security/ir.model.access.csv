@@ -4,6 +4,7 @@ access_consumed_material_project_user_,project_user_consumed_material,model_cons
 project.access_partner_task_user,base.res.partner_user,base.model_res_partner,project.group_project_user,1,1,1,0
 access_material_project_user,project_user_material,stock.model_stock_picking,project.group_project_user,1,1,1,1
 access_stock_project_user,project_user_stock,stock.model_stock_move,project.group_project_user,1,1,1,1
+access_account_asset,account_asset,account_asset.model_account_asset,project.group_project_user,1,1,1,1
 access_stock_picking_type_project_user,project_user_stock_picking,stock.model_stock_picking_type,project.group_project_user,1,0,0,0
 access_stock_location_project_user,project_user_stock_location,stock.model_stock_location,project.group_project_user,1,0,0,0
 access_job_cost_sheet_project_manager,job_cos_project_manager,construction.model_job_costing,project.group_project_manager,1,1,1,1
